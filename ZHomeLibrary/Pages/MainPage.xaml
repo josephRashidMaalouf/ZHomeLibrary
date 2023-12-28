@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:ZHomeLibrary.Pages"
+             x:Class="ZHomeLibrary.Pages.MainPage"
+             Title="Z Home Library"
+             BackgroundColor="White">
+    <Grid RowDefinitions="auto, *, auto" Padding="20" RowSpacing="5">
+        <FlexLayout Direction="Row">
+            <SearchBar Placeholder="Search..." FlexLayout.Grow="1"/>
+            <Picker Width="100"/>
+        </FlexLayout>
+        <pages:BookView Grid.Row="1" x:Name="BookPageView" IsVisible="False"/>
+
+        <FlexLayout BackgroundColor="Black" Grid.Row="2" Padding="5" HorizontalOptions="Center" >
+            <Button Clicked="BookBtn_OnClicked" x:Name="bookBtn" ImageSource="book.png" Background="Black" FlexLayout.Grow="1" CornerRadius="5" />
+            <Button x:Name="borrowersBtn" ImageSource="people.png" Background="Black" FlexLayout.Grow="1" CornerRadius="5"/>
+            <Button x:Name="lendOutBtn" ImageSource="add.png" Background="Black" FlexLayout.Grow="1" CornerRadius="5"/>
+        </FlexLayout>
+
+    </Grid>
+</ContentPage>
