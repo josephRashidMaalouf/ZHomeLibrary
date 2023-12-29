@@ -8,7 +8,9 @@ namespace ZHomeLibrary
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            var mainPage = new NavigationPage(new MainPage());
+
+            MainPage = mainPage;
         }
     }
 }
