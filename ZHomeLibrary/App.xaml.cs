@@ -10,6 +10,9 @@ namespace ZHomeLibrary
 
             var mainPage = new NavigationPage(new MainPage());
 
+            mainPage.BarBackgroundColor = Color.FromArgb("#000000");
+            mainPage.BarTextColor = Color.FromArgb("#FFFFFF");
+
             MainPage = mainPage;
         }
     }
