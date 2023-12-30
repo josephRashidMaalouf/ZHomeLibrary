@@ -33,7 +33,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                     <VerticalStackLayout Padding="5" Spacing="5" Margin="5" BackgroundColor="WhiteSmoke">
-                                    <Label Text="{Binding .}" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding .}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
 
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">

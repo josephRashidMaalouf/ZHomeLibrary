@@ -1,10 +1,12 @@
-﻿using ZHomeLibrary.Pages;
+﻿using ZHomeLibrary.DataAccess.Repositories;
+using ZHomeLibrary.Pages;
 
 namespace ZHomeLibrary
 {
     public partial class App : Application
     {
-        public App()
+        public static BorrowerRepository BorrowerRepo { get; private set; }
+        public App(BorrowerRepository borrowerRepo)
         {
             InitializeComponent();
 
@@ -14,6 +16,8 @@ namespace ZHomeLibrary
             mainPage.BarTextColor = Color.FromArgb("#FFFFFF");
 
             MainPage = mainPage;
+
+            BorrowerRepo = borrowerRepo;
         }
     }
 }

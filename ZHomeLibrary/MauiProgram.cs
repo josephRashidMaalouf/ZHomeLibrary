@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using ZHomeLibrary.DataAccess.Repositories;
 
 namespace ZHomeLibrary
 {
@@ -15,9 +16,15 @@ namespace ZHomeLibrary
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            //string dbPath = FileAccessHelper.GetLocalFilePath("borrowers.db3");
+
+            //builder.Services.AddSingleton<BorrowerRepository>(s =>
+            //    ActivatorUtilities.CreateInstance<BorrowerRepository>(s, dbPath));
+
 #if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            builder.Logging.AddDebug();
+#endif      
+            
 
             return builder.Build();
         }

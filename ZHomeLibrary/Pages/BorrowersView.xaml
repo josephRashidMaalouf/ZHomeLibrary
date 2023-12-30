@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZHomeLibrary.Pages.BorrowersView">
+             x:Class="ZHomeLibrary.Pages.BorrowersView"
+             xmlns:vm="clr-namespace:ZHomeLibrary.Models.ViewModels"
+             xmlns:models="clr-namespace:ZHomeLibrary.Models"
+             x:DataType="vm:BorrowerViewModel">
     <ScrollView Grid.Row="1">
         <VerticalStackLayout Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="First name" />
-                    <Entry Placeholder="Last name (optional)" />
-                    <Entry Placeholder="Mobile (optional)" />
-                    <Entry Placeholder="E-mail (optional)"/>
+                    <Entry Placeholder="Name" Text="{Binding Borrower.Name}"/>
+                    <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo}" />
+                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email}"/>
                     <Button
+                        Command="{Binding AddBorrowerCommand}"
                         BackgroundColor="Black"
                         CornerRadius="2"
                         FontAttributes="Bold"
@@ -18,7 +21,7 @@
                         TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
-            <ListView>
+            <ListView ItemsSource="{Binding Borrowers}">
                 <ListView.Header>
                     <VerticalStackLayout BackgroundColor="Black" Padding="5">
                         <Label
@@ -29,8 +32,8 @@
                     </VerticalStackLayout>
                 </ListView.Header>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Detail="Title" Text="Author"/>
+                    <DataTemplate x:DataType="{x:Type models:BorrowerModel}">
+                        <TextCell Detail="{Binding Name}" Text="x active loans"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
