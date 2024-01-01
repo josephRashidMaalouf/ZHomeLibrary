@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using ZHomeLibrary.DataAccess.Repositories;
 
-namespace ZHomeLibrary
+namespace ZHomeLibraryShellApp
 {
     public static class MauiProgram
     {
@@ -16,11 +15,9 @@ namespace ZHomeLibrary
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-
 #if DEBUG
-            builder.Logging.AddDebug();
-#endif      
-            
+    		builder.Logging.AddDebug();
+#endif
 
             return builder.Build();
         }

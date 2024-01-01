@@ -29,7 +29,13 @@ public partial class BorrowerViewModel : ObservableObject
         BorrowerRepo.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
         Borrowers.Add(borrower);
         borrower = new();
+    }
 
+    [RelayCommand]
+    private void DeleteBorrower(BorrowerModel borrower)
+    {
+        BorrowerRepo.DeleteBorrower(borrower);
+        Borrowers.Remove(borrower);
     }
 
 

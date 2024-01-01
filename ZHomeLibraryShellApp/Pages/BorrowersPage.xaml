@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView
-    x:Class="ZHomeLibrary.Pages.BorrowersView"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:models="clr-namespace:ZHomeLibrary.Models"
-    xmlns:vm="clr-namespace:ZHomeLibrary.Models.ViewModels"
-    x:DataType="vm:BorrowerViewModel">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZHomeLibraryShellApp.Pages.BorrowersPage"
+             Title="Borrowers">
     <ScrollView Grid.Row="1">
         <VerticalStackLayout Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="Name" Text="{Binding Borrower.Name}" />
+                    <Entry Placeholder="Name" Text="{Binding Borrower.Name}"/>
                     <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo}" />
-                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email}" />
+                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email}"/>
                     <Button
-                        BackgroundColor="Black"
                         Command="{Binding AddBorrowerCommand}"
+                        BackgroundColor="Black"
                         CornerRadius="2"
                         FontAttributes="Bold"
                         Text="Add new borrower"
@@ -24,20 +21,20 @@
             </Frame>
             <ListView ItemsSource="{Binding Borrowers}">
                 <ListView.Header>
-                    <VerticalStackLayout Padding="5" BackgroundColor="Black">
+                    <VerticalStackLayout BackgroundColor="Black" Padding="5">
                         <Label
                             FontAttributes="Bold"
-                            HorizontalTextAlignment="Center"
                             Text="Borrowers"
-                            TextColor="White" />
+                            TextColor="White" 
+                            HorizontalTextAlignment="Center"/>
                     </VerticalStackLayout>
                 </ListView.Header>
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="{x:Type models:BorrowerModel}">
-                        <TextCell Detail="x active loans" Text="{Binding Name}" />
-                    </DataTemplate>
+                    <!--<DataTemplate x:DataType="{x:Type models:BorrowerModel}">
+                        <TextCell Text="{Binding Name}" Detail="x active loans" />
+                    </DataTemplate>-->
                 </ListView.ItemTemplate>
             </ListView>
         </VerticalStackLayout>
     </ScrollView>
-</ContentView>
+</ContentPage>

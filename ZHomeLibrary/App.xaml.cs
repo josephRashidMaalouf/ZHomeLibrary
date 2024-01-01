@@ -5,8 +5,8 @@ namespace ZHomeLibrary
 {
     public partial class App : Application
     {
-        public static BorrowerRepository BorrowerRepo { get; private set; }
-        public App(BorrowerRepository borrowerRepo)
+        
+        public App()
         {
             InitializeComponent();
 
@@ -17,7 +17,7 @@ namespace ZHomeLibrary
 
             MainPage = mainPage;
 
-            BorrowerRepo = borrowerRepo;
+            
         }
     }
 }

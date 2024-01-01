@@ -14,4 +14,6 @@ public class BorrowerModel
     public string PhoneNo { get; set; }
 
     public string Email { get; set; }
+
+    //TODO: Create BookModel and implement one to many relationship
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ZHomeLibraryShellApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ZHomeLibraryShellApp"
+    xmlns:pages="using:ZHomeLibraryShellApp.Pages"
+    Title="ZHomeLibraryShellApp">
+
+
+    <FlyoutItem Title="Your home library">
+
+        
+        <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Icon="home.png" />
+            <ShellContent
+                Title="Bookshelf"
+                ContentTemplate="{DataTemplate pages:BookShelfPage}"
+                Icon="book.png" />
+            <ShellContent
+                Title="Borrowers"
+                ContentTemplate="{DataTemplate pages:BorrowersPage}"
+                Icon="borrowers.png" />
+            <ShellContent
+                Title="Lend out"
+                ContentTemplate="{DataTemplate pages:LendOutBooksPage}"
+                Icon="lend.png" />
+        
+    </FlyoutItem>
+
+</Shell>
