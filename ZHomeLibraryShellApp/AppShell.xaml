@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ZHomeLibraryShellApp"
     xmlns:pages="using:ZHomeLibraryShellApp.Pages"
-    Title="ZHomeLibraryShellApp">
+    Title="Z Home Library">
 
 
     <FlyoutItem Title="Your home library">

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZHomeLibrary.Pages.BorrowBooksPage"
-             Title="Lend out books">
+<ContentPage
+    x:Class="ZHomeLibrary.Pages.BorrowBooksPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Lend out books">
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="5">
-            <Picker Title="Pick a borrower"/>
+            <Picker Title="Pick a borrower" />
             <Frame>
                 <VerticalStackLayout>
-                    <SearchBar Placeholder="Search book(s)"/>
+                    <SearchBar Placeholder="Search book(s)" />
                     <CollectionView ItemsLayout="VerticalList" SelectionMode="Multiple">
                         <CollectionView.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -27,39 +28,54 @@
                         <CollectionView.Header>
                             <VerticalStackLayout BackgroundColor="Black">
 
-                                <Label TextColor="White" FontAttributes="Bold" Text="Pick books to lend out" HorizontalTextAlignment="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Pick books to lend out"
+                                    TextColor="White" />
                             </VerticalStackLayout>
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                    <VerticalStackLayout Padding="5" Spacing="5" Margin="5" BackgroundColor="WhiteSmoke">
-                                    <Label Text="{Binding .}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                                <VerticalStackLayout
+                                    Margin="5"
+                                    Padding="5"
+                                    BackgroundColor="WhiteSmoke"
+                                    Spacing="5">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding .}" />
 
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
-                                            <VisualState Name="Normal"/>
+                                            <VisualState Name="Normal" />
                                             <VisualState Name="Selected">
                                                 <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="Gray"/>
+                                                    <Setter Property="BackgroundColor" Value="Gray" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-
                                 </VerticalStackLayout>
-                               
+
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </VerticalStackLayout>
             </Frame>
             <Frame Padding="5">
-                <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                    <Label Text="Return by" VerticalTextAlignment="Center"></Label>
-                    <DatePicker/>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Label Text="Return by" VerticalTextAlignment="Center" />
+                    <DatePicker />
                 </HorizontalStackLayout>
             </Frame>
-            <Button BackgroundColor="Black" CornerRadius="3" TextColor="White" Text="Lend out" FontAttributes="Bold"></Button>
+            <Button
+                BackgroundColor="Black"
+                CornerRadius="3"
+                FontAttributes="Bold"
+                Text="Lend out"
+                TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

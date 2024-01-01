@@ -1,21 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:ZHomeLibrary.Pages"
-             x:Class="ZHomeLibrary.Pages.MainPage"
-             Title="Z Home Library"
-             BackgroundColor="White">
-    <Grid RowDefinitions="auto, *, auto" Padding="10" RowSpacing="5">
+<ContentPage
+    x:Class="ZHomeLibrary.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:ZHomeLibrary.Pages"
+    Title="Z Home Library"
+    BackgroundColor="White">
+    <Grid
+        Padding="10"
+        RowDefinitions="auto, *, auto"
+        RowSpacing="5">
         <FlexLayout Direction="Row">
-            <SearchBar Placeholder="Search..." FlexLayout.Grow="1"/>
-            <Picker Width="100"/>
+            <SearchBar FlexLayout.Grow="1" Placeholder="Search..." />
+            <Picker Width="100" />
         </FlexLayout>
-        <pages:BookView Grid.Row="1" x:Name="BookPageView" IsVisible="False"/>
-        <pages:BorrowersView Grid.Row="1" x:Name="BorrowersPageView" IsVisible="False"/>
-        <FlexLayout BackgroundColor="Black" Grid.Row="2" Padding="5" HorizontalOptions="Center" >
-            <Button Clicked="BookBtn_OnClicked" x:Name="bookBtn" ImageSource="book.png" Background="Black" FlexLayout.Grow="1" CornerRadius="5" />
-            <Button Clicked="BorrowersBtn_OnClicked" x:Name="borrowersBtn" ImageSource="people.png" Background="Black" FlexLayout.Grow="1" CornerRadius="5"/>
-            <Button Clicked="LendOutBtn_OnClicked" x:Name="lendOutBtn" ImageSource="add.png" Background="Black" FlexLayout.Grow="1" CornerRadius="5"/>
+        <pages:BookView
+            x:Name="BookPageView"
+            Grid.Row="1"
+            IsVisible="False" />
+        <pages:BorrowersView
+            x:Name="BorrowersPageView"
+            Grid.Row="1"
+            IsVisible="False" />
+        <FlexLayout
+            Grid.Row="2"
+            Padding="5"
+            BackgroundColor="Black"
+            HorizontalOptions="Center">
+            <Button
+                x:Name="bookBtn"
+                Background="Black"
+                Clicked="BookBtn_OnClicked"
+                CornerRadius="5"
+                FlexLayout.Grow="1"
+                ImageSource="book.png" />
+            <Button
+                x:Name="borrowersBtn"
+                Background="Black"
+                Clicked="BorrowersBtn_OnClicked"
+                CornerRadius="5"
+                FlexLayout.Grow="1"
+                ImageSource="people.png" />
+            <Button
+                x:Name="lendOutBtn"
+                Background="Black"
+                Clicked="LendOutBtn_OnClicked"
+                CornerRadius="5"
+                FlexLayout.Grow="1"
+                ImageSource="add.png" />
         </FlexLayout>
 
     </Grid>
