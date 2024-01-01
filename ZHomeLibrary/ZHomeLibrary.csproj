@@ -90,4 +90,8 @@
 	  <Folder Include="Models\ViewModels\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\ZHomeLibraryShellApp\ZHomeLibraryShellApp.csproj" />
+	</ItemGroup>
+
 </Project>

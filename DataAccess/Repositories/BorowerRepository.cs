@@ -8,7 +8,6 @@ public class BorrowerRepository
     private readonly string _dbPath;
     private SQLiteConnection _conn;
 
-    public string StatusMessage { get; set; }
 
     private void Init()
     {

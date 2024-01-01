@@ -1,32 +1,40 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DataAccess.Repositories;
-using DataAccess.Tables;
 using ZHomeLibraryShellApp.DataAccess;
+using ZHomeLibraryShellApp.DataAccess.Services;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
 public partial class BorrowersViewModel : ObservableObject
 {
+    private BorrowerRepository BorrowerRepo { get; set; }
+
     [ObservableProperty]
-    private BorrowerTable borrower = new();
+    private BorrowerModel borrower = new();
 
-    [ObservableProperty] private ObservableCollection<BorrowerTable> borrowers = new(DbAccess.BorrowerRepository.GetAllBorrowers());
+    [ObservableProperty] private ObservableCollection<BorrowerModel> borrowers;
 
+
+    public BorrowersViewModel()
+    {
+        string dbPath = FileAccessHelper.GetLocalFilePath("borrowers.db");
+        BorrowerRepo = new BorrowerRepository(dbPath);
+        borrowers = new ObservableCollection<BorrowerModel>(BorrowerRepo.GetAllBorrowers());
+    }
 
     [RelayCommand]
     private void AddBorrower()
     {
-        DbAccess.BorrowerRepository.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
+        BorrowerRepo.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
         Borrowers.Add(borrower);
         borrower = new();
     }
 
     [RelayCommand]
-    private void DeleteBorrower(BorrowerTable borrower)
+    private void DeleteBorrower(BorrowerModel borrower)
     {
-        DbAccess.BorrowerRepository.DeleteBorrower(borrower);
+        BorrowerRepo.DeleteBorrower(borrower);
         Borrowers.Remove(borrower);
     }
 }

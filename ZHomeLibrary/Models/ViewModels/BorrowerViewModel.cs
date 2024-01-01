@@ -34,6 +34,7 @@ public partial class BorrowerViewModel : ObservableObject
     [RelayCommand]
     private void DeleteBorrower(BorrowerModel borrower)
     {
+        
         BorrowerRepo.DeleteBorrower(borrower);
         Borrowers.Remove(borrower);
     }
