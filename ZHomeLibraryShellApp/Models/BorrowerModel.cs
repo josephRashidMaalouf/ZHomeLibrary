@@ -1,14 +1,12 @@
-﻿using SQLite;
+﻿using DataAccess.Tables;
+using SQLite;
 
-namespace DataAccess.Tables;
+namespace ZHomeLibraryShellApp.Models;
 
-[Table("borrowers")]
-public class BorrowerTable
+public class BorrowerModel
 {
-    [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 
-    [Unique, NotNull]
     public string Name { get; set; }
 
     public string PhoneNo { get; set; }

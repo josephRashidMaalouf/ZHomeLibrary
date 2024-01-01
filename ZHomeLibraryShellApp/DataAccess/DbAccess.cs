@@ -3,7 +3,7 @@ using DataAccess.Repositories;
 
 namespace ZHomeLibraryShellApp.DataAccess;
 
-public static class DataAccess
+public static class DbAccess
 {
     public static readonly BookRepository BookRepository = new BookRepository(FileAccessHelper.GetLocalFilePath("books.db3"));
 

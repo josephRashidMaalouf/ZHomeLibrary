@@ -30,17 +30,17 @@ public class BorrowerRepository
         _conn.Insert(new BorrowerTable() { Name = name, Email = email, PhoneNo = phoneNo });
     }
 
-    public void DeleteBorrower(BorrowerTable borrower)
+    public void DeleteBorrower(int id)
     {
         Init();
-        _conn.Delete<BorrowerTable>(borrower.Id);
+        _conn.Delete<BorrowerTable>(id);
     }
 
-    public void UpdateBorrower(BorrowerTable borrower)
-    {
-        Init();
-        _conn.Update(borrower);
-    }
+    //public void UpdateBorrower(BorrowerTable borrower)
+    //{
+    //    Init();
+    //    _conn.Update(borrower);
+    //}
 
     public List<BorrowerTable> GetAllBorrowers()
     {
