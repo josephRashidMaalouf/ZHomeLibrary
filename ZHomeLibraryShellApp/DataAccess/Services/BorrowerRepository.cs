@@ -11,17 +11,16 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
     public class BorrowerRepository
     {
         private readonly string _dbPath;
-        private SQLiteConnection _conn;
+        private SQLiteAsyncConnection _conn;
 
-        public string StatusMessage { get; set; }
 
-        private void Init()
+        private async Task Init()
         {
             if (_conn != null)
                 return;
 
-            _conn = new SQLiteConnection(_dbPath);
-            _conn.CreateTable<BorrowerModel>();
+            _conn = new SQLiteAsyncConnection(_dbPath);
+            await _conn.CreateTableAsync<BorrowerModel>();
         }
 
         public BorrowerRepository(string dbPath)
@@ -29,28 +28,28 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
             _dbPath = dbPath;
         }
 
-        public void AddNewBorrower(string name, string phoneNo, string email)
+        public async Task AddNewBorrower(string name, string phoneNo, string email)
         {
-            Init();
-            _conn.Insert(new BorrowerModel() { Name = name, Email = email, PhoneNo = phoneNo });
+            await Init();
+            await _conn.InsertAsync(new BorrowerModel() { Name = name, Email = email, PhoneNo = phoneNo });
         }
 
-        public void DeleteBorrower(BorrowerModel borrower)
+        public async Task DeleteBorrower(BorrowerModel borrower)
         {
-            Init();
-            _conn.Delete<BorrowerModel>(borrower.Id);
+            await Init();
+            await _conn.DeleteAsync<BorrowerModel>(borrower.Id);
         }
 
-        public void UpdateBorrower(BorrowerModel borrower)
+        public async Task UpdateBorrower(BorrowerModel borrower)
         {
-            Init();
-            _conn.Update(borrower);
+            await Init();
+            await _conn.UpdateAsync(borrower);
         }
 
-        public List<BorrowerModel> GetAllBorrowers()
+        public async Task<List<BorrowerModel>>  GetAllBorrowers()
         {
-            Init();
-            var borrowers = _conn.Table<BorrowerModel>().ToList();
+            await Init();
+            var borrowers = await _conn.Table<BorrowerModel>().ToListAsync();
 
             if (borrowers == null)
                 return new List<BorrowerModel>();

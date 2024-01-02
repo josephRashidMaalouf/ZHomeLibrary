@@ -11,7 +11,7 @@
         <VerticalStackLayout Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="Name" Text="{Binding Borrower.Name}" />
+                    <Entry Placeholder="Name" Text="{Binding BorrowerName}"/>
                     <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo}" />
                     <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email}" />
                     <Button

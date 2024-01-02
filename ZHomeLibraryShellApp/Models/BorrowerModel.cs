@@ -1,10 +1,11 @@
-﻿using SQLite;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SQLite;
 using SQLiteNetExtensions.Attributes;
 
 namespace ZHomeLibraryShellApp.Models;
 
 [Table("borrowers")]
-public class BorrowerModel
+public class BorrowerModel : ObservableObject
 {
     [PrimaryKey,  AutoIncrement]
     public int Id { get; set; }

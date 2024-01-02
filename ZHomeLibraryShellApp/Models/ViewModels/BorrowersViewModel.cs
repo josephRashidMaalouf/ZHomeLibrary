@@ -8,33 +8,46 @@ namespace ZHomeLibraryShellApp.Models.ViewModels;
 
 public partial class BorrowersViewModel : ObservableObject
 {
-    private BorrowerRepository BorrowerRepo { get; set; }
-
     [ObservableProperty]
     private BorrowerModel borrower = new();
 
-    [ObservableProperty] private ObservableCollection<BorrowerModel> borrowers;
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(AddBorrowerCommand))]
+    private string borrowerName;
 
+    [ObservableProperty] private ObservableCollection<BorrowerModel> borrowers = new();
 
     public BorrowersViewModel()
     {
-        string dbPath = FileAccessHelper.GetLocalFilePath("borrowers.db");
-        BorrowerRepo = new BorrowerRepository(dbPath);
-        borrowers = new ObservableCollection<BorrowerModel>(BorrowerRepo.GetAllBorrowers());
+        LoadBorrowersAsync();
     }
 
-    [RelayCommand]
-    private void AddBorrower()
+    [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]
+    private async Task AddBorrower()
     {
-        BorrowerRepo.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
+        borrower.Name = borrowerName;
+
+        await DbAccess.BorrowerRepo.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
         Borrowers.Add(borrower);
         borrower = new();
+    }
+
+    private bool AddCommandCanExecute()
+    {
+        bool nameIsNotEmpty = !string.IsNullOrEmpty(borrowerName);
+        bool nameIsUnique = !Borrowers.Any(b => b.Name == borrowerName);
+        return nameIsNotEmpty && nameIsUnique;
     }
 
     [RelayCommand]
     private void DeleteBorrower(BorrowerModel borrower)
     {
-        BorrowerRepo.DeleteBorrower(borrower);
+        DbAccess.BorrowerRepo.DeleteBorrower(borrower);
         Borrowers.Remove(borrower);
+    }
+
+    private async Task LoadBorrowersAsync()
+    {
+        var borrowersList = await DbAccess.BorrowerRepo.GetAllBorrowers();
+        Borrowers = new ObservableCollection<BorrowerModel>(borrowersList);
     }
 }
