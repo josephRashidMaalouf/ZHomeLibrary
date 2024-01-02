@@ -5,8 +5,58 @@
              Title="BorrowerDetailPage"
              xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
              x:DataType="vm:BorrowerDetailViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding BorrowerId}" />
-    </VerticalStackLayout>
+    <ScrollView >
+        <VerticalStackLayout Padding="10" Spacing="5">
+            <Frame>
+                <VerticalStackLayout Padding="10" Spacing="5">
+                    <HorizontalStackLayout>
+                        <Label Text="Id: "/>
+                        <Label Text="{Binding BorrowerId}" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Borrower.Name}" />
+                    <Entry Placeholder="Update name"/>
+                    <Label Text="{Binding Borrower.PhoneNo}" />
+                    <Entry Placeholder="Update phone number"/>
+                    <Label Text="{Binding Borrower.Email}" />
+                    <Entry Placeholder="Update email"/>
+
+                    <Button CornerRadius="5" Text="Update" TextColor="White" BackgroundColor="Black" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Frame>
+            <Frame>
+                <VerticalStackLayout>
+                    <CollectionView ItemsLayout="VerticalList" SelectionMode="Multiple" ItemsSource="{Binding Books}">
+                        <CollectionView.Header>
+                            <VerticalStackLayout BackgroundColor="Black">
+                                <Label TextColor="White" FontAttributes="Bold" Text="Books borrowed" HorizontalTextAlignment="Center"/>
+                                <Label TextColor="White" FontAttributes="Italic" Text="Select books to return" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout Padding="5" Spacing="5" Margin="5" BackgroundColor="WhiteSmoke">
+                                    <Label Text="{Binding .}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Normal"/>
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Gray"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                </VerticalStackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Button CornerRadius="5" BackgroundColor="Black" TextColor="White" FontAttributes="Bold" Text="Return"></Button>
+
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

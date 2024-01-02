@@ -8,7 +8,7 @@
     Title="Borrowers"
     x:DataType="viewModels:BorrowersViewModel">
     <ScrollView Grid.Row="1">
-        <VerticalStackLayout Spacing="5">
+        <VerticalStackLayout Spacing="5" Padding="10">
             <Frame>
                 <VerticalStackLayout Spacing="5">
                     <Entry Placeholder="Name" Text="{Binding BorrowerName}"/>
@@ -23,7 +23,7 @@
                         TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
-            <CollectionView ItemsSource="{Binding Borrowers}">
+            <CollectionView ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" SelectionMode="Single" SelectionChangedCommand="{Binding OpenBorrowerDetailPageCommand}">
                 <CollectionView.Header>
                     <VerticalStackLayout Padding="5" BackgroundColor="Black">
                         <Label
@@ -35,12 +35,13 @@
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type models:BorrowerModel}">
-                        <Frame>
-                            <HorizontalStackLayout>
-                                <Label Text="{Binding Name}"/>
-                                <Button Text="Details" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BorrowersViewModel}}, Path=OpenBorrowerDetailPageCommand}"></Button>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                            <HorizontalStackLayout >
+                                <Label Text="Active loans: "/>
+                                <Label Text="{Binding Books.Count}"/>
                             </HorizontalStackLayout>
-                        </Frame>
+                        </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

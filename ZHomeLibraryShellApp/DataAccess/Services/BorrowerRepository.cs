@@ -46,6 +46,13 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
             await _conn.UpdateAsync(borrower);
         }
 
+        public async Task<BorrowerModel> GetBorrowerById(int id)
+        {
+            await Init();
+            return await _conn.FindAsync<BorrowerModel>(id);
+
+        }
+
         public async Task<List<BorrowerModel>>  GetAllBorrowers()
         {
             await Init();
