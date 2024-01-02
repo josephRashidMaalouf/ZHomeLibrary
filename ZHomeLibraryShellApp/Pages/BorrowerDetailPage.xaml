@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ZHomeLibraryShellApp.Pages.BorrowerDetailPage"
-             Title="BorrowerDetailPage"
+             Title="Borrower details"
              xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
              x:DataType="vm:BorrowerDetailViewModel">
     <ScrollView >
