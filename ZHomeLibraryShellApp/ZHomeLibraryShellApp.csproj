@@ -83,6 +83,9 @@
 	  <MauiXaml Update="Pages\BookShelfPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\BorrowerDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\BorrowersPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

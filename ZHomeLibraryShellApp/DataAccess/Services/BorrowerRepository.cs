@@ -49,7 +49,7 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
         public async Task<List<BorrowerModel>>  GetAllBorrowers()
         {
             await Init();
-            var borrowers = await _conn.Table<BorrowerModel>().ToListAsync();
+            var borrowers = await _conn.Table<BorrowerModel>().ToListAsync(); //The Id follows, but dissapears a few steps along the way. Investigate
 
             if (borrowers == null)
                 return new List<BorrowerModel>();

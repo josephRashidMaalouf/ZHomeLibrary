@@ -10,24 +10,26 @@
 
     <FlyoutItem Title="Your home library">
 
-        
+
         <ShellContent
-                Title="Home"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Icon="home.png" />
-            <ShellContent
-                Title="Bookshelf"
-                ContentTemplate="{DataTemplate pages:BookShelfPage}"
-                Icon="book.png" />
-            <ShellContent
-                Title="Borrowers"
-                ContentTemplate="{DataTemplate pages:BorrowersPage}"
-                Icon="borrowers.png" />
-            <ShellContent
-                Title="Lend out"
-                ContentTemplate="{DataTemplate pages:LendOutBooksPage}"
-                Icon="lend.png" />
-        
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Icon="home.png" />
+        <ShellContent
+            Title="Bookshelf"
+            ContentTemplate="{DataTemplate pages:BookShelfPage}"
+            Icon="book.png"
+            Route="BookShelfPage" />
+        <ShellContent
+            Title="Borrowers"
+            ContentTemplate="{DataTemplate pages:BorrowersPage}"
+            Icon="borrowers.png"
+            Route="BorrowersPage" />
+        <ShellContent
+            Title="Lend out"
+            ContentTemplate="{DataTemplate pages:LendOutBooksPage}"
+            Icon="lend.png" />
+
     </FlyoutItem>
 
 </Shell>

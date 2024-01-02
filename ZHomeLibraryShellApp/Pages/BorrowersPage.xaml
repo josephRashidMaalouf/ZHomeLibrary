@@ -23,8 +23,8 @@
                         TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
-            <ListView ItemsSource="{Binding Borrowers}">
-                <ListView.Header>
+            <CollectionView ItemsSource="{Binding Borrowers}">
+                <CollectionView.Header>
                     <VerticalStackLayout Padding="5" BackgroundColor="Black">
                         <Label
                             FontAttributes="Bold"
@@ -32,13 +32,18 @@
                             Text="Borrowers"
                             TextColor="White" />
                     </VerticalStackLayout>
-                </ListView.Header>
-                <ListView.ItemTemplate>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type models:BorrowerModel}">
-                        <TextCell Detail="x active loans" Text="{Binding Name}" />
+                        <Frame>
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding Name}"/>
+                                <Button Text="Details" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BorrowersViewModel}}, Path=OpenBorrowerDetailPageCommand}"></Button>
+                            </HorizontalStackLayout>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
