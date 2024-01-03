@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZHomeLibraryShellApp.Pages.BookDetailPage"
+             Title="BookDetailPage"
+             xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
+             x:DataType="vm:BookDetailViewModel">
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="5">
+            <Frame>
+                <VerticalStackLayout Padding="10" Spacing="5">
+                    <HorizontalStackLayout>
+                        <Label Text="Id: " />
+                        <Label Text="{Binding SelectedBookId}" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Book.Title}" />
+                    <Entry Placeholder="Update title" />
+                    <Label Text="{Binding Book.AuthorName}" />
+                    <Entry Placeholder="Update author name(s)" />
+
+                    <HorizontalStackLayout>
+                        <Button
+                        BackgroundColor="Black"
+                        CornerRadius="5"
+                        FontAttributes="Bold"
+                        Text="Update"
+                        TextColor="White" />
+                        <Button
+                        BackgroundColor="Black"
+                        CornerRadius="5"
+                        FontAttributes="Bold"
+                        Text="Delete"
+                        TextColor="White" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+            <Frame>
+                <VerticalStackLayout Spacing="5" Margin="10">
+                    <Label Text="Currently borrowed by:"/>
+                    <Label Text="{Binding Book.Borrower.Name}"></Label>
+                    <Button
+                    BackgroundColor="Black"
+                    CornerRadius="5"
+                    FontAttributes="Bold"
+                    Text="Return"
+                    TextColor="White" />
+
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

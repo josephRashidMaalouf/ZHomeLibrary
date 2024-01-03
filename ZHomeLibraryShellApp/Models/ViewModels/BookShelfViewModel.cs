@@ -2,16 +2,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Pages;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
 public partial class BookShelfViewModel: ObservableObject
 {
     [ObservableProperty]
-    private BookModel book;
+    private BookModel book = new();
 
-    [ObservableProperty]
-    private BookModel selectedBook;
+    [ObservableProperty] private BookModel selectedBook = new();
 
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(AddBookCommand))]
     private string bookTitle;
@@ -36,19 +36,19 @@ public partial class BookShelfViewModel: ObservableObject
         book = new();
     }
 
-
     private bool AddCommandCanExecute()
     {
-        //Investigate the canExecute connection to button
-
+        
         bool titleIsNotEmpty = !string.IsNullOrEmpty(bookTitle);
-
-        //if (Books.Count < 1)
-        //    return titleIsNotEmpty;
-
         bool titleIsUnique = !Books.Any(b => b.Title == bookTitle);
 
         return titleIsNotEmpty && titleIsUnique;
+    }
+
+    [RelayCommand]
+    private async Task OpenBookDetailPage()
+    {
+        await Shell.Current.GoToAsync($"{nameof(BookDetailPage)}?SelectedBookId={SelectedBook.Id}");
     }
 
     private async Task LoadBooksAsync()

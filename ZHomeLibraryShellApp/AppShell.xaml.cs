@@ -9,6 +9,7 @@ namespace ZHomeLibraryShellApp
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(BorrowerDetailPage), typeof(BorrowerDetailPage));
+            Routing.RegisterRoute(nameof(BookDetailPage), typeof(BookDetailPage));
         }
     }
 }

@@ -43,6 +43,12 @@ public class BookRepository
         await _conn.UpdateAsync(book);
     }
 
+    public async Task<BookModel> GetBookById(int id)
+    {
+        await Init();
+        return await _conn.FindAsync<BookModel>(id);
+    }
+
     public async Task<List<BookModel>> GetAllBooks()
     {
         await Init();

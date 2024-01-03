@@ -11,9 +11,9 @@
         <VerticalStackLayout Padding="10" Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="Name" Text="{Binding BorrowerName}" />
-                    <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo}" />
-                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email}" />
+                    <Entry Placeholder="Name" Text="{Binding BorrowerName, Mode=TwoWay}" />
+                    <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo, Mode=TwoWay}" />
+                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email, Mode=TwoWay}" />
                     <Button
                         BackgroundColor="Black"
                         Command="{Binding AddBorrowerCommand}"
