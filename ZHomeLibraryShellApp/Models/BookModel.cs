@@ -9,7 +9,7 @@ public class BookModel
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 
-    [NotNull]
+    [NotNull, Unique]
     public string Title { get; set; }
 
     public string AuthorName { get; set; }
@@ -17,5 +17,5 @@ public class BookModel
     public int BorrowerId { get; set; }
 
     [ManyToOne]
-    public BorrowerModel Borrwer { get;  set; }
+    public BorrowerModel Borrower { get;  set; }
 }

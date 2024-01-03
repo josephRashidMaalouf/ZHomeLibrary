@@ -1,59 +1,95 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZHomeLibraryShellApp.Pages.BorrowerDetailPage"
-             Title="Borrower details"
-             xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
-             x:DataType="vm:BorrowerDetailViewModel">
-    <ScrollView >
+<ContentPage
+    x:Class="ZHomeLibraryShellApp.Pages.BorrowerDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
+    Title="Borrower details"
+    x:DataType="vm:BorrowerDetailViewModel">
+    <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="5">
             <Frame>
                 <VerticalStackLayout Padding="10" Spacing="5">
                     <HorizontalStackLayout>
-                        <Label Text="Id: "/>
+                        <Label Text="Id: " />
                         <Label Text="{Binding BorrowerId}" />
                     </HorizontalStackLayout>
                     <Label Text="{Binding Borrower.Name}" />
-                    <Entry Placeholder="Update name"/>
+                    <Entry Placeholder="Update name" />
                     <Label Text="{Binding Borrower.PhoneNo}" />
-                    <Entry Placeholder="Update phone number"/>
+                    <Entry Placeholder="Update phone number" />
                     <Label Text="{Binding Borrower.Email}" />
-                    <Entry Placeholder="Update email"/>
+                    <Entry Placeholder="Update email" />
 
-                    <Button CornerRadius="5" Text="Update" TextColor="White" BackgroundColor="Black" FontAttributes="Bold"/>
+                    <HorizontalStackLayout>
+                        <Button
+                            BackgroundColor="Black"
+                            CornerRadius="5"
+                            FontAttributes="Bold"
+                            Text="Update"
+                            TextColor="White" />
+                        <Button
+                            BackgroundColor="Black"
+                            CornerRadius="5"
+                            FontAttributes="Bold"
+                            Text="Delete"
+                            TextColor="White" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>
             <Frame>
                 <VerticalStackLayout>
-                    <CollectionView ItemsLayout="VerticalList" SelectionMode="Multiple" ItemsSource="{Binding Books}">
+                    <CollectionView
+                        ItemsLayout="VerticalList"
+                        ItemsSource="{Binding Books}"
+                        SelectionMode="Multiple">
                         <CollectionView.Header>
                             <VerticalStackLayout BackgroundColor="Black">
-                                <Label TextColor="White" FontAttributes="Bold" Text="Books borrowed" HorizontalTextAlignment="Center"/>
-                                <Label TextColor="White" FontAttributes="Italic" Text="Select books to return" HorizontalTextAlignment="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Books borrowed"
+                                    TextColor="White" />
+                                <Label
+                                    FontAttributes="Italic"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Select books to return"
+                                    TextColor="White" />
                             </VerticalStackLayout>
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <VerticalStackLayout Padding="5" Spacing="5" Margin="5" BackgroundColor="WhiteSmoke">
-                                    <Label Text="{Binding .}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                                <VerticalStackLayout
+                                    Margin="5"
+                                    Padding="5"
+                                    BackgroundColor="WhiteSmoke"
+                                    Spacing="5">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding .}" />
 
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
-                                            <VisualState Name="Normal"/>
+                                            <VisualState Name="Normal" />
                                             <VisualState Name="Selected">
                                                 <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="Gray"/>
+                                                    <Setter Property="BackgroundColor" Value="Gray" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-
                                 </VerticalStackLayout>
 
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                    <Button CornerRadius="5" BackgroundColor="Black" TextColor="White" FontAttributes="Bold" Text="Return"></Button>
+                    <Button
+                        BackgroundColor="Black"
+                        CornerRadius="5"
+                        FontAttributes="Bold"
+                        Text="Return"
+                        TextColor="White" />
 
                 </VerticalStackLayout>
             </Frame>

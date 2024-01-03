@@ -23,10 +23,12 @@ public class BookRepository
         _dbPath = dbPath;
     }
 
-    public async Task AddNewBook(string title, string authorName)
+    public async Task<BookModel> AddNewBook(string title, string authorName)
     {
         await Init();
         await _conn.InsertAsync(new BookModel() { Title = title, AuthorName = authorName});
+
+        return await _conn.GetAsync<BookModel>(b => b.Title == title);
     }
 
     public async Task DeleteBook(BookModel book)

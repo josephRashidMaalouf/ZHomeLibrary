@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ZHomeLibraryShellApp.Pages.BookShelfPage"
-             Title="Your bookshelf">
+             Title="Your bookshelf"
+             xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
+             xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
+             x:DataType="vm:BookShelfViewModel">
     <ScrollView >
         <VerticalStackLayout Spacing="5">
             <Frame>
@@ -14,11 +17,15 @@
                         CornerRadius="2"
                         FontAttributes="Bold"
                         Text="Add new book"
-                        TextColor="White" />
+                        TextColor="White" 
+                        Command="{Binding AddBookCommand}"/>
                 </VerticalStackLayout>
             </Frame>
-            <ListView>
-                <ListView.Header>
+            <CollectionView
+                ItemsSource="{Binding Books}"
+                SelectedItem="{Binding SelectedBook}"
+                SelectionMode="Single">
+                <CollectionView.Header>
                     <VerticalStackLayout BackgroundColor="Black" Padding="5">
                         <Label
                             FontAttributes="Bold"
@@ -26,13 +33,20 @@
                             TextColor="White" 
                             HorizontalTextAlignment="Center"/>
                     </VerticalStackLayout>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Detail="Title" Text="Author"/>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type models:BookModel}">
+                        <VerticalStackLayout>
+                            <Label FontAttributes="Bold" Text="{Binding Title}" />
+                            <Label FontAttributes="Italic" Text="{Binding AuthorName}" />
+                            <HorizontalStackLayout>
+                                <Label Text="Borrowed by: " />
+                                <Label Text="{Binding Borrower.Name}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
             
         </VerticalStackLayout>
     </ScrollView>

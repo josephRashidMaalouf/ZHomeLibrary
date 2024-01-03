@@ -26,20 +26,16 @@ public partial class BorrowersViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]
-    private async Task AddBorrower() //make sure the newly added borrower recivies an id before added to observablecollection
+    private async Task AddBorrower()
     {
         borrower.Name = borrowerName;
 
-        await DbAccess.BorrowerRepo.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
-        Borrowers.Add(borrower);
-        borrower = new();
-    }
+        var addedBorrower = await DbAccess.BorrowerRepo.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
 
-    private bool AddCommandCanExecute()
-    {
-        bool nameIsNotEmpty = !string.IsNullOrEmpty(borrowerName);
-        bool nameIsUnique = !Borrowers.Any(b => b.Name == borrowerName);
-        return nameIsNotEmpty && nameIsUnique;
+        Borrowers.Add(addedBorrower);
+
+        borrowerName = string.Empty;
+        borrower = new();
     }
 
     [RelayCommand]
@@ -49,15 +45,25 @@ public partial class BorrowersViewModel : ObservableObject
         Borrowers.Remove(borrower);
     }
 
+    [RelayCommand]
+    private async Task OpenBorrowerDetailPage()
+    {
+        await Shell.Current.GoToAsync($"{nameof(BorrowerDetailPage)}?BorrowerId={SelectedBorrower.Id}");
+    }
+
+    private bool AddCommandCanExecute()
+    {
+        bool nameIsNotEmpty = !string.IsNullOrEmpty(borrowerName);
+        bool nameIsUnique = !Borrowers.Any(b => b.Name == borrowerName);
+        return nameIsNotEmpty && nameIsUnique;
+    }
+
+    
     private async Task LoadBorrowersAsync()
     {
         var borrowersList = await DbAccess.BorrowerRepo.GetAllBorrowers();
         Borrowers = new ObservableCollection<BorrowerModel>(borrowersList);
     }
 
-    [RelayCommand]
-    private async Task OpenBorrowerDetailPage()
-    {
-        await Shell.Current.GoToAsync($"{nameof(BorrowerDetailPage)}?BorrowerId={SelectedBorrower.Id}"); 
-    }
+    
 }

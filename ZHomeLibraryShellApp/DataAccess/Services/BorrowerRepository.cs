@@ -28,10 +28,13 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
             _dbPath = dbPath;
         }
 
-        public async Task AddNewBorrower(string name, string phoneNo, string email)
+        public async Task<BorrowerModel> AddNewBorrower(string name, string phoneNo, string email)
         {
             await Init();
             await _conn.InsertAsync(new BorrowerModel() { Name = name, Email = email, PhoneNo = phoneNo });
+
+            return await _conn.GetAsync<BorrowerModel>(b => b.Name == name);
+
         }
 
         public async Task DeleteBorrower(BorrowerModel borrower)
@@ -52,6 +55,7 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
             return await _conn.FindAsync<BorrowerModel>(id);
 
         }
+
 
         public async Task<List<BorrowerModel>>  GetAllBorrowers()
         {
