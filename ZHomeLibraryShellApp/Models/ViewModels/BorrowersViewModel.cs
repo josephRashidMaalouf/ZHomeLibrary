@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Managers;
 using ZHomeLibraryShellApp.Pages;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
@@ -23,6 +24,20 @@ public partial class BorrowersViewModel : ObservableObject
     public BorrowersViewModel()
     {
         LoadBorrowersAsync();
+
+        BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
+    }
+
+    private void BorrowerManager_UpdateBorrower(BorrowerModel obj)
+    {
+        var borrowerToUpdate = Borrowers.FirstOrDefault(b => obj.Id == b.Id);
+
+        if (borrowerToUpdate != null)
+        {
+            borrowerToUpdate.Name = obj.Name;
+            borrowerToUpdate.PhoneNo = obj.PhoneNo;
+            borrowerToUpdate.Email = obj.Email;
+        }
     }
 
     [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]

@@ -58,9 +58,8 @@ public partial class BookDetailViewModel : ObservableObject
             book.AuthorName = EditBookAuthor;
             EditBookAuthor = string.Empty;
         }
-
+        await DbAccess.BookRepo.UpdateBook(book);
         await BookManager.OnBookUpdated(book);
-        //await DbAccess.BookRepo.UpdateBook(book);
     }
 
     private bool UpdateBookInfoCanExecute()

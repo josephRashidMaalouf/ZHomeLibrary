@@ -14,22 +14,23 @@
                         <Label Text="Id: " />
                         <Label Text="{Binding BorrowerId}" />
                     </HorizontalStackLayout>
-                    <Label Text="{Binding Borrower.Name}" />
-                    <Entry Placeholder="Update name" />
-                    <Label Text="{Binding Borrower.PhoneNo}" />
-                    <Entry Placeholder="Update phone number" />
-                    <Label Text="{Binding Borrower.Email}" />
-                    <Entry Placeholder="Update email" />
+                    <Label Text="{Binding Borrower.Name, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="Update name" Text="{Binding EditName, UpdateSourceEventName=OnPropertyChanged}"/>
+                    <Label Text="{Binding Borrower.PhoneNo, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="Update phone number" Text="{Binding EditPhone, UpdateSourceEventName=OnPropertyChanged}"/>
+                    <Label Text="{Binding Borrower.Email, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="Update email" Text="{Binding EditMail, UpdateSourceEventName=OnPropertyChanged}"/>
 
-                    <HorizontalStackLayout>
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
                         <Button
+                            Command="{Binding UpdateBorrowerInfoCommand}"
                             BackgroundColor="Black"
                             CornerRadius="5"
                             FontAttributes="Bold"
                             Text="Update"
                             TextColor="White" />
                         <Button
-                            BackgroundColor="Black"
+                            BackgroundColor="DarkRed"
                             CornerRadius="5"
                             FontAttributes="Bold"
                             Text="Delete"
