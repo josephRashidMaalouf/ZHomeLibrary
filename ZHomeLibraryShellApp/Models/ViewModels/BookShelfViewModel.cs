@@ -2,12 +2,31 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Managers;
 using ZHomeLibraryShellApp.Pages;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
+[QueryProperty("SelectedBookToDeleteId", "SelectedBookToDeleteId")]
 public partial class BookShelfViewModel: ObservableObject
 {
+
+    private int _selectedBookToDeleteId;
+    public int SelectedBookToDeleteId
+    {
+        get => _selectedBookToDeleteId;
+        set
+        {
+            if (Equals(value, _selectedBookToDeleteId)) return;
+            _selectedBookToDeleteId = value;
+
+            if (value != 0)
+                DeleteSelectedBookAsync();
+
+            OnPropertyChanged();
+        }
+    }
+
     [ObservableProperty]
     private BookModel book = new();
 
@@ -17,10 +36,25 @@ public partial class BookShelfViewModel: ObservableObject
     private string bookTitle;
 
     [ObservableProperty] private ObservableCollection<BookModel> books = new();
+    
 
     public BookShelfViewModel()
     {
         LoadBooksAsync();
+
+        BookManager.BookUpdated += BookManager_UpdateBook;
+    }
+
+    private void BookManager_UpdateBook(BookModel obj)
+    {
+        var bookToUpdate = Books.FirstOrDefault(b => obj.Id == b.Id);
+
+        if (bookToUpdate != null)
+        {
+            bookToUpdate.Title = obj.Title;
+            bookToUpdate.AuthorName = obj.AuthorName;
+        }
+
     }
 
     [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]
@@ -48,6 +82,9 @@ public partial class BookShelfViewModel: ObservableObject
     [RelayCommand]
     private async Task OpenBookDetailPage()
     {
+        if (SelectedBook == null)
+            return;
+
         await Shell.Current.GoToAsync($"{nameof(BookDetailPage)}?SelectedBookId={SelectedBook.Id}");
     }
 
@@ -55,5 +92,22 @@ public partial class BookShelfViewModel: ObservableObject
     {
         var booksList = await DbAccess.BookRepo.GetAllBooks();
         Books = new ObservableCollection<BookModel>(booksList);
+    }
+
+    
+    private async Task DeleteSelectedBookAsync()
+    {
+        await DbAccess.BookRepo.DeleteBook(SelectedBookToDeleteId);
+
+        var bookToDelete = Books.FirstOrDefault(b => b.Id == SelectedBookToDeleteId);
+        var bookTitle = string.Empty;
+        if (bookToDelete != null)
+        {
+            bookTitle = bookToDelete.Title;
+            Books.Remove(bookToDelete);
+        }
+            
+
+        await Shell.Current.DisplayAlert("Book deleted", $"{bookTitle} has been successfully deleted from your library", "Ok");
     }
 }

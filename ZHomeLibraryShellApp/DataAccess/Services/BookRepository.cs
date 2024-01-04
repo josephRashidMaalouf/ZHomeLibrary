@@ -31,10 +31,10 @@ public class BookRepository
         return await _conn.GetAsync<BookModel>(b => b.Title == title);
     }
 
-    public async Task DeleteBook(BookModel book)
+    public async Task DeleteBook(int id)
     {
         await Init();
-        await _conn.DeleteAsync<BookModel>(book.Id);
+        await _conn.DeleteAsync<BookModel>(id);
     }
 
     public async Task UpdateBook(BookModel book)

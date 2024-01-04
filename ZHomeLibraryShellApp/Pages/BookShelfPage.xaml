@@ -22,7 +22,7 @@
                 </VerticalStackLayout>
             </Frame>
             <CollectionView
-                ItemsSource="{Binding Books}"
+                ItemsSource="{Binding Books, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                 SelectedItem="{Binding SelectedBook}"
                 SelectionChangedCommand="{Binding OpenBookDetailPageCommand}"
                 SelectionMode="Single">
