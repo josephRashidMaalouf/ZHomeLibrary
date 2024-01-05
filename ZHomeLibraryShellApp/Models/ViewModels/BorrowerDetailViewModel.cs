@@ -52,28 +52,28 @@ public partial class BorrowerDetailViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(UpdateBorrowerInfoCanExecute))]
     private async Task UpdateBorrowerInfo()
     {
-        if (!string.IsNullOrEmpty(EditName))
-        {
-            Borrower.Name = EditName;
-            EditName = string.Empty;
-        }
-
-        if (!string.IsNullOrEmpty(EditPhone))
-        {
-            Borrower.PhoneNo = EditPhone;
-            EditPhone = string.Empty;
-        }
-
-        if (!string.IsNullOrEmpty(EditMail))
-        {
-            Borrower.Email = EditMail;
-            EditMail = string.Empty;
-        }
-
         var success = await DbAccess.BorrowerRepo.UpdateBorrower(Borrower);
 
         if (success.success)
         {
+            if (!string.IsNullOrEmpty(EditName))
+            {
+                Borrower.Name = EditName;
+                EditName = string.Empty;
+            }
+
+            if (!string.IsNullOrEmpty(EditPhone))
+            {
+                Borrower.PhoneNo = EditPhone;
+                EditPhone = string.Empty;
+            }
+
+            if (!string.IsNullOrEmpty(EditMail))
+            {
+                Borrower.Email = EditMail;
+                EditMail = string.Empty;
+            }
+
             await BorrowerManager.OnBorrowerUpdated(Borrower);
         }
         else
@@ -82,7 +82,7 @@ public partial class BorrowerDetailViewModel : ObservableObject
         }
     }
 
-    private bool UpdateBorrowerInfoCanExecute() //investigate why marked out code freezez application when active
+    private bool UpdateBorrowerInfoCanExecute() 
     {
         bool atleastOneFieldWithUpdatedInfo = !string.IsNullOrEmpty(EditName) || !string.IsNullOrEmpty(EditPhone) || !string.IsNullOrEmpty(EditMail);
         bool nameIsNotEmptyString = !string.IsNullOrEmpty(EditName.Trim());

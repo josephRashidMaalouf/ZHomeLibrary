@@ -47,22 +47,22 @@ public partial class BookDetailViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(UpdateBookInfoCanExecute))]
     private async Task UpdateBookInfo()
     {
-        if (!string.IsNullOrEmpty(EditBookTitle))
-        {
-            Book.Title = EditBookTitle;
-            EditBookTitle = string.Empty;
-        }
-
-        if (!string.IsNullOrEmpty(EditBookAuthor))
-        {
-            Book.AuthorName = EditBookAuthor;
-            EditBookAuthor = string.Empty;
-        }
-
         var success = await DbAccess.BookRepo.UpdateBook(Book);
 
         if (success.success)
-        {
+        { 
+            if (!string.IsNullOrEmpty(EditBookTitle))
+            {
+                Book.Title = EditBookTitle;
+                EditBookTitle = string.Empty;
+            }
+
+            if (!string.IsNullOrEmpty(EditBookAuthor))
+            {
+                Book.AuthorName = EditBookAuthor;
+                EditBookAuthor = string.Empty;
+            }
+
             await BookManager.OnBookUpdated(Book);
         }
         else

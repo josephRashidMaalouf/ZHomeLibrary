@@ -43,7 +43,7 @@ public class BookRepository
 
         if (books.Any(b => b.Title == book.Title))
         {
-            return (false, "You have a book with the same title in your library. Change or alter the title.");
+            return (false, "You have a book with the same title in your library.");
         }
 
         await _conn.UpdateAsync(book);
