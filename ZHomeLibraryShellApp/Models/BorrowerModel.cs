@@ -50,4 +50,6 @@ public class BorrowerModel : ObservableObject
 
     [OneToMany(CascadeOperations = CascadeOperation.All)]
     public List<BookModel> Books { get; set; }
+
+    public override string ToString() => Name;
 }

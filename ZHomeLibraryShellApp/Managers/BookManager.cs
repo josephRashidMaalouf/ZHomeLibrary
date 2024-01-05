@@ -25,9 +25,5 @@ public static class BookManager
         BookAdded.Invoke(book);
     }
 
-    public static async Task LoadBooksAsync(ObservableCollection<BookModel> bookList)
-    {
-        var booksList = await DbAccess.BookRepo.GetAllBooks();
-        bookList = new ObservableCollection<BookModel>(booksList);
-    }
+    
 }

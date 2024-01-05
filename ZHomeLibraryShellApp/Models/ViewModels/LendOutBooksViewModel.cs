@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ZHomeLibraryShellApp.DataAccess.Services;
 using ZHomeLibraryShellApp.Managers;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
@@ -26,8 +27,8 @@ public partial class LendOutBooksViewModel : ObservableObject
 
     public LendOutBooksViewModel()
     {
-        BookManager.LoadBooksAsync(Books);
-        BorrowerManager.LoadBorrowersAsync(Borrowers);
+        LoadBooksAsync();
+        LoadBorrowersAsync();
 
         BookManager.BookUpdated += BookManager_UpdateBook;
         BookManager.BookAdded += BookManager_AddBook;
@@ -69,8 +70,6 @@ public partial class LendOutBooksViewModel : ObservableObject
         throw new NotImplementedException();
     }
 
-
-
     private void BookManager_UpdateBook(BookModel obj)
     {
         var bookToUpdate = Books.FirstOrDefault(b => obj.Id == b.Id);
@@ -80,5 +79,17 @@ public partial class LendOutBooksViewModel : ObservableObject
             bookToUpdate.Title = obj.Title;
             bookToUpdate.AuthorName = obj.AuthorName;
         }
+    }
+
+    public async Task LoadBooksAsync()
+    {
+        var booksList = await DbAccess.BookRepo.GetAllBooks();
+        Books = new ObservableCollection<BookModel>(booksList);
+    }
+
+    public async Task LoadBorrowersAsync()
+    {
+        var borrowersList = await DbAccess.BorrowerRepo.GetAllBorrowers();
+        Borrowers = new ObservableCollection<BorrowerModel>(borrowersList);
     }
 }

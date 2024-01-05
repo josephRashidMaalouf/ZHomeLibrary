@@ -25,9 +25,5 @@ public class BorrowerManager
         BorrowerUpdated.Invoke(borrower);
     }
 
-    public static async Task LoadBorrowersAsync(ObservableCollection<BorrowerModel> borrowerList)
-    {
-        var borrowersList = await DbAccess.BorrowerRepo.GetAllBorrowers();
-        borrowerList = new ObservableCollection<BorrowerModel>(borrowersList);
-    }
+    
 }

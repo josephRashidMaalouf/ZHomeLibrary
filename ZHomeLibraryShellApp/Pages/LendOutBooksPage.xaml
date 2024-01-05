@@ -1,67 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZHomeLibraryShellApp.Pages.LendOutBooksPage"
-             xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
-             x:DataType="vm:LendOutBooksViewModel"
-             Title="Lend out">
+<ContentPage
+    x:Class="ZHomeLibraryShellApp.Pages.LendOutBooksPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
+    xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
+    Title="Lend out"
+    x:DataType="vm:LendOutBooksViewModel">
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="5">
-            <Picker Title="Pick a borrower"/>
+            <Picker
+                Title="Pick a borrower"
+                ItemsSource="{Binding Borrowers, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
+                SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"/>
             <Frame>
                 <VerticalStackLayout>
-                    <SearchBar Placeholder="Search book(s)"/>
-                    <CollectionView ItemsLayout="VerticalList" SelectionMode="Multiple">
-                        <CollectionView.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Item 1</x:String>
-                                <x:String>Item 2</x:String>
-                                <x:String>Item 3</x:String>
-                                <x:String>Item 4</x:String>
-                                <x:String>Item 5</x:String>
-                                <x:String>Item 6</x:String>
-                                <x:String>Item 7</x:String>
-                                <x:String>Item 8</x:String>
-                                <x:String>Item 9</x:String>
-                                <x:String>Item 10</x:String>
-                            </x:Array>
-                        </CollectionView.ItemsSource>
+                    <SearchBar Placeholder="Search book(s)" />
+                    <CollectionView
+                        ItemsLayout="VerticalList"
+                        ItemsSource="{Binding Books, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
+                        SelectedItems="{Binding SelectedBooks}"
+                        SelectionMode="Multiple">
                         <CollectionView.Header>
                             <VerticalStackLayout BackgroundColor="Black">
-
-                                <Label TextColor="White" FontAttributes="Bold" Text="Pick books to lend out" HorizontalTextAlignment="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Pick books to lend out"
+                                    TextColor="White" />
                             </VerticalStackLayout>
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout Padding="5" Spacing="5" Margin="5" BackgroundColor="WhiteSmoke">
-                                    <Label Text="{Binding .}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                            <DataTemplate x:DataType="{x:Type models:BookModel}">
+                                <VerticalStackLayout>
+                                    <Label FontAttributes="Bold" Text="{Binding Title}" />
+                                    <Label FontAttributes="Italic" Text="{Binding AuthorName}" />
+                                    <HorizontalStackLayout>
+                                        <Label Text="Borrowed by: " />
+                                        <Label Text="{Binding Borrower.Name}" />
+                                    </HorizontalStackLayout>
 
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
-                                            <VisualState Name="Normal"/>
+                                            <VisualState Name="Normal" />
                                             <VisualState Name="Selected">
                                                 <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="Gray"/>
+                                                    <Setter Property="BackgroundColor" Value="Gray" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-
                                 </VerticalStackLayout>
-
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </VerticalStackLayout>
             </Frame>
             <Frame Padding="5">
-                <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                    <Label Text="Return by" VerticalTextAlignment="Center"></Label>
-                    <DatePicker/>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Label Text="Return by" VerticalTextAlignment="Center" />
+                    <DatePicker />
                 </HorizontalStackLayout>
             </Frame>
-            <Button BackgroundColor="Black" CornerRadius="3" TextColor="White" Text="Lend out" FontAttributes="Bold"></Button>
+            <Button
+                BackgroundColor="Black"
+                CornerRadius="3"
+                FontAttributes="Bold"
+                Text="Lend out"
+                TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

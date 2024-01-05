@@ -40,7 +40,7 @@ public partial class BorrowersViewModel : ObservableObject
 
     public BorrowersViewModel()
     {
-        BorrowerManager.LoadBorrowersAsync(Borrowers);
+        LoadBorrowersAsync();
 
         BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
     }
@@ -109,4 +109,9 @@ public partial class BorrowersViewModel : ObservableObject
         await Shell.Current.DisplayAlert("Borrower deleted", $"{borrowerName} has been successfully deleted from your borrowers list", "Ok");
     }
 
+    public async Task LoadBorrowersAsync()
+    {
+        var borrowersList = await DbAccess.BorrowerRepo.GetAllBorrowers();
+        Borrowers = new ObservableCollection<BorrowerModel>(borrowersList);
+    }
 }

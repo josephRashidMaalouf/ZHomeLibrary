@@ -40,7 +40,7 @@ public partial class BookShelfViewModel: ObservableObject
 
     public BookShelfViewModel()
     {
-        BookManager.LoadBooksAsync(Books);
+        LoadBooksAsync();
 
         BookManager.BookUpdated += BookManager_UpdateBook;
     }
@@ -104,5 +104,11 @@ public partial class BookShelfViewModel: ObservableObject
             
 
         await Shell.Current.DisplayAlert("Book deleted", $"{bookTitle} has been successfully deleted from your library", "Ok");
+    }
+
+    public async Task LoadBooksAsync()
+    {
+        var booksList = await DbAccess.BookRepo.GetAllBooks();
+        Books = new ObservableCollection<BookModel>(booksList);
     }
 }
