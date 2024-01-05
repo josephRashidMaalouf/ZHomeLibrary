@@ -75,7 +75,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\ViewModels\" />
 	  <Folder Include="Managers\" />
 	  <Folder Include="Views\" />
 	</ItemGroup>

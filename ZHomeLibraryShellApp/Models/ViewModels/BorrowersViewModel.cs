@@ -40,7 +40,7 @@ public partial class BorrowersViewModel : ObservableObject
 
     public BorrowersViewModel()
     {
-        LoadBorrowersAsync();
+        BorrowerManager.LoadBorrowersAsync(Borrowers);
 
         BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
     }
@@ -93,12 +93,6 @@ public partial class BorrowersViewModel : ObservableObject
         return nameIsNotEmpty && nameIsUnique;
     }
 
-    
-    private async Task LoadBorrowersAsync()
-    {
-        var borrowersList = await DbAccess.BorrowerRepo.GetAllBorrowers();
-        Borrowers = new ObservableCollection<BorrowerModel>(borrowersList);
-    }
 
     private async Task DeleteSelectedBorrowerAsync()
     {

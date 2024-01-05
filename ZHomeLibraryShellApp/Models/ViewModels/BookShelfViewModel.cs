@@ -40,7 +40,7 @@ public partial class BookShelfViewModel: ObservableObject
 
     public BookShelfViewModel()
     {
-        LoadBooksAsync();
+        BookManager.LoadBooksAsync(Books);
 
         BookManager.BookUpdated += BookManager_UpdateBook;
     }
@@ -88,11 +88,6 @@ public partial class BookShelfViewModel: ObservableObject
         await Shell.Current.GoToAsync($"{nameof(BookDetailPage)}?SelectedBookId={SelectedBook.Id}");
     }
 
-    private async Task LoadBooksAsync()
-    {
-        var booksList = await DbAccess.BookRepo.GetAllBooks();
-        Books = new ObservableCollection<BookModel>(booksList);
-    }
 
     
     private async Task DeleteSelectedBookAsync()
