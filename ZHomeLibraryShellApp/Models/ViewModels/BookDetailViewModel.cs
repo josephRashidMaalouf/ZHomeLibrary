@@ -38,7 +38,7 @@ public partial class BookDetailViewModel : ObservableObject
         var confirmation = await Shell.Current.DisplayAlert("Delete book",
             $"Are you sure you want to delete {Book.Title} from you library?", "Yes, delete it", "No, don't delete it");
 
-        if(confirmation)
+        if (confirmation)
             await Shell.Current.GoToAsync($"..?SelectedBookToDeleteId={SelectedBookId}");
         else
             return;
@@ -47,29 +47,30 @@ public partial class BookDetailViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(UpdateBookInfoCanExecute))]
     private async Task UpdateBookInfo()
     {
-        var success = await DbAccess.BookRepo.UpdateBook(Book);
+        var books = await DbAccess.BookRepo.GetAllBooks();
 
-        if (success.success)
-        { 
-            if (!string.IsNullOrEmpty(EditBookTitle))
-            {
-                Book.Title = EditBookTitle;
-                EditBookTitle = string.Empty;
-            }
+        bool titleOccupied = books.Any(b => b.Title == EditBookTitle);
 
-            if (!string.IsNullOrEmpty(EditBookAuthor))
-            {
-                Book.AuthorName = EditBookAuthor;
-                EditBookAuthor = string.Empty;
-            }
-
-            await BookManager.OnBookUpdated(Book);
-        }
-        else
+        if (titleOccupied)
         {
-            await Shell.Current.DisplayAlert("Could not change title", success.message, "Ok");
+            await Shell.Current.DisplayAlert("Could not change title", "You have a book with the same title in your library.", "Ok");
+            return;
         }
-        
+
+        if (!string.IsNullOrEmpty(EditBookTitle))
+        {
+            Book.Title = EditBookTitle;
+            EditBookTitle = string.Empty;
+        }
+
+        if (!string.IsNullOrEmpty(EditBookAuthor))
+        {
+            Book.AuthorName = EditBookAuthor;
+            EditBookAuthor = string.Empty;
+        }
+
+        await DbAccess.BookRepo.UpdateBook(Book);
+        await BookManager.OnBookUpdated(Book);
     }
 
     private bool UpdateBookInfoCanExecute()

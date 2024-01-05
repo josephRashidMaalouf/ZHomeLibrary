@@ -43,16 +43,10 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
             await _conn.DeleteAsync<BorrowerModel>(id);
         }
 
-        public async Task<(bool success, string message)> UpdateBorrower(BorrowerModel borrower)
+        public async Task UpdateBorrower(BorrowerModel borrower)
         {
-            var borrowers = await GetAllBorrowers();
-
-            if (borrowers.Any(b => b.Name == borrower.Name))
-            {
-                return (false, "That name is occupied by another borrower. Choose another name.");
-            }
+            await Init();
             await _conn.UpdateAsync(borrower);
-            return (true, "");
         }
 
         public async Task<BorrowerModel> GetBorrowerById(int id)

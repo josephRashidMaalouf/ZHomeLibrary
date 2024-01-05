@@ -28,7 +28,7 @@ public partial class BorrowerDetailViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<BookModel> books;
 
-    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBorrowerInfoCommand))] 
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBorrowerInfoCommand))]
     private string editName = string.Empty;
 
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBorrowerInfoCommand))]
@@ -52,37 +52,38 @@ public partial class BorrowerDetailViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(UpdateBorrowerInfoCanExecute))]
     private async Task UpdateBorrowerInfo()
     {
-        var success = await DbAccess.BorrowerRepo.UpdateBorrower(Borrower);
+        var borrowers = await DbAccess.BorrowerRepo.GetAllBorrowers();
 
-        if (success.success)
+        bool nameOccupied = borrowers.Any(b => b.Name == EditName);
+
+        if (nameOccupied)
         {
-            if (!string.IsNullOrEmpty(EditName))
-            {
-                Borrower.Name = EditName;
-                EditName = string.Empty;
-            }
-
-            if (!string.IsNullOrEmpty(EditPhone))
-            {
-                Borrower.PhoneNo = EditPhone;
-                EditPhone = string.Empty;
-            }
-
-            if (!string.IsNullOrEmpty(EditMail))
-            {
-                Borrower.Email = EditMail;
-                EditMail = string.Empty;
-            }
-
-            await BorrowerManager.OnBorrowerUpdated(Borrower);
+            await Shell.Current.DisplayAlert("Could not change name", "That name is occupied by another borrower. Choose another name.", "Ok");
+            return;
         }
-        else
+
+        if (!string.IsNullOrEmpty(EditName))
         {
-            await Shell.Current.DisplayAlert("Could not change name", success.message, "Ok");
+            Borrower.Name = EditName;
+            EditName = string.Empty;
         }
+
+        if (!string.IsNullOrEmpty(EditPhone))
+        {
+            Borrower.PhoneNo = EditPhone;
+            EditPhone = string.Empty;
+        }
+
+        if (!string.IsNullOrEmpty(EditMail))
+        {
+            Borrower.Email = EditMail;
+            EditMail = string.Empty;
+        }
+        await DbAccess.BorrowerRepo.UpdateBorrower(Borrower);
+        await BorrowerManager.OnBorrowerUpdated(Borrower);
     }
 
-    private bool UpdateBorrowerInfoCanExecute() 
+    private bool UpdateBorrowerInfoCanExecute()
     {
         bool atleastOneFieldWithUpdatedInfo = !string.IsNullOrEmpty(EditName) || !string.IsNullOrEmpty(EditPhone) || !string.IsNullOrEmpty(EditMail);
         bool nameIsNotEmptyString = !string.IsNullOrEmpty(EditName.Trim());
@@ -96,5 +97,5 @@ public partial class BorrowerDetailViewModel : ObservableObject
 
         Books = new ObservableCollection<BookModel>(Borrower.Books);
     }
-    
+
 }
