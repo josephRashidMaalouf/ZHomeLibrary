@@ -29,7 +29,7 @@ public partial class BorrowerDetailViewModel : ObservableObject
     private ObservableCollection<BookModel> books;
 
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBorrowerInfoCommand))] 
-    private string editName;
+    private string editName = string.Empty;
 
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBorrowerInfoCommand))]
     private string editPhone;
@@ -58,17 +58,24 @@ public partial class BorrowerDetailViewModel : ObservableObject
             EditMail = string.Empty;
         }
 
-        await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
-        await BorrowerManager.OnBookUpdated(borrower);
+        var success = await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
+
+        if (success.success)
+        {
+            await BorrowerManager.OnBorrowerUpdated(borrower);
+        }
+        else
+        {
+            await Shell.Current.DisplayAlert("Could not change name", success.message, "Ok");
+        }
     }
 
     private bool UpdateBorrowerInfoCanExecute() //investigate why marked out code freezez application when active
     {
         bool atleastOneFieldWithUpdatedInfo = !string.IsNullOrEmpty(EditName) || !string.IsNullOrEmpty(EditPhone) || !string.IsNullOrEmpty(EditMail);
-        //bool nameIsUnique = DbAccess.BorrowerRepo.GetAllBorrowers().Result.All(b => b.Name != EditName);
-        //bool nameIsNotEmptyString = string.IsNullOrEmpty(EditName.Trim());
+        bool nameIsNotEmptyString = !string.IsNullOrEmpty(EditName.Trim());
 
-        return atleastOneFieldWithUpdatedInfo; /* && nameIsUnique && nameIsNotEmptyString;*/
+        return atleastOneFieldWithUpdatedInfo && nameIsNotEmptyString;
     }
 
     public async Task LoadBorrower()

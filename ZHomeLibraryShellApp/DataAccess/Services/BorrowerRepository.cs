@@ -43,10 +43,16 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
             await _conn.DeleteAsync<BorrowerModel>(borrower.Id);
         }
 
-        public async Task UpdateBorrower(BorrowerModel borrower)
+        public async Task<(bool success, string message)> UpdateBorrower(BorrowerModel borrower)
         {
-            await Init();
+            var borrowers = await GetAllBorrowers();
+
+            if (borrowers.Any(b => b.Name == borrower.Name))
+            {
+                return (false, "That name is occupied by another borrower. Choose another name.");
+            }
             await _conn.UpdateAsync(borrower);
+            return (true, "");
         }
 
         public async Task<BorrowerModel> GetBorrowerById(int id)
@@ -60,7 +66,7 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
         public async Task<List<BorrowerModel>>  GetAllBorrowers()
         {
             await Init();
-            var borrowers = await _conn.Table<BorrowerModel>().ToListAsync(); //The Id follows, but dissapears a few steps along the way. Investigate
+            var borrowers = await _conn.Table<BorrowerModel>().ToListAsync(); 
 
             if (borrowers == null)
                 return new List<BorrowerModel>();

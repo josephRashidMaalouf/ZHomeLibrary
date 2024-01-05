@@ -6,7 +6,7 @@ public class BorrowerManager
 {
     public static event Action<BorrowerModel> BorrowerUpdated;
 
-    public static async Task OnBookUpdated(BorrowerModel borrower)
+    public static async Task OnBorrowerUpdated(BorrowerModel borrower)
     {
         BorrowerUpdated.Invoke(borrower);
     }
