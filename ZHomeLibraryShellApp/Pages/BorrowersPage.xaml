@@ -11,9 +11,9 @@
         <VerticalStackLayout Padding="10" Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="Name" Text="{Binding BorrowerName, Mode=TwoWay}" />
-                    <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo, Mode=TwoWay}" />
-                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email, Mode=TwoWay}" />
+                    <Entry Placeholder="Name" Text="{Binding BorrowerName, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Button
                         BackgroundColor="Black"
                         Command="{Binding AddBorrowerCommand}"
@@ -24,8 +24,8 @@
                 </VerticalStackLayout>
             </Frame>
             <CollectionView
-                ItemsSource="{Binding Borrowers}"
-                SelectedItem="{Binding SelectedBorrower}"
+                ItemsSource="{Binding Borrowers, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged }"
+                SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                 SelectionChangedCommand="{Binding OpenBorrowerDetailPageCommand}"
                 SelectionMode="Single">
                 <CollectionView.Header>

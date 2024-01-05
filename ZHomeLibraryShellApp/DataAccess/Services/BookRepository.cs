@@ -37,10 +37,17 @@ public class BookRepository
         await _conn.DeleteAsync<BookModel>(id);
     }
 
-    public async Task UpdateBook(BookModel book)
+    public async Task<(bool success, string message)> UpdateBook(BookModel book)
     {
-        await Init();
+        var books = await GetAllBooks();
+
+        if (books.Any(b => b.Title == book.Title))
+        {
+            return (false, "You have a book with the same title in your library. Change or alter the title.");
+        }
+
         await _conn.UpdateAsync(book);
+        return (true, "");
     }
 
     public async Task<BookModel> GetBookById(int id)

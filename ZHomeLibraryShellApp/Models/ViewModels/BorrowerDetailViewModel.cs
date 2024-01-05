@@ -37,32 +37,44 @@ public partial class BorrowerDetailViewModel : ObservableObject
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBorrowerInfoCommand))]
     private string editMail;
 
+    [RelayCommand]
+    private async Task DeleteBorrower()
+    {
+        var confirmation = await Shell.Current.DisplayAlert("Delete borrower",
+            $"Are you sure you want to delete {Borrower.Name} from your borrowers list?", $"Yes, delete {Borrower.Name}", $"No, don't delete {Borrower.Name}");
+
+        if (confirmation)
+            await Shell.Current.GoToAsync($"..?BorrowerToDeleteId={BorrowerId}");
+        else
+            return;
+    }
+
     [RelayCommand(CanExecute = nameof(UpdateBorrowerInfoCanExecute))]
     private async Task UpdateBorrowerInfo()
     {
         if (!string.IsNullOrEmpty(EditName))
         {
-            borrower.Name = EditName;
+            Borrower.Name = EditName;
             EditName = string.Empty;
         }
 
         if (!string.IsNullOrEmpty(EditPhone))
         {
-            borrower.PhoneNo = EditPhone;
+            Borrower.PhoneNo = EditPhone;
             EditPhone = string.Empty;
         }
 
         if (!string.IsNullOrEmpty(EditMail))
         {
-            borrower.Email = EditMail;
+            Borrower.Email = EditMail;
             EditMail = string.Empty;
         }
 
-        var success = await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
+        var success = await DbAccess.BorrowerRepo.UpdateBorrower(Borrower);
 
         if (success.success)
         {
-            await BorrowerManager.OnBorrowerUpdated(borrower);
+            await BorrowerManager.OnBorrowerUpdated(Borrower);
         }
         else
         {

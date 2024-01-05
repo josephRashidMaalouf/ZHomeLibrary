@@ -36,7 +36,7 @@ public partial class BookDetailViewModel : ObservableObject
     private async Task DeleteBook()
     {
         var confirmation = await Shell.Current.DisplayAlert("Delete book",
-            $"Are you sure you want to delete {book.Title} from you library?", "Yes, delete it", "No, don't delete it");
+            $"Are you sure you want to delete {Book.Title} from you library?", "Yes, delete it", "No, don't delete it");
 
         if(confirmation)
             await Shell.Current.GoToAsync($"..?SelectedBookToDeleteId={SelectedBookId}");
@@ -47,27 +47,37 @@ public partial class BookDetailViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(UpdateBookInfoCanExecute))]
     private async Task UpdateBookInfo()
     {
-        if (!string.IsNullOrEmpty(editBookTitle))
+        if (!string.IsNullOrEmpty(EditBookTitle))
         {
-            book.Title = EditBookTitle;
+            Book.Title = EditBookTitle;
             EditBookTitle = string.Empty;
         }
 
-        if (!string.IsNullOrEmpty(editBookAuthor))
+        if (!string.IsNullOrEmpty(EditBookAuthor))
         {
-            book.AuthorName = EditBookAuthor;
+            Book.AuthorName = EditBookAuthor;
             EditBookAuthor = string.Empty;
         }
-        await DbAccess.BookRepo.UpdateBook(book);
-        await BookManager.OnBookUpdated(book);
+
+        var success = await DbAccess.BookRepo.UpdateBook(Book);
+
+        if (success.success)
+        {
+            await BookManager.OnBookUpdated(Book);
+        }
+        else
+        {
+            await Shell.Current.DisplayAlert("Could not change title", success.message, "Ok");
+        }
+        
     }
 
     private bool UpdateBookInfoCanExecute()
     {
-        return !string.IsNullOrEmpty(editBookAuthor) || !string.IsNullOrEmpty(editBookTitle);
+        return !string.IsNullOrEmpty(EditBookAuthor) || !string.IsNullOrEmpty(EditBookTitle);
     }
 
-    public async Task LoadBook()
+    private async Task LoadBook()
     {
         Book = await DbAccess.BookRepo.GetBookById(_selectedBookId);
     }

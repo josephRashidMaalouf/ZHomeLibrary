@@ -37,10 +37,10 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
 
         }
 
-        public async Task DeleteBorrower(BorrowerModel borrower)
+        public async Task DeleteBorrower(int id)
         {
             await Init();
-            await _conn.DeleteAsync<BorrowerModel>(borrower.Id);
+            await _conn.DeleteAsync<BorrowerModel>(id);
         }
 
         public async Task<(bool success, string message)> UpdateBorrower(BorrowerModel borrower)

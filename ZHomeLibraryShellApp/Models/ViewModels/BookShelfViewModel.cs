@@ -60,21 +60,21 @@ public partial class BookShelfViewModel: ObservableObject
     [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]
     private async Task AddBook() 
     {
-        book.Title = bookTitle;
+        Book.Title = BookTitle;
 
-        var addedBook = await DbAccess.BookRepo.AddNewBook(book.Title, book.AuthorName);
+        var addedBook = await DbAccess.BookRepo.AddNewBook(Book.Title, Book.AuthorName);
 
         Books.Add(addedBook);
 
-        bookTitle = string.Empty;
-        book = new();
+        BookTitle = string.Empty;
+        Book = new();
     }
 
     private bool AddCommandCanExecute()
     {
         
-        bool titleIsNotEmpty = !string.IsNullOrEmpty(bookTitle);
-        bool titleIsUnique = !Books.Any(b => b.Title == bookTitle);
+        bool titleIsNotEmpty = !string.IsNullOrEmpty(BookTitle);
+        bool titleIsUnique = Books.All(b => b.Title != BookTitle);
 
         return titleIsNotEmpty && titleIsUnique;
     }

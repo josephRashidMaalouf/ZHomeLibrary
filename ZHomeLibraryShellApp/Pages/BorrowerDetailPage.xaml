@@ -30,6 +30,7 @@
                             Text="Update"
                             TextColor="White" />
                         <Button
+                            Command="{Binding DeleteBorrowerCommand}"
                             BackgroundColor="DarkRed"
                             CornerRadius="5"
                             FontAttributes="Bold"

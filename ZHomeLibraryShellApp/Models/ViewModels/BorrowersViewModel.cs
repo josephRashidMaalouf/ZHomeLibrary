@@ -8,6 +8,7 @@ using ZHomeLibraryShellApp.Pages;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
+[QueryProperty("BorrowerToDeleteId", "BorrowerToDeleteId")]
 public partial class BorrowersViewModel : ObservableObject
 {
     [ObservableProperty]
@@ -20,6 +21,22 @@ public partial class BorrowersViewModel : ObservableObject
     private string borrowerName;
 
     [ObservableProperty] private ObservableCollection<BorrowerModel> borrowers = new();
+    private int _borrowerToDeleteId;
+
+    public int BorrowerToDeleteId
+    {
+        get => _borrowerToDeleteId;
+        set
+        {
+            if (value == _borrowerToDeleteId) return;
+            _borrowerToDeleteId = value;
+
+            if (value != 0)
+                DeleteSelectedBorrowerAsync();
+
+            OnPropertyChanged();
+        }
+    }
 
     public BorrowersViewModel()
     {
@@ -43,33 +60,36 @@ public partial class BorrowersViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]
     private async Task AddBorrower()
     {
-        borrower.Name = borrowerName;
+        Borrower.Name = BorrowerName;
 
-        var addedBorrower = await DbAccess.BorrowerRepo.AddNewBorrower(borrower.Name, borrower.PhoneNo, borrower.Email);
+        var addedBorrower = await DbAccess.BorrowerRepo.AddNewBorrower(Borrower.Name, Borrower.PhoneNo, Borrower.Email);
 
         Borrowers.Add(addedBorrower);
 
-        borrowerName = string.Empty;
-        borrower = new();
+        BorrowerName = string.Empty;
+        Borrower = new();
     }
 
     [RelayCommand]
     private void DeleteBorrower(BorrowerModel borrower)
     {
-        DbAccess.BorrowerRepo.DeleteBorrower(borrower);
-        Borrowers.Remove(borrower);
+        DbAccess.BorrowerRepo.DeleteBorrower(Borrower.Id);
+        Borrowers.Remove(Borrower);
     }
 
     [RelayCommand]
     private async Task OpenBorrowerDetailPage()
     {
+        if(SelectedBorrower == null)
+            return;
+
         await Shell.Current.GoToAsync($"{nameof(BorrowerDetailPage)}?BorrowerId={SelectedBorrower.Id}");
     }
 
     private bool AddCommandCanExecute()
     {
-        bool nameIsNotEmpty = !string.IsNullOrEmpty(borrowerName);
-        bool nameIsUnique = !Borrowers.Any(b => b.Name == borrowerName);
+        bool nameIsNotEmpty = !string.IsNullOrEmpty(BorrowerName);
+        bool nameIsUnique = Borrowers.All(b => b.Name != BorrowerName);
         return nameIsNotEmpty && nameIsUnique;
     }
 
@@ -80,5 +100,19 @@ public partial class BorrowersViewModel : ObservableObject
         Borrowers = new ObservableCollection<BorrowerModel>(borrowersList);
     }
 
-    
+    private async Task DeleteSelectedBorrowerAsync()
+    {
+        await DbAccess.BorrowerRepo.DeleteBorrower(BorrowerToDeleteId);
+
+        var borrowerToDelete = Borrowers.FirstOrDefault(b => b.Id == BorrowerToDeleteId);
+        var borrowerName = string.Empty;
+        if (borrowerToDelete != null)
+        {
+            borrowerName = borrowerToDelete.Name;
+            Borrowers.Remove(borrowerToDelete);
+        }
+
+        await Shell.Current.DisplayAlert("Borrower deleted", $"{borrowerName} has been successfully deleted from your borrowers list", "Ok");
+    }
+
 }
