@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
 using ZHomeLibraryShellApp.Managers;
 
@@ -17,13 +18,14 @@ public partial class LendOutBooksViewModel : ObservableObject
     private BorrowerModel selectedBorrower = new();
 
     [ObservableProperty]
-    private ObservableCollection<BookModel> selectedBooks = new();
+    private ObservableCollection<Object> selectedBooks = new();
 
-    [ObservableProperty]
-    private DateOnly returnByDate = new();
+    [ObservableProperty] private DateOnly returnByDate; //Figure this out
 
     [ObservableProperty]
     private string searchBookQuery = string.Empty;
+
+    
 
     public LendOutBooksViewModel()
     {
@@ -38,6 +40,8 @@ public partial class LendOutBooksViewModel : ObservableObject
         BorrowerManager.BorrowerAdded += BorrowerManager_AddBorrower;
         BorrowerManager.BorrowerDeleted += BorrowerManager_DeleteBorrower;
     }
+
+
 
     private void BorrowerManager_UpdateBorrower(BorrowerModel obj)
     {
