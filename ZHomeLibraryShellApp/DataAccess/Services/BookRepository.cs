@@ -55,7 +55,10 @@ public class BookRepository
     public async Task<BookModel> GetBookById(int id)
     {
         await Init();
-        return await _conn.FindAsync<BookModel>(id);
+        var book = await _conn.FindAsync<BookModel>(id);
+        book.Borrower =
+            await _conn.Table<BorrowerModel>().Where(b => b.Id == book.BorrowerId).FirstOrDefaultAsync();
+        return book;
     }
 
     public async Task<List<BookModel>> GetAllBooks()

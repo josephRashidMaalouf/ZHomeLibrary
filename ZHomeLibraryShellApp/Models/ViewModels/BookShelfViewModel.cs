@@ -53,6 +53,7 @@ public partial class BookShelfViewModel: ObservableObject
         {
             bookToUpdate.Title = obj.Title;
             bookToUpdate.AuthorName = obj.AuthorName;
+            bookToUpdate.Borrower = obj.Borrower;
         }
 
     }

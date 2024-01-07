@@ -40,13 +40,14 @@
             <Frame>
                 <VerticalStackLayout Margin="10" Spacing="5">
                     <Label Text="Currently borrowed by:" />
-                    <Label Text="{Binding Book.Borrower.Name}" />
+                    <Label Text="{Binding Borrower.Name, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Button
                         BackgroundColor="Black"
                         CornerRadius="5"
                         FontAttributes="Bold"
                         Text="Return"
-                        TextColor="White" />
+                        TextColor="White"
+                        Command="{Binding ReturnBookCommand}"/>
 
                 </VerticalStackLayout>
             </Frame>

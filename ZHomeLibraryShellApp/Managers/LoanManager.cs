@@ -17,7 +17,19 @@ public static class LoanManager
             bookModel.BorrowerId = borrower.Id;
             await DbAccess.BookRepo.UpdateBook(bookModel);
         }
+    }
 
+    public static async Task ReturnLoan(BookModel book, BorrowerModel borrower)
+    {
+        var borrowersBook = borrower.Books.FirstOrDefault(b => b.Id == book.Id);
+        borrower.Books.Remove(borrowersBook);
+
+        await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
+
+        book.Borrower = new BorrowerModel();
+        book.BorrowerId = 0;
+
+        await DbAccess.BookRepo.UpdateBook(book);
 
     }
 }

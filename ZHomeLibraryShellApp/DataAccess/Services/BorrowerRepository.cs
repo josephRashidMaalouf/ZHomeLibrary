@@ -62,7 +62,11 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
         public async Task<BorrowerModel> GetBorrowerById(int id)
         {
             await Init();
-            return await _conn.FindAsync<BorrowerModel>(id);
+            var borrower = await _conn.FindAsync<BorrowerModel>(id);
+            borrower.Books = await _conn.Table<BookModel>()
+                .Where(b => b.BorrowerId == borrower.Id).ToListAsync();
+
+            return borrower;
 
         }
 

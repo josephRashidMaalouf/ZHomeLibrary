@@ -14,6 +14,9 @@ public partial class BookDetailViewModel : ObservableObject
     [ObservableProperty]
     private BookModel book;
 
+    [ObservableProperty]
+    private BorrowerModel borrower = new();
+
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBookInfoCommand))]
     private string editBookTitle;
 
@@ -35,6 +38,14 @@ public partial class BookDetailViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteBook()
     {
+        bool bookIsBorrowed = Book.BorrowerId > 0;
+        if (bookIsBorrowed)
+        {
+            await Shell.Current.DisplayAlert("Delete book",
+                $"This book is currently borrowed by {Book.Borrower.Name}. Make sure {Book.Borrower.Name} returns the book before deleting it.", "Ok");
+            return;
+        }
+
         var confirmation = await Shell.Current.DisplayAlert("Delete book",
             $"Are you sure you want to delete {Book.Title} from you library?", "Yes, delete it", "No, don't delete it");
 
@@ -75,11 +86,31 @@ public partial class BookDetailViewModel : ObservableObject
 
     private bool UpdateBookInfoCanExecute()
     {
-        return !string.IsNullOrEmpty(EditBookAuthor) || !string.IsNullOrEmpty(EditBookTitle);
+        bool entryFieldsNotEmpty = !string.IsNullOrEmpty(EditBookAuthor) || !string.IsNullOrEmpty(EditBookTitle);
+        return entryFieldsNotEmpty;
+    }
+
+    [RelayCommand(CanExecute = nameof(ReturnBookCanExecute))]
+    private async Task ReturnBook()
+    {
+        await LoanManager.ReturnLoan(Book, Borrower);
+        Borrower = new BorrowerModel();
+        ReturnBookCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool ReturnBookCanExecute()
+    {
+        return Borrower.Id > 0;
     }
 
     private async Task LoadBook()
     {
         Book = await DbAccess.BookRepo.GetBookById(_selectedBookId);
+        if (Book.BorrowerId > 0)
+        {
+            Borrower = await DbAccess.BorrowerRepo.GetBorrowerById(Book.BorrowerId);
+            ReturnBookCommand.NotifyCanExecuteChanged();
+        }
+        
     }
 }
