@@ -14,10 +14,10 @@ public partial class LendOutBooksViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<BookModel> books = new();
 
-    [ObservableProperty]
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(LendOutBooksCommand))]
     private BorrowerModel selectedBorrower = new();
 
-    [ObservableProperty]
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(LendOutBooksCommand))]
     private ObservableCollection<Object> selectedBooks = new();
 
     [ObservableProperty] private DateTime returnByDate; //Figure this out
@@ -42,8 +42,8 @@ public partial class LendOutBooksViewModel : ObservableObject
     }
 
 
-    [RelayCommand]
-    public async Task LendOutBooks() //Write a CanExecute for this
+    [RelayCommand(CanExecute = nameof(LendOutBooksCanExecute))]
+    private async Task LendOutBooks() 
     {
         List<BookModel> books = new();
         foreach (var selectedBook in SelectedBooks)
@@ -51,20 +51,40 @@ public partial class LendOutBooksViewModel : ObservableObject
             if (selectedBook is BookModel book)
             {
                 books.Add(book);
+                
             }
         }
+        foreach (var book in books)
+        {
+            Books.Remove(book);
+        }
+
 
         await LoanManager.MakeLoan(books.ToArray(), SelectedBorrower);
+
+
 
         await Shell.Current.DisplayAlert("Loan successful", $"You lended out {books.Count} books to {SelectedBorrower.Name}",
             "Ok");
 
-        //await LoanManager.OnLoadMade(books.ToArray(), SelectedBorrower);
+        
 
         SelectedBorrower = new();
         SelectedBooks.Clear();
 
         
+    }
+
+    private bool LendOutBooksCanExecute()
+    {
+
+        return SelectedBorrower != null && SelectedBorrower.Id != 0 && SelectedBooks.Count > 0;
+    }
+
+    [RelayCommand]
+    private async Task SelectedBookChanged()
+    {
+        LendOutBooksCommand.NotifyCanExecuteChanged();
     }
 
     #region Events
@@ -127,7 +147,7 @@ public partial class LendOutBooksViewModel : ObservableObject
     public async Task LoadBooksAsync()
     {
         var booksList = await DbAccess.BookRepo.GetAllBooks();
-        Books = new ObservableCollection<BookModel>(booksList);
+        Books = new ObservableCollection<BookModel>(booksList.Where(b => b.BorrowerId == 0));
     }
 
     public async Task LoadBorrowersAsync()

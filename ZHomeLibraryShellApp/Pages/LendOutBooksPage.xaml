@@ -21,7 +21,8 @@
                         ItemsLayout="VerticalList"
                         ItemsSource="{Binding Books, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                         SelectedItems="{Binding SelectedBooks}"
-                        SelectionMode="Multiple">
+                        SelectionMode="Multiple"
+                        SelectionChangedCommand="{Binding SelectedBookChangedCommand}">
                         <CollectionView.Header>
                             <VerticalStackLayout BackgroundColor="Black">
                                 <Label
