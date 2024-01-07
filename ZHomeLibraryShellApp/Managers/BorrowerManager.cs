@@ -12,17 +12,17 @@ public class BorrowerManager
 
     public static async Task OnBorrowerDeleted(int id)
     {
-        BorrowerDeleted.Invoke(id);
+        BorrowerDeleted?.Invoke(id);
     }
 
     public static async Task OnBorrowerAdded(BorrowerModel borrower)
     {
-        BorrowerAdded.Invoke(borrower);
+        BorrowerAdded?.Invoke(borrower);
     }
 
     public static async Task OnBorrowerUpdated(BorrowerModel borrower)
     {
-        BorrowerUpdated.Invoke(borrower);
+        BorrowerUpdated?.Invoke(borrower);
     }
 
     

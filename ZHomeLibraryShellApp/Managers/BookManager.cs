@@ -12,17 +12,17 @@ public static class BookManager
 
     public static async Task OnBookUpdated(BookModel book)
     {
-        BookUpdated.Invoke(book);
+        BookUpdated?.Invoke(book);
     }
 
     public static async Task OnBookDeleted(int id)
     {
-        BookDeleted.Invoke(id);
+        BookDeleted?.Invoke(id);
     }
 
     public static async Task OnBookAdded(BookModel book)
     {
-        BookAdded.Invoke(book);
+        BookAdded?.Invoke(book);
     }
 
 

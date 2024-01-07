@@ -43,7 +43,7 @@ public partial class LendOutBooksViewModel : ObservableObject
 
 
     [RelayCommand]
-    public async Task LendOutBooks()
+    public async Task LendOutBooks() //Write a CanExecute for this
     {
         List<BookModel> books = new();
         foreach (var selectedBook in SelectedBooks)
@@ -59,8 +59,12 @@ public partial class LendOutBooksViewModel : ObservableObject
         await Shell.Current.DisplayAlert("Loan successful", $"You lended out {books.Count} books to {SelectedBorrower.Name}",
             "Ok");
 
+        //await LoanManager.OnLoadMade(books.ToArray(), SelectedBorrower);
+
         SelectedBorrower = new();
         SelectedBooks.Clear();
+
+        
     }
 
     #region Events

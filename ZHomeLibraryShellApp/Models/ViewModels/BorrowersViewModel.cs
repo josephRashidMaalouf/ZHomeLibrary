@@ -54,6 +54,7 @@ public partial class BorrowersViewModel : ObservableObject
             borrowerToUpdate.Name = obj.Name;
             borrowerToUpdate.PhoneNo = obj.PhoneNo;
             borrowerToUpdate.Email = obj.Email;
+            borrowerToUpdate.Books = obj.Books;
         }
     }
 

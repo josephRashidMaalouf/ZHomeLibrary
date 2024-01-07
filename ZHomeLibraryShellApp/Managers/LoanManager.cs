@@ -5,13 +5,6 @@ namespace ZHomeLibraryShellApp.Managers;
 
 public static class LoanManager
 {
-    public static event Action<BookModel[], BorrowerModel> LoanMade;
-    public static event Action<BookModel[], BorrowerModel> LoanReturned;
-
-    public static async Task OnLoadMade(BookModel[] books, BorrowerModel borrower)
-    {
-        LoanMade.Invoke(books, borrower);
-    }
 
     public static async Task MakeLoan(BookModel[] books, BorrowerModel borrower)
     {
