@@ -25,7 +25,7 @@ public partial class LendOutBooksViewModel : ObservableObject
     [ObservableProperty]
     private string searchBookQuery = string.Empty;
 
-    
+
 
     public LendOutBooksViewModel()
     {
@@ -39,6 +39,28 @@ public partial class LendOutBooksViewModel : ObservableObject
         BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
         BorrowerManager.BorrowerAdded += BorrowerManager_AddBorrower;
         BorrowerManager.BorrowerDeleted += BorrowerManager_DeleteBorrower;
+    }
+
+
+    [RelayCommand]
+    public async Task LendOutBooks()
+    {
+        List<BookModel> books = new();
+        foreach (var selectedBook in SelectedBooks)
+        {
+            if (selectedBook is BookModel book)
+            {
+                books.Add(book);
+            }
+        }
+
+        await LoanManager.MakeLoan(books.ToArray(), SelectedBorrower);
+
+        await Shell.Current.DisplayAlert("Loan successful", $"You lended out {books.Count} books to {SelectedBorrower.Name}",
+            "Ok");
+
+        SelectedBorrower = new();
+        SelectedBooks.Clear();
     }
 
     #region Events
@@ -96,9 +118,6 @@ public partial class LendOutBooksViewModel : ObservableObject
     }
 
     #endregion
-
-
-
 
 
     public async Task LoadBooksAsync()

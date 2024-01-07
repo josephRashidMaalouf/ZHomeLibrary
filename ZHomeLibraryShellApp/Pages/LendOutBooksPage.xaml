@@ -68,7 +68,8 @@
                 CornerRadius="3"
                 FontAttributes="Bold"
                 Text="Lend out"
-                TextColor="White" />
+                TextColor="White" 
+                Command="{Binding LendOutBooksCommand}"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

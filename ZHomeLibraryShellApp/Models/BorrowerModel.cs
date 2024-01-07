@@ -49,7 +49,7 @@ public class BorrowerModel : ObservableObject
     }
 
     [OneToMany(CascadeOperations = CascadeOperation.All)]
-    public List<BookModel> Books { get; set; }
+    public List<BookModel> Books { get; set; } = new();
 
     public override string ToString() => Name;
 }

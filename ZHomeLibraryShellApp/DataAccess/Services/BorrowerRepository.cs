@@ -70,7 +70,13 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
         public async Task<List<BorrowerModel>>  GetAllBorrowers()
         {
             await Init();
-            var borrowers = await _conn.Table<BorrowerModel>().ToListAsync(); 
+            var borrowers = await _conn.Table<BorrowerModel>().ToListAsync();
+
+            foreach (var borrower in borrowers)
+            {
+                borrower.Books = await _conn.Table<BookModel>()
+                    .Where(b => b.BorrowerId == borrower.Id).ToListAsync();
+            }
 
             if (borrowers == null)
                 return new List<BorrowerModel>();

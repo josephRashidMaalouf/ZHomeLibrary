@@ -9,7 +9,7 @@ public class BookModel : ObservableObject
 {
     private string _title;
     private string _authorName;
-    private BorrowerModel _borrower;
+    private BorrowerModel _borrower = new();
 
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
@@ -37,9 +37,10 @@ public class BookModel : ObservableObject
         }
     }
 
+    [ForeignKey(typeof(BorrowerModel))]
     public int BorrowerId { get; set; }
 
-    [ManyToOne]
+    [ManyToOne(CascadeOperations = CascadeOperation.CascadeRead)]
     public BorrowerModel Borrower
     {
         get => _borrower;
@@ -49,5 +50,5 @@ public class BookModel : ObservableObject
             _borrower = value;
             OnPropertyChanged();
         }
-    }
+    } 
 }

@@ -25,5 +25,6 @@ public static class BookManager
         BookAdded.Invoke(book);
     }
 
+
     
 }

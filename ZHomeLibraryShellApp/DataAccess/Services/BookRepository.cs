@@ -63,6 +63,13 @@ public class BookRepository
         await Init();
         var books = await _conn.Table<BookModel>().ToListAsync();
 
+        foreach (var book in books)
+        {
+            book.Borrower =
+                await _conn.Table<BorrowerModel>().Where(b => b.Id == book.BorrowerId).FirstOrDefaultAsync();
+        }
+
+
         if (books == null)
             return new List<BookModel>();
         else
