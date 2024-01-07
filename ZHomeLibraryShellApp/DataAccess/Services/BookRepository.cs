@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using ZHomeLibraryShellApp.Managers;
 using ZHomeLibraryShellApp.Models;
 
 namespace ZHomeLibraryShellApp.DataAccess.Services;
@@ -26,7 +27,11 @@ public class BookRepository
     public async Task<BookModel> AddNewBook(string title, string authorName)
     {
         await Init();
-        await _conn.InsertAsync(new BookModel() { Title = title, AuthorName = authorName});
+
+        var newBook = new BookModel() { Title = title, AuthorName = authorName };
+        await _conn.InsertAsync(newBook);
+
+        await BookManager.OnBookAdded(newBook);
 
         return await _conn.GetAsync<BookModel>(b => b.Title == title);
     }
@@ -35,12 +40,16 @@ public class BookRepository
     {
         await Init();
         await _conn.DeleteAsync<BookModel>(id);
+
+        await BookManager.OnBookDeleted(id);
     }
 
     public async Task UpdateBook(BookModel book)
     {
         await Init();
         await _conn.UpdateAsync(book);
+
+        await BookManager.OnBookUpdated(book);
     }
 
     public async Task<BookModel> GetBookById(int id)

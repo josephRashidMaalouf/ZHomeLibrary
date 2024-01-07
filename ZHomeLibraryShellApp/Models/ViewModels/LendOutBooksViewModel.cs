@@ -20,7 +20,7 @@ public partial class LendOutBooksViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<Object> selectedBooks = new();
 
-    [ObservableProperty] private DateOnly returnByDate; //Figure this out
+    [ObservableProperty] private DateTime returnByDate; //Figure this out
 
     [ObservableProperty]
     private string searchBookQuery = string.Empty;
@@ -41,7 +41,7 @@ public partial class LendOutBooksViewModel : ObservableObject
         BorrowerManager.BorrowerDeleted += BorrowerManager_DeleteBorrower;
     }
 
-
+    #region Events
 
     private void BorrowerManager_UpdateBorrower(BorrowerModel obj)
     {
@@ -54,24 +54,34 @@ public partial class LendOutBooksViewModel : ObservableObject
             borrowerToUpdate.Email = obj.Email;
         }
     }
-    private void BorrowerManager_DeleteBorrower(BorrowerModel obj)
+    private void BorrowerManager_DeleteBorrower(int id)
     {
-        throw new NotImplementedException();
+        var borrowerToRemove = Borrowers.FirstOrDefault(b => b.Id == id);
+
+        if (borrowerToRemove != null)
+        {
+            Borrowers.Remove(borrowerToRemove);
+        }
     }
 
     private void BorrowerManager_AddBorrower(BorrowerModel obj)
     {
-        throw new NotImplementedException();
+        Borrowers.Add(obj);
     }
 
-    private void BookManager_DeleteBook(BookModel obj)
+    private void BookManager_DeleteBook(int id)
     {
-        throw new NotImplementedException();
+        var bookToDelete = Books.FirstOrDefault(b => id == b.Id);
+
+        if (bookToDelete != null)
+        {
+            Books.Remove(bookToDelete);
+        }
     }
 
     private void BookManager_AddBook(BookModel obj)
     {
-        throw new NotImplementedException();
+        Books.Add(obj);
     }
 
     private void BookManager_UpdateBook(BookModel obj)
@@ -84,6 +94,12 @@ public partial class LendOutBooksViewModel : ObservableObject
             bookToUpdate.AuthorName = obj.AuthorName;
         }
     }
+
+    #endregion
+
+
+
+
 
     public async Task LoadBooksAsync()
     {

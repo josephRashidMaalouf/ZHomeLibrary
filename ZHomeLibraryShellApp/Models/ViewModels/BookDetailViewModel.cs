@@ -70,7 +70,7 @@ public partial class BookDetailViewModel : ObservableObject
         }
 
         await DbAccess.BookRepo.UpdateBook(Book);
-        await BookManager.OnBookUpdated(Book);
+        //await BookManager.OnBookUpdated(Book);
     }
 
     private bool UpdateBookInfoCanExecute()

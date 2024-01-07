@@ -80,7 +80,7 @@ public partial class BorrowerDetailViewModel : ObservableObject
             EditMail = string.Empty;
         }
         await DbAccess.BorrowerRepo.UpdateBorrower(Borrower);
-        await BorrowerManager.OnBorrowerUpdated(Borrower);
+        //await BorrowerManager.OnBorrowerUpdated(Borrower);
     }
 
     private bool UpdateBorrowerInfoCanExecute()

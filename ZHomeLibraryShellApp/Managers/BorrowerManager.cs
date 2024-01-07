@@ -7,15 +7,15 @@ namespace ZHomeLibraryShellApp.Managers;
 public class BorrowerManager
 {
     public static event Action<BorrowerModel> BorrowerUpdated;
-    public static event Action<BorrowerModel> BorrowerDeleted;
+    public static event Action<int> BorrowerDeleted;
     public static event Action<BorrowerModel> BorrowerAdded;
 
-    public static async Task OnBorrowerDeleted(BorrowerModel borrower)
+    public static async Task OnBorrowerDeleted(int id)
     {
-        BorrowerDeleted.Invoke(borrower);
+        BorrowerDeleted.Invoke(id);
     }
 
-    public async Task OnBorrowerAdded(BorrowerModel borrower)
+    public static async Task OnBorrowerAdded(BorrowerModel borrower)
     {
         BorrowerAdded.Invoke(borrower);
     }

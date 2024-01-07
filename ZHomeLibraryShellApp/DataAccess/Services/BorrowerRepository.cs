@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SQLite;
+using ZHomeLibraryShellApp.Managers;
 using ZHomeLibraryShellApp.Models;
 
 namespace ZHomeLibraryShellApp.DataAccess.Services
@@ -31,7 +32,11 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
         public async Task<BorrowerModel> AddNewBorrower(string name, string phoneNo, string email)
         {
             await Init();
-            await _conn.InsertAsync(new BorrowerModel() { Name = name, Email = email, PhoneNo = phoneNo });
+
+            var newBorrower = new BorrowerModel() { Name = name, Email = email, PhoneNo = phoneNo };
+            await _conn.InsertAsync(newBorrower);
+
+            await BorrowerManager.OnBorrowerAdded(newBorrower);
 
             return await _conn.GetAsync<BorrowerModel>(b => b.Name == name);
 
@@ -40,13 +45,18 @@ namespace ZHomeLibraryShellApp.DataAccess.Services
         public async Task DeleteBorrower(int id)
         {
             await Init();
+
             await _conn.DeleteAsync<BorrowerModel>(id);
+
+            await BorrowerManager.OnBorrowerDeleted(id);
         }
 
         public async Task UpdateBorrower(BorrowerModel borrower)
         {
             await Init();
             await _conn.UpdateAsync(borrower);
+
+            await BorrowerManager.OnBorrowerUpdated(borrower);
         }
 
         public async Task<BorrowerModel> GetBorrowerById(int id)
