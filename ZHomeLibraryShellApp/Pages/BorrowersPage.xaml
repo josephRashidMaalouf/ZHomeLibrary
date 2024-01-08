@@ -4,9 +4,24 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="using:ZHomeLibraryShellApp.Models"
+    xmlns:searchHandlers="clr-namespace:ZHomeLibraryShellApp.SearchHandlers"
     xmlns:viewModels="using:ZHomeLibraryShellApp.Models.ViewModels"
     Title="Borrowers"
     x:DataType="viewModels:BorrowersViewModel">
+    <Shell.SearchHandler>
+        <searchHandlers:BorrowerSearchHandler
+            DisplayMemberName="Name"
+            Placeholder="Search for a borrower"
+            ShowsResults="true">
+
+            <searchHandlers:BorrowerSearchHandler.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:BorrowerModel}">
+                    <Label Text="{Binding Name}" VerticalOptions="Center" />
+                </DataTemplate>
+            </searchHandlers:BorrowerSearchHandler.ItemTemplate>
+        </searchHandlers:BorrowerSearchHandler>
+
+    </Shell.SearchHandler>
     <ScrollView Grid.Row="1">
         <VerticalStackLayout Padding="10" Spacing="5">
             <Frame>
@@ -23,8 +38,14 @@
                         TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
+            <Picker
+                Title="Sort by:"
+                FontAttributes="Bold"
+                ItemsSource="{Binding SortByPrompts}"
+                SelectedItem="{Binding SortByPrompt}"
+                TextColor="Black" />
             <CollectionView
-                ItemsSource="{Binding Borrowers, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged }"
+                ItemsSource="{Binding Borrowers, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                 SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                 SelectionChangedCommand="{Binding OpenBorrowerDetailPageCommand}"
                 SelectionMode="Single">

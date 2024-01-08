@@ -5,6 +5,7 @@ using ZHomeLibraryShellApp.DataAccess;
 using ZHomeLibraryShellApp.DataAccess.Services;
 using ZHomeLibraryShellApp.Managers;
 using ZHomeLibraryShellApp.Pages;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
@@ -38,9 +39,31 @@ public partial class BorrowersViewModel : ObservableObject
         }
     }
 
+    private string _sortByPrompt;
+    public string SortByPrompt
+    {
+        get => _sortByPrompt;
+        set
+        {
+            if (value == _sortByPrompt) return;
+            _sortByPrompt = value;
+            Borrowers = new ObservableCollection<BorrowerModel>(ListSorting.BorrowerSorter.Sort(value, Borrowers.ToList()));
+            OnPropertyChanged();
+        }
+    }
+    public List<string> SortByPrompts { get; set; }
+
     public BorrowersViewModel()
     {
         LoadBorrowersAsync();
+
+        SortByPrompts = new List<string>()
+        {
+            "Name ascending \u2191",
+            "Name descending \u2193",
+            "Active loans ascending \u2191",
+            "Active loans descending \u2193"
+        };
 
         BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
     }

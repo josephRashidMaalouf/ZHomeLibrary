@@ -3,8 +3,8 @@
     x:Class="ZHomeLibraryShellApp.Pages.BorrowerDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
     xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
+    xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
     Title="Borrower details"
     x:DataType="vm:BorrowerDetailViewModel">
     <ScrollView>
@@ -16,23 +16,23 @@
                         <Label Text="{Binding BorrowerId}" />
                     </HorizontalStackLayout>
                     <Label Text="{Binding Borrower.Name, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Update name" Text="{Binding EditName, UpdateSourceEventName=OnPropertyChanged}"/>
+                    <Entry Placeholder="Update name" Text="{Binding EditName, UpdateSourceEventName=OnPropertyChanged}" />
                     <Label Text="{Binding Borrower.PhoneNo, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Update phone number" Text="{Binding EditPhone, UpdateSourceEventName=OnPropertyChanged}"/>
+                    <Entry Placeholder="Update phone number" Text="{Binding EditPhone, UpdateSourceEventName=OnPropertyChanged}" />
                     <Label Text="{Binding Borrower.Email, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Update email" Text="{Binding EditMail, UpdateSourceEventName=OnPropertyChanged}"/>
+                    <Entry Placeholder="Update email" Text="{Binding EditMail, UpdateSourceEventName=OnPropertyChanged}" />
 
                     <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
                         <Button
-                            Command="{Binding UpdateBorrowerInfoCommand}"
                             BackgroundColor="Black"
+                            Command="{Binding UpdateBorrowerInfoCommand}"
                             CornerRadius="5"
                             FontAttributes="Bold"
                             Text="Update"
                             TextColor="White" />
                         <Button
-                            Command="{Binding DeleteBorrowerCommand}"
                             BackgroundColor="DarkRed"
+                            Command="{Binding DeleteBorrowerCommand}"
                             CornerRadius="5"
                             FontAttributes="Bold"
                             Text="Delete"
@@ -84,11 +84,11 @@
                     </CollectionView>
                     <Button
                         BackgroundColor="Black"
+                        Command="{Binding ReturnBooksCommand}"
                         CornerRadius="5"
                         FontAttributes="Bold"
                         Text="Return"
-                        TextColor="White"
-                        Command="{Binding ReturnBooksCommand}"/>
+                        TextColor="White" />
 
                 </VerticalStackLayout>
             </Frame>

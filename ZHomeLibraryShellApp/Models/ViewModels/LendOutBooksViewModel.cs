@@ -22,9 +22,21 @@ public partial class LendOutBooksViewModel : ObservableObject
 
     [ObservableProperty] private DateTime returnByDate; 
 
-    [ObservableProperty]
-    private string searchBookQuery = string.Empty;
+    private string _sortByPrompt;
+    public string SortByPrompt
+    {
+        get => _sortByPrompt;
+        set
+        {
+            if (value == _sortByPrompt) return;
+            _sortByPrompt = value;
+            Books = new ObservableCollection<BookModel>(ListSorting.BookSorter.Sort(value, Books.ToList()));
+            SelectedBooks.Clear();
+            OnPropertyChanged();
+        }
+    }
 
+    public List<string> SortByPrompts{ get; set; }
 
 
     public LendOutBooksViewModel()
@@ -41,6 +53,14 @@ public partial class LendOutBooksViewModel : ObservableObject
         BorrowerManager.BorrowerDeleted += BorrowerManager_DeleteBorrower;
 
         LoanManager.BookReturned += LoanManager_BookReturned;
+
+        SortByPrompts = new List<string>()
+        {
+            "Title ascending \u2191",
+            "Title descending \u2193",
+            "Author name ascending \u2191",
+            "Author name descending \u2193"
+        };
     }
 
     private void LoanManager_BookReturned(BookModel obj)

@@ -27,6 +27,36 @@ public partial class BookShelfViewModel: ObservableObject
         }
     }
 
+    private string _filterPrompt;
+    public string FilterPrompt
+    {
+        get => _filterPrompt;
+        set
+        {
+            if (value == _sortByPrompt) return;
+            _sortByPrompt = value;
+            var filteredBooks = ListSorting.BookSorter.Filter(value);
+            Books = new ObservableCollection<BookModel>(filteredBooks);
+            OnPropertyChanged();
+        }
+    }
+
+    public List<string> FilterPrompts { get; set; }
+
+    private string _sortByPrompt;
+    public string SortByPrompt
+    {
+        get => _sortByPrompt;
+        set
+        {
+            if (value == _sortByPrompt) return;
+            _sortByPrompt = value;
+            Books = new ObservableCollection<BookModel>(ListSorting.BookSorter.Sort(value, Books.ToList()));
+            OnPropertyChanged();
+        }
+    }
+    public List<string> SortByPrompts { get; set; }
+
     [ObservableProperty]
     private BookModel book = new();
 
@@ -41,6 +71,21 @@ public partial class BookShelfViewModel: ObservableObject
     public BookShelfViewModel()
     {
         LoadBooksAsync();
+
+        SortByPrompts = new List<string>()
+        {
+            "Title ascending \u2191",
+            "Title descending \u2193",
+            "Author name ascending \u2191",
+            "Author name descending \u2193"
+        };
+
+        FilterPrompts = new List<string>()
+        {
+            "Borrowed",
+            "Not borrowed",
+            "Show all"
+        };
 
         BookManager.BookUpdated += BookManager_UpdateBook;
     }

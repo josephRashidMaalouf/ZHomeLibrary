@@ -1,38 +1,66 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZHomeLibraryShellApp.Pages.BookShelfPage"
-             Title="Your bookshelf"
-             xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
-             xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
-             x:DataType="vm:BookShelfViewModel">
-    <ScrollView >
-        <VerticalStackLayout Spacing="5" Padding="10">
+<ContentPage
+    x:Class="ZHomeLibraryShellApp.Pages.BookShelfPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
+    xmlns:searchHandlers="clr-namespace:ZHomeLibraryShellApp.SearchHandlers"
+    xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
+    Title="Your bookshelf"
+    x:DataType="vm:BookShelfViewModel">
+    <Shell.SearchHandler>
+        <searchHandlers:BookSearchHandler
+            DisplayMemberName="Name"
+            Placeholder="Search for a title"
+            ShowsResults="true">
+
+            <searchHandlers:BookSearchHandler.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:BookModel}">
+                    <Label Text="{Binding Title}" VerticalOptions="Center" />
+                </DataTemplate>
+            </searchHandlers:BookSearchHandler.ItemTemplate>
+        </searchHandlers:BookSearchHandler>
+
+    </Shell.SearchHandler>
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="Title" Text="{Binding BookTitle, Mode=TwoWay}"/>
-                    <Entry Placeholder="Author(s) (separate authors by commas)" Text="{Binding Book.AuthorName, Mode=TwoWay}"/>
+                    <Entry Placeholder="Title" Text="{Binding BookTitle, Mode=TwoWay}" />
+                    <Entry Placeholder="Author(s) (separate authors by commas)" Text="{Binding Book.AuthorName, Mode=TwoWay}" />
                     <Button
                         BackgroundColor="Black"
+                        Command="{Binding AddBookCommand}"
                         CornerRadius="2"
                         FontAttributes="Bold"
                         Text="Add new book"
-                        TextColor="White" 
-                        Command="{Binding AddBookCommand}"/>
+                        TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
+            <Picker
+                Title="Sort by:"
+                FontAttributes="Bold"
+                ItemsSource="{Binding SortByPrompts}"
+                SelectedItem="{Binding SortByPrompt}"
+                TextColor="Black" />
+            <Picker
+                Title="Filter:"
+                FontAttributes="Bold"
+                ItemsSource="{Binding FilterPrompts}"
+                SelectedItem="{Binding FilterPrompt}"
+                TextColor="Black" />
             <CollectionView
                 ItemsSource="{Binding Books, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                 SelectedItem="{Binding SelectedBook}"
                 SelectionChangedCommand="{Binding OpenBookDetailPageCommand}"
                 SelectionMode="Single">
                 <CollectionView.Header>
-                    <VerticalStackLayout BackgroundColor="Black" Padding="5">
+                    <VerticalStackLayout Padding="5" BackgroundColor="Black">
                         <Label
                             FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
                             Text="Your books"
-                            TextColor="White" 
-                            HorizontalTextAlignment="Center"/>
+                            TextColor="White" />
                     </VerticalStackLayout>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
@@ -59,7 +87,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

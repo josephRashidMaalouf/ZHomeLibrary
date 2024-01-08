@@ -3,9 +3,9 @@
     x:Class="ZHomeLibraryShellApp.Pages.LendOutBooksPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
-    xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
     xmlns:maui="clr-namespace:System;assembly=System.Runtime"
+    xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
+    xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
     Title="Lend out"
     x:DataType="vm:LendOutBooksViewModel">
     <ScrollView>
@@ -13,16 +13,21 @@
             <Picker
                 Title="Pick a borrower"
                 ItemsSource="{Binding Borrowers, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
-                SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"/>
+                SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
             <Frame>
                 <VerticalStackLayout>
-                    <SearchBar Placeholder="Search book(s)" />
+                    <Picker
+                        Title="Sort by:"
+                        FontAttributes="Bold"
+                        ItemsSource="{Binding SortByPrompts}"
+                        SelectedItem="{Binding SortByPrompt}"
+                        TextColor="Black" />
                     <CollectionView
                         ItemsLayout="VerticalList"
                         ItemsSource="{Binding Books, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                         SelectedItems="{Binding SelectedBooks}"
-                        SelectionMode="Multiple"
-                        SelectionChangedCommand="{Binding SelectedBookChangedCommand}">
+                        SelectionChangedCommand="{Binding SelectedBookChangedCommand}"
+                        SelectionMode="Multiple">
                         <CollectionView.Header>
                             <VerticalStackLayout BackgroundColor="Black">
                                 <Label
@@ -37,10 +42,6 @@
                                 <VerticalStackLayout>
                                     <Label FontAttributes="Bold" Text="{Binding Title}" />
                                     <Label FontAttributes="Italic" Text="{Binding AuthorName}" />
-                                    <HorizontalStackLayout>
-                                        <Label Text="Borrowed by: " />
-                                        <Label Text="{Binding Borrower.Name}" />
-                                    </HorizontalStackLayout>
 
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
@@ -61,16 +62,16 @@
             <Frame Padding="5">
                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                     <Label Text="Return by" VerticalTextAlignment="Center" />
-                    <DatePicker Date="{Binding ReturnByDate, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" MinimumDate="{x:Static maui:DateTime.Now}"/>
+                    <DatePicker Date="{Binding ReturnByDate, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" MinimumDate="{x:Static maui:DateTime.Now}" />
                 </HorizontalStackLayout>
             </Frame>
             <Button
                 BackgroundColor="Black"
+                Command="{Binding LendOutBooksCommand}"
                 CornerRadius="3"
                 FontAttributes="Bold"
                 Text="Lend out"
-                TextColor="White" 
-                Command="{Binding LendOutBooksCommand}"/>
+                TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

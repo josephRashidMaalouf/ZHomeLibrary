@@ -15,7 +15,7 @@
                         <Label Text="{Binding SelectedBookId}" />
                     </HorizontalStackLayout>
                     <Label Text="{Binding Book.Title, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Update title" Text="{Binding EditBookTitle, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"/>
+                    <Entry Placeholder="Update title" Text="{Binding EditBookTitle, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Label Text="{Binding Book.AuthorName, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Entry Placeholder="Update author name(s)" Text="{Binding EditBookAuthor, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
 
@@ -43,26 +43,25 @@
                     <Label Text="{Binding Borrower.Name, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Button
                         BackgroundColor="Black"
+                        Command="{Binding ReturnBookCommand}"
                         CornerRadius="5"
                         FontAttributes="Bold"
                         Text="Return"
-                        TextColor="White"
-                        Command="{Binding ReturnBookCommand}"/>
+                        TextColor="White" />
 
                 </VerticalStackLayout>
             </Frame>
             <Frame>
                 <VerticalStackLayout Margin="10" Spacing="5">
                     <Label Text="Lend out to" />
-                    <Picker ItemsSource="{Binding Borrowers}"
-                            SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"/>
+                    <Picker ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Button
                         BackgroundColor="Black"
+                        Command="{Binding LendOutBookCommand}"
                         CornerRadius="5"
                         FontAttributes="Bold"
                         Text="Lend out"
-                        TextColor="White" 
-                        Command="{Binding LendOutBookCommand}"/>
+                        TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
