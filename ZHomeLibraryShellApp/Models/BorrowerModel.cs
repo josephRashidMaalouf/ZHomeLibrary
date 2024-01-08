@@ -10,6 +10,7 @@ public class BorrowerModel : ObservableObject
     private string _name = "no one";
     private string _phoneNo;
     private string _email;
+    private List<BookModel> _books = new();
 
     [PrimaryKey,  AutoIncrement]
     public int Id { get; set; }
@@ -49,7 +50,16 @@ public class BorrowerModel : ObservableObject
     }
 
     [OneToMany(CascadeOperations = CascadeOperation.All)]
-    public List<BookModel> Books { get; set; } = new();
+    public List<BookModel> Books
+    {
+        get => _books;
+        set
+        {
+            if (Equals(value, _books)) return;
+            _books = value;
+            OnPropertyChanged();
+        }
+    }
 
     public override string ToString() => Name;
 }

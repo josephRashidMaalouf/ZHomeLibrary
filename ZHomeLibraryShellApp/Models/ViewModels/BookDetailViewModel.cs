@@ -102,6 +102,7 @@ public partial class BookDetailViewModel : ObservableObject
     private async Task ReturnBook()
     {
         await LoanManager.ReturnLoan(Book, Borrower);
+        await LoanManager.OnBookReturned(Book);
 
         Borrower = new BorrowerModel();
         ReturnBookCommand.NotifyCanExecuteChanged();

@@ -5,6 +5,12 @@ namespace ZHomeLibraryShellApp.Managers;
 
 public static class LoanManager
 {
+    public static event Action<BookModel> BookReturned;
+
+    public static async Task OnBookReturned(BookModel book)
+    {
+        BookReturned?.Invoke(book);
+    }
 
     public static async Task MakeLoan(BookModel[] books, BorrowerModel borrower)
     {

@@ -39,8 +39,14 @@ public partial class LendOutBooksViewModel : ObservableObject
         BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
         BorrowerManager.BorrowerAdded += BorrowerManager_AddBorrower;
         BorrowerManager.BorrowerDeleted += BorrowerManager_DeleteBorrower;
+
+        LoanManager.BookReturned += LoanManager_BookReturned;
     }
 
+    private void LoanManager_BookReturned(BookModel obj)
+    {
+        Books.Add(obj);
+    }
 
     [RelayCommand(CanExecute = nameof(LendOutBooksCanExecute))]
     private async Task LendOutBooks() 
@@ -51,7 +57,6 @@ public partial class LendOutBooksViewModel : ObservableObject
             if (selectedBook is BookModel book)
             {
                 books.Add(book);
-                
             }
         }
         foreach (var book in books)
