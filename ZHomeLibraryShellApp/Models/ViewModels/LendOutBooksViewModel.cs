@@ -20,7 +20,7 @@ public partial class LendOutBooksViewModel : ObservableObject
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(LendOutBooksCommand))]
     private ObservableCollection<Object> selectedBooks = new();
 
-    [ObservableProperty] private DateTime returnByDate; //Figure this out
+    [ObservableProperty] private DateTime returnByDate; 
 
     [ObservableProperty]
     private string searchBookQuery = string.Empty;

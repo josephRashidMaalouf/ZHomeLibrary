@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
+    xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
     Title="Borrower details"
     x:DataType="vm:BorrowerDetailViewModel">
     <ScrollView>
@@ -44,6 +45,8 @@
                     <CollectionView
                         ItemsLayout="VerticalList"
                         ItemsSource="{Binding Books}"
+                        SelectedItems="{Binding SelectedBooks}"
+                        SelectionChangedCommand="{Binding SelectedBooksSelectionChangedCommand}"
                         SelectionMode="Multiple">
                         <CollectionView.Header>
                             <VerticalStackLayout BackgroundColor="Black">
@@ -60,16 +63,10 @@
                             </VerticalStackLayout>
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout
-                                    Margin="5"
-                                    Padding="5"
-                                    BackgroundColor="WhiteSmoke"
-                                    Spacing="5">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        HorizontalTextAlignment="Center"
-                                        Text="{Binding .}" />
+                            <DataTemplate x:DataType="{x:Type models:BookModel}">
+                                <VerticalStackLayout>
+                                    <Label FontAttributes="Bold" Text="{Binding Title}" />
+                                    <Label FontAttributes="Italic" Text="{Binding AuthorName}" />
 
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
@@ -82,7 +79,6 @@
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                 </VerticalStackLayout>
-
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -91,7 +87,8 @@
                         CornerRadius="5"
                         FontAttributes="Bold"
                         Text="Return"
-                        TextColor="White" />
+                        TextColor="White"
+                        Command="{Binding ReturnBooksCommand}"/>
 
                 </VerticalStackLayout>
             </Frame>
