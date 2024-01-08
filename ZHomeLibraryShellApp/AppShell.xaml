@@ -5,11 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ZHomeLibraryShellApp"
     xmlns:pages="using:ZHomeLibraryShellApp.Pages"
-    Title="Z Home Library">
-
+    Title="Z Home Library"
+    FlyoutHeaderBehavior="Scroll"
+    BackgroundColor="Black"
+    TitleColor="White">
+    <Shell.FlyoutHeader>
+        <Image Source="logo.png"/>
+    </Shell.FlyoutHeader>
 
     <FlyoutItem Title="Your home library">
-
+        
 
         <ShellContent
             Title="Home"
@@ -31,5 +36,12 @@
             Icon="lend.png" />
 
     </FlyoutItem>
+    <MenuItem Text="Swedish" IconImageSource="sweden.png"/>
+    <MenuItem Text="English" IconImageSource="brittain.png"></MenuItem>
 
+    <Shell.FlyoutFooter>
+        <VerticalStackLayout Padding="5" HorizontalOptions="Center">
+            <Label Text="JoeApps 2024"/>
+        </VerticalStackLayout>
+    </Shell.FlyoutFooter>
 </Shell>

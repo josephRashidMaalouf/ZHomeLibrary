@@ -59,8 +59,11 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\book.png" />
 	  <None Remove="Resources\Images\borrowers.png" />
+	  <None Remove="Resources\Images\brittain.png" />
 	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\lend.png" />
+	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\sweden.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -76,6 +79,7 @@
 
 	<ItemGroup>
 	  <Folder Include="ListSorting\" />
+	  <Folder Include="Language\" />
 	  <Folder Include="SearchHandlers\" />
 	  <Folder Include="Views\" />
 	</ItemGroup>
