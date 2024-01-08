@@ -59,25 +59,14 @@ public partial class LendOutBooksViewModel : ObservableObject
             Books.Remove(book);
         }
 
-
         await LoanManager.MakeLoan(books.ToArray(), SelectedBorrower);
-
-
-
-        await Shell.Current.DisplayAlert("Loan successful", $"You lended out {books.Count} books to {SelectedBorrower.Name}",
-            "Ok");
-
-        
 
         SelectedBorrower = new();
         SelectedBooks.Clear();
-
-        
     }
 
     private bool LendOutBooksCanExecute()
     {
-
         return SelectedBorrower != null && SelectedBorrower.Id != 0 && SelectedBooks.Count > 0;
     }
 

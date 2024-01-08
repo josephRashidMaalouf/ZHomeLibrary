@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
 using ZHomeLibraryShellApp.Managers;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
@@ -17,6 +18,12 @@ public partial class BookDetailViewModel : ObservableObject
     [ObservableProperty]
     private BorrowerModel borrower = new();
 
+    [ObservableProperty]
+    private ObservableCollection<BorrowerModel> borrowers = new();
+
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(LendOutBookCommand))]
+    private BorrowerModel selectedBorrower = new();
+
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBookInfoCommand))]
     private string editBookTitle;
 
@@ -30,7 +37,8 @@ public partial class BookDetailViewModel : ObservableObject
         {
             if (Equals(value, _selectedBookId)) return;
             _selectedBookId = value;
-            LoadBook();
+            LoadBookAsync();
+            LoadBorrowersAsync();
             OnPropertyChanged();
         }
     }
@@ -94,8 +102,10 @@ public partial class BookDetailViewModel : ObservableObject
     private async Task ReturnBook()
     {
         await LoanManager.ReturnLoan(Book, Borrower);
+
         Borrower = new BorrowerModel();
         ReturnBookCommand.NotifyCanExecuteChanged();
+        LendOutBookCommand.NotifyCanExecuteChanged();
     }
 
     private bool ReturnBookCanExecute()
@@ -103,7 +113,25 @@ public partial class BookDetailViewModel : ObservableObject
         return Borrower.Id > 0;
     }
 
-    private async Task LoadBook()
+    [RelayCommand(CanExecute = nameof(LendOutCanExecute))]
+    private async Task LendOutBook()
+    {
+        await LoanManager.MakeLoan(Book, SelectedBorrower);
+        Borrower = SelectedBorrower;
+        SelectedBorrower = new();
+
+        LendOutBookCommand.NotifyCanExecuteChanged();
+        ReturnBookCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool LendOutCanExecute()
+    {
+        bool isNotBorrowed = Borrower.Id == 0;
+        bool borrowerSelected = SelectedBorrower is { Id: > 0 };
+        return isNotBorrowed && borrowerSelected;
+    }
+
+    private async Task LoadBookAsync()
     {
         Book = await DbAccess.BookRepo.GetBookById(_selectedBookId);
         if (Book.BorrowerId > 0)
@@ -112,5 +140,11 @@ public partial class BookDetailViewModel : ObservableObject
             ReturnBookCommand.NotifyCanExecuteChanged();
         }
         
+    }
+
+    public async Task LoadBorrowersAsync()
+    {
+        var borrowersList = await DbAccess.BorrowerRepo.GetAllBorrowers();
+        Borrowers = new ObservableCollection<BorrowerModel>(borrowersList);
     }
 }

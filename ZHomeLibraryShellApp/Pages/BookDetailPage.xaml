@@ -54,13 +54,15 @@
             <Frame>
                 <VerticalStackLayout Margin="10" Spacing="5">
                     <Label Text="Lend out to" />
-                    <Picker />
+                    <Picker ItemsSource="{Binding Borrowers}"
+                            SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"/>
                     <Button
                         BackgroundColor="Black"
                         CornerRadius="5"
                         FontAttributes="Bold"
                         Text="Lend out"
-                        TextColor="White" />
+                        TextColor="White" 
+                        Command="{Binding LendOutBookCommand}"/>
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
