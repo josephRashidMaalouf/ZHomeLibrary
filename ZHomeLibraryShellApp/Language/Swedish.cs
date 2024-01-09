@@ -16,6 +16,7 @@ public class Swedish : ILanguage
     public string NameDesc { get; set; } = "Namn fallande \u2193";
     public string ActiveLoansAsc { get; set; } = "Antal aktiva lån stigande \u2191";
     public string ActiveLoansDesc { get; set; } = "Antal aktiva lån fallande \u2193";
+    public string ActiveLoans { get; set; } = "Antal aktiva lån: ";
     public string Borrowed { get; set; } = "Utlånad";
     public string NotBorrowed { get; set; } = "Ej utlånad";
     public string ShowAll { get; set; } = "Visa alla";
@@ -26,32 +27,35 @@ public class Swedish : ILanguage
     public string BorrowedBy { get; set; } = "Lånad av: ";
     public string PickABorrower { get; set; } = "Välj låntagare";
     public string LendOut { get; set; } = "Låna ut";
+    public string LendOutTo { get; set; } = "Låna ut till:";
     public string YourHomeLibrary { get; set; } = "Ditt hembibliotek";
     public string SwedishLanguage { get; set; } = "Svenska";
     public string EnglishLanguage { get; set; } = "Engelska";
     public string Update { get; set; } = "Uppdatera";
-    public string Delete { get; set; } = "Radera";
-    public string Return { get; set; } = "Återlämna";
-    public string BookDetails { get; set; } = "Bokinformation";
+    public string Delete { get; set; } = "Ta bort";
+    public string Return { get; set; } = "Lämna tillbaka";
+    public string BookDetails { get; set; } = "Detaljerad information om din bok";
     public string UpdateTitlePlaceHolder { get; set; } = "Uppdatera titel";
     public string UpdateAuthorPlaceHolder { get; set; } = "Uppdatera författarnamn";
+    public string YouHaveBookSameTitle { get; set; } = "Du har redan en bok med den titeln i ditt bibliotek. Välj ett namn som hjälper dig särskilja på böckerna.";
+    public string CouldNotChangeTitle { get; set; } = "Titeln gick inte att ändra";
     public string AddBorrower { get; set; } = "Lägg till ny låntagare";
     public string Name { get; set; } = "Namn";
-    public string Mobile { get; set; } = "Mobil";
-    public string Email { get; set; } = "E-post";
+    public string Mobile { get; set; } = "Mobil (ej obligatoriskt)";
+    public string Email { get; set; } = "E-post (ej obligatoriskt)";
     public string Optional { get; set; } = "Valfritt";
     public string UpdateName { get; set; } = "Uppdatera namn";
     public string UpdatePhoneNo { get; set; } = "Uppdatera telefonnummer";
     public string UpdateEmail { get; set; } = "Uppdatera e-post";
     public string BooksBorrowed { get; set; } = "Böcker lånade";
-    public string SelectBooksToReturn { get; set; } = "Välj böcker att återlämna";
-    public string BorrowerDetails { get; set; } = "Låntagarinformation";
+    public string SelectBooksToReturn { get; set; } = "Välj böcker att lämna tillbaka";
+    public string BorrowerDetails { get; set; } = "Information om låntagare";
     public string PickBooksToLendOut { get; set; } = "Välj böcker att låna ut";
-    public string ReturnBy { get; set; } = "Återlämna senast";
+    public string ReturnBy { get; set; } = "Lämnas tillbaka senast";
     public string LoanSuccessful { get; set; } = "Utlåning";
-    public string DeleteBorrower { get; set; } = "Radera låntagare";
-    public string BookReturned { get; set; } = "Bok återlämnad";
-    public string DeleteBook { get; set; } = " Bok raderad";
+    public string DeleteBorrower { get; set; } = "Ta bort låntagare";
+    public string BookReturned { get; set; } = "Boken har lämnats tillbaka";
+    public string DeleteBook { get; set; } = "Boken är borttagen";
     public string Yes { get; set; } = "Ja";
     public string No { get; set; } = "Nej";
     public string Ok { get; set; } = "OK";
@@ -77,12 +81,12 @@ public class Swedish : ILanguage
     {
         if (noOfBooks == 1)
         {
-            return $"{borrowerName} har {noOfBooks} aktivt lån. Se till att boken återlämnas innan låntagaren raderas.";
+            return $"{borrowerName} har {noOfBooks} aktivt lån. Se till att boken lämnas tillbaka innan låntagaren tagits bort.";
         }
         else
         {
             return
-                $"{borrowerName} har {noOfBooks} aktiva lån. Se till att böckerna återlämnas innan låntagaren raderas.";
+                $"{borrowerName} har {noOfBooks} aktiva lån. Se till att böckerna lämnas tillbaka innan låntagaren tagits bort.";
         }
     }
 
@@ -90,20 +94,30 @@ public class Swedish : ILanguage
         $"Är du säker på att du ta bort {borrowerName} som låntagare?";
 
     public string GetDeleteBorrowerSuccessMessage(string borrowerName) =>
-        $"{borrowerName} har raderats från dina låntagare.";
+        $"{borrowerName} har tagits bort från dina låntagare.";
 
     public string GetDeleteBookFailMessage(string borrowerName) =>
-        $"Boken är för närvarande utlånad till {borrowerName}. Se till att {borrowerName} lämnar tillbaka boken innan den raderas.";
+        $"Boken är för närvarande utlånad till {borrowerName}. Se till att {borrowerName} lämnar tillbaka boken innan den tas bort.";
 
     public string GetDeleteBookAreYouSureMessage(string bookTitle) =>
-        $"Är du säker på att du vill radera {bookTitle} från ditt bibliotek?";
+        $"Är du säker på att du vill ta bort {bookTitle} från ditt bibliotek?";
 
     public string GetDeleteBookSuccessMessage(string bookTitle) =>
-        $"{bookTitle} har raderats från ditt bibliotek.";
+        $"{bookTitle} har tagits bort från ditt bibliotek.";
 
     public string GetBookReturnedMessage(string bookTitle, string borrowerName) =>
-        $"{borrowerName} har återlämnat {bookTitle}.";
+        $"{borrowerName} har lämnat tillbaka {bookTitle}.";
 
-    public string GetDeleteBorrowerSuccessMessage(int noOfBooks, string borrowerName) =>
-        $"{borrowerName} har tagits bort som låntagare.";
+    public string GetBookReturnedMessage(int noOfBooks, string borrowerName)
+    {
+        if (noOfBooks == 1)
+        {
+            return $"{borrowerName} lämnat tillbaka {noOfBooks} bok";
+        }
+        else
+        {
+            return $"{borrowerName} lämnat tillbaka {noOfBooks} böcker";
+        }
+        
+    }
 }

@@ -14,7 +14,7 @@ namespace ZHomeLibraryShellApp.Models.ViewModels;
 public partial class BorrowersViewModel : ObservableObject
 {
     [ObservableProperty]
-    private ILanguage language = new English();
+    private ILanguage language;
 
     [ObservableProperty]
     private BorrowerModel borrower = new();
@@ -55,18 +55,21 @@ public partial class BorrowersViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
-    public List<string> SortByPrompts { get; set; }
+    public ObservableCollection<string> SortByPrompts { get; set; }
 
     public BorrowersViewModel()
     {
         LoadBorrowersAsync();
 
-        SortByPrompts = new List<string>()
+        Language = LanguageManager.CurrentLanguage;
+        LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
+
+        SortByPrompts = new ObservableCollection<string>()
         {
-            "Name ascending \u2191",
-            "Name descending \u2193",
-            "Active loans ascending \u2191",
-            "Active loans descending \u2193"
+            Language.NameAsc,
+            Language.NameDesc,
+            Language.ActiveLoansAsc,
+            Language.ActiveLoansDesc
         };
         LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
         BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
@@ -75,6 +78,11 @@ public partial class BorrowersViewModel : ObservableObject
     private void LanguageManager_LanguageChanged(ILanguage obj)
     {
         Language = obj;
+        SortByPrompts.Clear();
+        SortByPrompts.Add(Language.NameAsc);
+        SortByPrompts.Add(Language.NameDesc);
+        SortByPrompts.Add(Language.ActiveLoansAsc);
+        SortByPrompts.Add(Language.ActiveLoansDesc);
     }
     private void BorrowerManager_UpdateBorrower(BorrowerModel obj)
     {

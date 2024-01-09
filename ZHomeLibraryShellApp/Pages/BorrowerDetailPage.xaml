@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
     xmlns:vm="clr-namespace:ZHomeLibraryShellApp.Models.ViewModels"
-    Title="Borrower details"
+    Title="{Binding Language.BorrowerDetails}"
     x:DataType="vm:BorrowerDetailViewModel">
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="5">
@@ -16,11 +16,11 @@
                         <Label Text="{Binding BorrowerId}" />
                     </HorizontalStackLayout>
                     <Label Text="{Binding Borrower.Name, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Update name" Text="{Binding EditName, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="{Binding Language.UpdateName}" Text="{Binding EditName, UpdateSourceEventName=OnPropertyChanged}" />
                     <Label Text="{Binding Borrower.PhoneNo, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Update phone number" Text="{Binding EditPhone, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="{Binding Language.UpdatePhoneNo}" Text="{Binding EditPhone, UpdateSourceEventName=OnPropertyChanged}" />
                     <Label Text="{Binding Borrower.Email, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Update email" Text="{Binding EditMail, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="{Binding Language.UpdateEmail}" Text="{Binding EditMail, UpdateSourceEventName=OnPropertyChanged}" />
 
                     <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
                         <Button
@@ -28,14 +28,14 @@
                             Command="{Binding UpdateBorrowerInfoCommand}"
                             CornerRadius="5"
                             FontAttributes="Bold"
-                            Text="Update"
+                            Text="{Binding Language.Update}"
                             TextColor="White" />
                         <Button
                             BackgroundColor="DarkRed"
                             Command="{Binding DeleteBorrowerCommand}"
                             CornerRadius="5"
                             FontAttributes="Bold"
-                            Text="Delete"
+                            Text="{Binding Language.Delete}"
                             TextColor="White" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
@@ -53,12 +53,12 @@
                                 <Label
                                     FontAttributes="Bold"
                                     HorizontalTextAlignment="Center"
-                                    Text="Books borrowed"
+                                    Text="{Binding Language.BooksBorrowed}"
                                     TextColor="White" />
                                 <Label
                                     FontAttributes="Italic"
                                     HorizontalTextAlignment="Center"
-                                    Text="Select books to return"
+                                    Text="{Binding Language.SelectBooksToReturn}"
                                     TextColor="White" />
                             </VerticalStackLayout>
                         </CollectionView.Header>
@@ -87,7 +87,7 @@
                         Command="{Binding ReturnBooksCommand}"
                         CornerRadius="5"
                         FontAttributes="Bold"
-                        Text="Return"
+                        Text="{Binding Language.Return}"
                         TextColor="White" />
 
                 </VerticalStackLayout>

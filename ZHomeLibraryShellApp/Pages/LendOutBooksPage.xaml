@@ -6,7 +6,7 @@
     xmlns:maui="clr-namespace:System;assembly=System.Runtime"
     xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
     xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
-    Title="Lend out"
+    Title="{Binding Language.LendOut}"
     x:DataType="vm:LendOutBooksViewModel">
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="5">

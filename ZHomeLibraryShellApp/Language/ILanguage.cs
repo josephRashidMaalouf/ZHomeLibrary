@@ -16,6 +16,7 @@ public interface ILanguage
     public string NameDesc { get; set; }
     public string ActiveLoansAsc { get; set; }
     public string ActiveLoansDesc { get; set; }
+    public string ActiveLoans { get; set; }
     public string Borrowed { get; set; }
     public string NotBorrowed { get; set; }
     public string ShowAll { get; set; }
@@ -26,6 +27,7 @@ public interface ILanguage
     public string BorrowedBy { get; set; }
     public string PickABorrower { get; set; }
     public string LendOut { get; set; }
+    public string LendOutTo { get; set; }
     public string YourHomeLibrary { get; set; }
     public string SwedishLanguage { get; set; }
     public string EnglishLanguage { get; set; }
@@ -35,6 +37,8 @@ public interface ILanguage
     public string BookDetails { get; set; }
     public string UpdateTitlePlaceHolder { get; set; }
     public string UpdateAuthorPlaceHolder { get; set; }
+    public string YouHaveBookSameTitle { get; set; }
+    public string CouldNotChangeTitle { get; set; }
     public string AddBorrower { get; set; }
     public string Name { get; set; }
     public string Mobile { get; set; }
@@ -63,8 +67,9 @@ public interface ILanguage
     public string GetDeleteBorrowerFailMessage(int noOfBooks, string borrowerName);
     public string GetDeleteBorrowerAreYouSureMessage(string borrowerName);
     public string GetDeleteBorrowerSuccessMessage(string borrowerName);
-    public string GetDeleteBookFailMessage(string bookTitle);
+    public string GetDeleteBookFailMessage(string borrowerName);
     public string GetDeleteBookAreYouSureMessage(string bookTitle);
     public string GetDeleteBookSuccessMessage(string bookTitle);
     public string GetBookReturnedMessage(string bookTitle, string borrowerName);
+    public string GetBookReturnedMessage(int noOfBooks, string borrowerName);
 }

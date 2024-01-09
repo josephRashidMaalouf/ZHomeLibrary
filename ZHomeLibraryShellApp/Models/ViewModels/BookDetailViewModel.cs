@@ -14,7 +14,7 @@ public partial class BookDetailViewModel : ObservableObject
     private int _selectedBookId;
 
     [ObservableProperty]
-    private ILanguage language = new English();
+    private ILanguage language;
 
     [ObservableProperty]
     private BookModel book;
@@ -49,6 +49,7 @@ public partial class BookDetailViewModel : ObservableObject
 
     public BookDetailViewModel()
     {
+        Language = LanguageManager.CurrentLanguage;
         LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
     }
     
@@ -62,13 +63,15 @@ public partial class BookDetailViewModel : ObservableObject
         bool bookIsBorrowed = Book.BorrowerId > 0;
         if (bookIsBorrowed)
         {
-            await Shell.Current.DisplayAlert("Delete book",
-                $"This book is currently borrowed by {Book.Borrower.Name}. Make sure {Book.Borrower.Name} returns the book before deleting it.", "Ok");
+            var bookBorrowedMsg = Language.GetDeleteBookFailMessage(Book.Borrower.Name);
+            await Shell.Current.DisplayAlert(Language.DeleteBook,
+                bookBorrowedMsg, Language.Ok);
             return;
         }
 
-        var confirmation = await Shell.Current.DisplayAlert("Delete book",
-            $"Are you sure you want to delete {Book.Title} from you library?", "Yes, delete it", "No, don't delete it");
+        var areYouSureMsg = Language.GetDeleteBookAreYouSureMessage(Book.Title);
+        var confirmation = await Shell.Current.DisplayAlert(Language.DeleteBook,
+            areYouSureMsg, Language.Yes, Language.No);
 
         if (confirmation)
             await Shell.Current.GoToAsync($"..?SelectedBookToDeleteId={SelectedBookId}");
@@ -85,7 +88,7 @@ public partial class BookDetailViewModel : ObservableObject
 
         if (titleOccupied)
         {
-            await Shell.Current.DisplayAlert("Could not change title", "You have a book with the same title in your library.", "Ok");
+            await Shell.Current.DisplayAlert(Language.CouldNotChangeTitle, Language.YouHaveBookSameTitle, Language.Ok);
             return;
         }
 
@@ -102,7 +105,6 @@ public partial class BookDetailViewModel : ObservableObject
         }
 
         await DbAccess.BookRepo.UpdateBook(Book);
-        //await BookManager.OnBookUpdated(Book);
     }
 
     private bool UpdateBookInfoCanExecute()
@@ -116,6 +118,10 @@ public partial class BookDetailViewModel : ObservableObject
     {
         await LoanManager.ReturnLoan(Book, Borrower);
         await LoanManager.OnBookReturned(Book);
+
+        var bookReturnedMsg = Language.GetBookReturnedMessage(Book.Title, Borrower.Name);
+        await Shell.Current.DisplayAlert(Language.BookReturned, bookReturnedMsg,
+            Language.Ok);
 
         Borrower = new BorrowerModel();
         ReturnBookCommand.NotifyCanExecuteChanged();
@@ -132,6 +138,11 @@ public partial class BookDetailViewModel : ObservableObject
     {
         await LoanManager.MakeLoan(Book, SelectedBorrower);
         Borrower = SelectedBorrower;
+
+        var loanSuccessMsg = Language.GetLoanSuccessFullMessage(Book.Title, SelectedBorrower.Name);
+        await Shell.Current.DisplayAlert(Language.LoanSuccessful, loanSuccessMsg,
+            Language.Ok);
+
         SelectedBorrower = new();
 
         LendOutBookCommand.NotifyCanExecuteChanged();

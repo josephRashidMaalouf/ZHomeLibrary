@@ -6,12 +6,12 @@
     xmlns:models="using:ZHomeLibraryShellApp.Models"
     xmlns:searchHandlers="clr-namespace:ZHomeLibraryShellApp.SearchHandlers"
     xmlns:viewModels="using:ZHomeLibraryShellApp.Models.ViewModels"
-    Title="Borrowers"
+    Title="{Binding Language.Borrowers}"
     x:DataType="viewModels:BorrowersViewModel">
     <Shell.SearchHandler>
         <searchHandlers:BorrowerSearchHandler
             DisplayMemberName="Name"
-            Placeholder="Search for a borrower"
+            Placeholder="{Binding Language.SearchBorrowerPlaceHolder}"
             ShowsResults="true">
 
             <searchHandlers:BorrowerSearchHandler.ItemTemplate>
@@ -26,20 +26,20 @@
         <VerticalStackLayout Padding="10" Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="Name" Text="{Binding BorrowerName, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="Mobile (optional)" Text="{Binding Borrower.PhoneNo, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
-                    <Entry Placeholder="E-mail (optional)" Text="{Binding Borrower.Email, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="{Binding Language.Name}" Text="{Binding BorrowerName, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="{Binding Language.Mobile}" Text="{Binding Borrower.PhoneNo, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    <Entry Placeholder="{Binding Language.Email}" Text="{Binding Borrower.Email, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Button
                         BackgroundColor="Black"
                         Command="{Binding AddBorrowerCommand}"
                         CornerRadius="2"
                         FontAttributes="Bold"
-                        Text="Add new borrower"
+                        Text="{Binding Language.AddBorrower}"
                         TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
             <Picker
-                Title="Sort by:"
+                Title="{Binding Language.SortBy}"
                 FontAttributes="Bold"
                 ItemsSource="{Binding SortByPrompts}"
                 SelectedItem="{Binding SortByPrompt}"
@@ -54,7 +54,7 @@
                         <Label
                             FontAttributes="Bold"
                             HorizontalTextAlignment="Center"
-                            Text="Borrowers"
+                            Text="{Binding Language.Borrowers}"
                             TextColor="White" />
                     </VerticalStackLayout>
                 </CollectionView.Header>
@@ -63,7 +63,7 @@
                         <VerticalStackLayout>
                             <Label FontAttributes="Bold" Text="{Binding Name}" />
                             <HorizontalStackLayout>
-                                <Label Text="Active loans: " />
+                                <Label Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BorrowersViewModel}}, Path=Language.ActiveLoans}" />
                                 <Label Text="{Binding Books.Count}" />
                             </HorizontalStackLayout>
 

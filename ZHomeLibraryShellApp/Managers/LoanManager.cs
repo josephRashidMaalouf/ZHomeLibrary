@@ -41,8 +41,7 @@ public static class LoanManager
         book.BorrowerId = borrower.Id;
         await DbAccess.BookRepo.UpdateBook(book);
 
-        await Shell.Current.DisplayAlert("Loan successful", $"You lended out {book.Title} to {borrower.Name}",
-            "Ok");
+        
     }
 
     public static async Task ReturnLoan(BookModel book, BorrowerModel borrower)
@@ -57,8 +56,7 @@ public static class LoanManager
 
         await DbAccess.BookRepo.UpdateBook(book);
 
-        await Shell.Current.DisplayAlert("Book returned", $"{borrower.Name} returned {book.Title}",
-            "Ok");
+        
     }
 
     public static async Task ReturnLoan(BookModel[] books, BorrowerModel borrower)
@@ -78,7 +76,5 @@ public static class LoanManager
 
         await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
 
-        await Shell.Current.DisplayAlert("Book returned", $"{borrower.Name} returned {books.Length} books",
-            "Ok");
     }
 }

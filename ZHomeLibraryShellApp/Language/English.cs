@@ -16,6 +16,7 @@ public class English : ILanguage
     public string NameDesc { get; set; } = "Name descending \u2193";
     public string ActiveLoansAsc { get; set; } = "Active loans ascending \u2191";
     public string ActiveLoansDesc { get; set; } = "Active loans descending \u2193";
+    public string ActiveLoans { get; set; } = "Active loans: ";
     public string Borrowed { get; set; } = "Borrowed";
     public string NotBorrowed { get; set; } = "Not borrowed";
     public string ShowAll { get; set; } = "Show all";
@@ -26,6 +27,7 @@ public class English : ILanguage
     public string BorrowedBy { get; set; } = "Borrowed by: ";
     public string PickABorrower { get; set; } = "Pick a borrower";
     public string LendOut { get; set; } = "Lend out";
+    public string LendOutTo { get; set; } = "Lend out to:";
     public string YourHomeLibrary { get; set; } = "Your home library";
     public string SwedishLanguage { get; set; } = "Swedish";
     public string EnglishLanguage { get; set; } = "English";
@@ -35,10 +37,12 @@ public class English : ILanguage
     public string BookDetails { get; set; } = "Book details";
     public string UpdateTitlePlaceHolder { get; set; } = "Update title";
     public string UpdateAuthorPlaceHolder { get; set; } = "Update author name(s)";
+    public string YouHaveBookSameTitle { get; set; } = "You have a book with the same title in your library. Pick a title that helps you distinguish between your books.";
+    public string CouldNotChangeTitle { get; set; } = "Could not change title";
     public string AddBorrower { get; set; } = "Add new borrower";
     public string Name { get; set; } = "Name";
-    public string Mobile { get; set; } = "Mobile";
-    public string Email { get; set; } = "Email";
+    public string Mobile { get; set; } = "Mobile (optional)";
+    public string Email { get; set; } = "Email (optional)";
     public string Optional { get; set; } = "Optional";
     public string UpdateName { get; set; } = "Update name";
     public string UpdatePhoneNo { get; set; } = "Update phone number";
@@ -104,8 +108,21 @@ public class English : ILanguage
     public string GetBookReturnedMessage(string bookTitle, string borrowerName) =>
         $"{borrowerName} returned {bookTitle}.";
 
-    public string GetDeleteBorrowerSuccessMessage(int noOfBooks, string borrowerName) =>
-        $"{borrowerName} has been successfully deleted from your borrowers list";
+    public string GetBookReturnedMessage(int noOfBooks, string borrowerName)
+    {
 
-    
+        if (noOfBooks == 1)
+        {
+            return $"{borrowerName} returned {noOfBooks} book"; ;
+        }
+        else
+        {
+            return $"{borrowerName} returned {noOfBooks} books";
+        }
+
+
+    }
+
+
+
 }

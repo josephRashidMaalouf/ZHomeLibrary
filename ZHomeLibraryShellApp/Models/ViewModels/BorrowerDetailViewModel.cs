@@ -23,8 +23,7 @@ public partial class BorrowerDetailViewModel : ObservableObject
         }
     }
 
-    [ObservableProperty]
-    private ILanguage language = new English();
+    [ObservableProperty] private ILanguage language;
 
     [ObservableProperty]
     private BorrowerModel borrower;
@@ -46,6 +45,7 @@ public partial class BorrowerDetailViewModel : ObservableObject
 
     public BorrowerDetailViewModel()
     {
+        Language = LanguageManager.CurrentLanguage;
         LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
     }
     
@@ -60,13 +60,15 @@ public partial class BorrowerDetailViewModel : ObservableObject
         bool borrowerHasActiveLoans = Borrower.Books.Count > 0;
         if (borrowerHasActiveLoans)
         {
-            await Shell.Current.DisplayAlert("Delete borrower",
-                $"{Borrower.Name} has {Borrower.Books.Count} active loans. Make sure the books are returned before deleting the borrower", "Ok");
+            var message = Language.GetDeleteBorrowerFailMessage(Borrower.Books.Count, Borrower.Name);
+            await Shell.Current.DisplayAlert(Language.DeleteBorrower,
+                message, Language.Ok);
             return;
         }
 
-        var confirmation = await Shell.Current.DisplayAlert("Delete borrower",
-            $"Are you sure you want to delete {Borrower.Name} from your borrowers list?", $"Yes, delete {Borrower.Name}", $"No, don't delete {Borrower.Name}");
+        var areYouSureMsg = Language.GetDeleteBorrowerAreYouSureMessage(Borrower.Name);
+        var confirmation = await Shell.Current.DisplayAlert(Language.DeleteBorrower,
+            areYouSureMsg, Language.Yes, Language.No);
 
         if (confirmation)
             await Shell.Current.GoToAsync($"..?BorrowerToDeleteId={BorrowerId}");
@@ -83,7 +85,7 @@ public partial class BorrowerDetailViewModel : ObservableObject
 
         if (nameOccupied)
         {
-            await Shell.Current.DisplayAlert("Could not change name", "That name is occupied by another borrower. Choose another name.", "Ok");
+            await Shell.Current.DisplayAlert(Language.CouldNotChangeName, Language.ChooseAnotherName, Language.Ok);
             return;
         }
 
@@ -107,13 +109,11 @@ public partial class BorrowerDetailViewModel : ObservableObject
         await DbAccess.BorrowerRepo.UpdateBorrower(Borrower);
     }
 
-
     private bool UpdateBorrowerInfoCanExecute()
     {
         bool atleastOneFieldWithUpdatedInfo = !string.IsNullOrEmpty(EditName) || !string.IsNullOrEmpty(EditPhone) || !string.IsNullOrEmpty(EditMail);
-        bool nameIsNotEmptyString = !string.IsNullOrEmpty(EditName.Trim());
-
-        return atleastOneFieldWithUpdatedInfo && nameIsNotEmptyString;
+        
+        return atleastOneFieldWithUpdatedInfo;
     }
 
     [RelayCommand(CanExecute = nameof(ReturnBooksCanExecute))]
@@ -135,7 +135,10 @@ public partial class BorrowerDetailViewModel : ObservableObject
 
         await LoanManager.ReturnLoan(books.ToArray(), Borrower);
 
-        Borrower = new();
+        var returnBookMsg = Language.GetBookReturnedMessage(books.Count, Borrower.Name);
+        await Shell.Current.DisplayAlert(Language.BookReturned,returnBookMsg,
+            Language.Ok);
+
         SelectedBooks.Clear();
         ReturnBooksCommand.NotifyCanExecuteChanged();
     }
