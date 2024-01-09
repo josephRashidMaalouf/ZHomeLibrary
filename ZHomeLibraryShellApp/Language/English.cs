@@ -1,5 +1,6 @@
 ﻿namespace ZHomeLibraryShellApp.Language;
 
+
 public class English : ILanguage
 {
     public string YourBooks { get; set; } = "Your books";
@@ -47,15 +48,16 @@ public class English : ILanguage
     public string PickBooksToLendOut { get; set; } = "Pick books to lend out";
     public string ReturnBy { get; set; } = "Return by";
     public string LoanSuccessful { get; set; } = "Loan successful";
-    
-    public string DeleteBorrower { get; set; }
-    public string DeleteBorrowerFailMessage { get; set; }
-    public string DeleteBorrowerSuccessMessage { get; set; }
-    public string BookReturned { get; set; }
-    public string BookReturnedMessage { get; set; }
-    public string DeleteBook { get; set; }
-    public string DeleteBookSuccessMessage { get; set; }
-    public string DeleteBookFailMessage { get; set; }
+    public string DeleteBorrower { get; set; } = "Delete borrower";
+    public string BookReturned { get; set; } = "Book returned";
+    public string DeleteBook { get; set; } = " Book deleted";
+    public string Yes { get; set; } = "Yes";
+    public string No { get; set; } = "No";
+    public string Ok { get; set; } = "OK";
+
+    public string GetLoanSuccessFullMessage(string bookTitle, string borrowerName) =>
+        $"You lended out {bookTitle} to {borrowerName}";
+
     public string GetLoanSuccessFullMessage(int noOfBooks, string borrowerName)
     {
         if (noOfBooks == 1)
@@ -67,4 +69,40 @@ public class English : ILanguage
             return $"You lended out {noOfBooks} books to {borrowerName}";
         }
     }
+
+    public string GetDeleteBorrowerFailMessage(int noOfBooks, string borrowerName)
+    {
+        if (noOfBooks == 1)
+        {
+            return $"{borrowerName} has {noOfBooks} active loan. Make sure the book is returned before deleting the borrower";
+        }
+        else
+        {
+            return $"{borrowerName} has {noOfBooks} active loans. Make sure the books are returned before deleting the borrower";
+        }
+    }
+
+    public string GetDeleteBorrowerAreYouSureMessage(string borrowerName) =>
+        $"Are you sure you want to delete {borrowerName} from your borrowers list?";
+
+    public string GetDeleteBorrowerSuccessMessage(string borrowerName) =>
+        $"{borrowerName} has been successfully deleted from your borrowers list";
+
+    public string GetDeleteBookFailMessage(string borrowerName) =>
+        $"This book is currently borrowed by {borrowerName}. Make sure {borrowerName}" +
+        $"returns the book before deleting it.";
+
+    public string GetDeleteBookAreYouSureMessage(string bookTitle) =>
+        $"Are you sure you want to delete {bookTitle} from your library?";
+
+    public string GetDeleteBookSuccessMessage(string bookTitle) =>
+        $"{bookTitle} has been successfully deleted from your library";
+
+    public string GetBookReturnedMessage(string bookTitle, string borrowerName) =>
+        $"{borrowerName} returned {bookTitle}.";
+
+    public string GetDeleteBorrowerSuccessMessage(int noOfBooks, string borrowerName) =>
+        $"{borrowerName} has been successfully deleted from your borrowers list";
+
+    
 }

@@ -1,5 +1,4 @@
 ﻿using ZHomeLibraryShellApp.Pages;
-
 namespace ZHomeLibraryShellApp.Language;
 
 public interface ILanguage
@@ -49,16 +48,20 @@ public interface ILanguage
     public string PickBooksToLendOut { get; set; }
     public string ReturnBy { get; set; }
     public string LoanSuccessful { get; set; }
-    
     public string DeleteBorrower { get; set; }
-    public string DeleteBorrowerFailMessage { get; set; }
-    public string DeleteBorrowerSuccessMessage { get; set; }
     public string BookReturned { get; set; }
-    public string BookReturnedMessage { get; set; }
     public string DeleteBook { get; set; }
-    public string DeleteBookSuccessMessage { get; set; }
-    public string DeleteBookFailMessage { get; set; }
+    public string Yes { get; set; }
+    public string No { get; set; }
+    public string Ok { get; set; }
 
+    public string GetLoanSuccessFullMessage(string bookTitle, string borrowerName);
     public string GetLoanSuccessFullMessage(int noOfBooks, string borrowerName);
-
+    public string GetDeleteBorrowerFailMessage(int noOfBooks, string borrowerName);
+    public string GetDeleteBorrowerAreYouSureMessage(string borrowerName);
+    public string GetDeleteBorrowerSuccessMessage(string borrowerName);
+    public string GetDeleteBookFailMessage(string bookTitle);
+    public string GetDeleteBookAreYouSureMessage(string bookTitle);
+    public string GetDeleteBookSuccessMessage(string bookTitle);
+    public string GetBookReturnedMessage(string bookTitle, string borrowerName);
 }
