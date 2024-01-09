@@ -50,7 +50,7 @@
                 SelectedIndex="{Binding FilterPrompt}"
                 TextColor="Black" />
             <CollectionView
-                ItemsSource="{Binding Books, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
+                ItemsSource="{Binding FilteredBooks, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
                 SelectedItem="{Binding SelectedBook}"
                 SelectionChangedCommand="{Binding OpenBookDetailPageCommand}"
                 SelectionMode="Single">

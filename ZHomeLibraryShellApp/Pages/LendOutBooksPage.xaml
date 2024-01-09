@@ -20,7 +20,7 @@
                         Title="{Binding Language.SortBy}"
                         FontAttributes="Bold"
                         ItemsSource="{Binding SortByPrompts, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
-                        SelectedItem="{Binding SortByPrompt}"
+                        SelectedIndex="{Binding SortByPrompt}"
                         TextColor="Black" />
                     <CollectionView
                         ItemsLayout="VerticalList"

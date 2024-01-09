@@ -42,7 +42,7 @@
                 Title="{Binding Language.SortBy}"
                 FontAttributes="Bold"
                 ItemsSource="{Binding SortByPrompts}"
-                SelectedItem="{Binding SortByPrompt}"
+                SelectedIndex="{Binding SortByPrompt}"
                 TextColor="Black" />
             <CollectionView
                 ItemsSource="{Binding Borrowers, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"

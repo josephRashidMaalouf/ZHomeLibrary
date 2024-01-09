@@ -34,10 +34,10 @@ public partial class BookShelfViewModel : ObservableObject
         get => _filterPrompt;
         set
         {
-            if (value == _sortByPrompt) return;
-            _sortByPrompt = value;
+            if (value == _filterPrompt) return;
+            _filterPrompt = value;
             var filteredBooks = ListSorting.BookSorter.Filter(value, Books.ToList());
-            Books = new ObservableCollection<BookModel>(filteredBooks);
+            FilteredBooks = new ObservableCollection<BookModel>(filteredBooks);
             OnPropertyChanged();
         }
     }
@@ -52,7 +52,7 @@ public partial class BookShelfViewModel : ObservableObject
         {
             if (value == _sortByPrompt) return;
             _sortByPrompt = value;
-            Books = new ObservableCollection<BookModel>(ListSorting.BookSorter.Sort(value, Books.ToList()));
+            FilteredBooks = new ObservableCollection<BookModel>(ListSorting.BookSorter.Sort(value, FilteredBooks.ToList()));
             OnPropertyChanged();
         }
     }
@@ -70,6 +70,7 @@ public partial class BookShelfViewModel : ObservableObject
     private string bookTitle;
 
     [ObservableProperty] private ObservableCollection<BookModel> books = new();
+    [ObservableProperty] private ObservableCollection<BookModel> filteredBooks = new();
 
 
     public BookShelfViewModel()
@@ -176,5 +177,6 @@ public partial class BookShelfViewModel : ObservableObject
     {
         var booksList = await DbAccess.BookRepo.GetAllBooks();
         Books = new ObservableCollection<BookModel>(booksList);
+        FilteredBooks = new ObservableCollection<BookModel>(booksList);
     }
 }
