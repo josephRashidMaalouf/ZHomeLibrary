@@ -5,11 +5,15 @@ public interface ILanguage
 {
     public string YourBooks { get; set; }
     public string SearchTitlePlaceHolder { get; set; }
+    public string BookDeleted { get; set; }
+    public string YourBookShelf { get; set; }
     public string SearchBorrowerPlaceHolder { get; set; }
     public string AddNewBook { get; set; }
     public string SortBy { get; set; }
+    public string Title { get; set; }
     public string TitleAsc { get; set; }
     public string TitleDesc { get; set; }
+    public string Author { get; set; }
     public string AuthorAsc { get; set; }
     public string AuthorDesc { get; set; }
     public string NameAsc { get; set; }

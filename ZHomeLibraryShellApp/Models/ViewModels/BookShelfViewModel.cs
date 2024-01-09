@@ -28,24 +28,24 @@ public partial class BookShelfViewModel : ObservableObject
         }
     }
 
-    private string _filterPrompt;
-    public string FilterPrompt
+    private int _filterPrompt;
+    public int FilterPrompt
     {
         get => _filterPrompt;
         set
         {
             if (value == _sortByPrompt) return;
             _sortByPrompt = value;
-            var filteredBooks = ListSorting.BookSorter.Filter(value);
+            var filteredBooks = ListSorting.BookSorter.Filter(value, Books.ToList());
             Books = new ObservableCollection<BookModel>(filteredBooks);
             OnPropertyChanged();
         }
     }
 
-    public List<string> FilterPrompts { get; set; }
+    public ObservableCollection<string> FilterPrompts { get; set; }
 
-    private string _sortByPrompt;
-    public string SortByPrompt
+    private int _sortByPrompt;
+    public int SortByPrompt
     {
         get => _sortByPrompt;
         set
@@ -56,10 +56,10 @@ public partial class BookShelfViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
-    public List<string> SortByPrompts { get; set; }
+    public ObservableCollection<string> SortByPrompts { get; set; }
 
     [ObservableProperty]
-    private ILanguage language = new English();
+    private ILanguage language;
 
     [ObservableProperty]
     private BookModel book = new();
@@ -76,19 +76,21 @@ public partial class BookShelfViewModel : ObservableObject
     {
         LoadBooksAsync();
 
-        SortByPrompts = new List<string>()
+        Language = LanguageManager.CurrentLanguage;
+
+        SortByPrompts = new ObservableCollection<string>()
         {
-            "Title ascending",
-            "Title descending \u2193",
-            "Author name ascending \u2191",
-            "Author name descending \u2193"
+            Language.TitleAsc,
+            Language.TitleDesc,
+            Language.AuthorAsc,
+            Language.AuthorDesc
         };
 
-        FilterPrompts = new List<string>()
+        FilterPrompts = new ObservableCollection<string>()
         {
-            "Borrowed",
-            "Not borrowed",
-            "Show all"
+            Language.Borrowed,
+            Language.NotBorrowed,
+            Language.ShowAll
         };
         LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
         BookManager.BookUpdated += BookManager_UpdateBook;
@@ -97,6 +99,17 @@ public partial class BookShelfViewModel : ObservableObject
     private void LanguageManager_LanguageChanged(ILanguage obj)
     {
         Language = obj;
+
+        SortByPrompts.Clear();
+        SortByPrompts.Add(Language.TitleAsc);
+        SortByPrompts.Add(Language.TitleDesc);
+        SortByPrompts.Add(Language.AuthorAsc);
+        SortByPrompts.Add(Language.AuthorDesc);
+
+        FilterPrompts.Clear();
+        FilterPrompts.Add(Language.Borrowed);
+        FilterPrompts.Add(Language.NotBorrowed);
+        FilterPrompts.Add(Language.ShowAll);
     }
 
     private void BookManager_UpdateBook(BookModel obj)
@@ -143,8 +156,6 @@ public partial class BookShelfViewModel : ObservableObject
         await Shell.Current.GoToAsync($"{nameof(BookDetailPage)}?SelectedBookId={SelectedBook.Id}");
     }
 
-
-
     private async Task DeleteSelectedBookAsync()
     {
         await DbAccess.BookRepo.DeleteBook(SelectedBookToDeleteId);
@@ -157,8 +168,8 @@ public partial class BookShelfViewModel : ObservableObject
             Books.Remove(bookToDelete);
         }
 
-
-        await Shell.Current.DisplayAlert("Book deleted", $"{bookTitle} has been successfully deleted from your library", "Ok");
+        var bookDeleteMsg = Language.GetDeleteBookSuccessMessage(bookTitle);
+        await Shell.Current.DisplayAlert(Language.BookDeleted, bookDeleteMsg, Language.Ok);
     }
 
     public async Task LoadBooksAsync()

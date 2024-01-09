@@ -6,12 +6,12 @@
     xmlns:models="clr-namespace:ZHomeLibraryShellApp.Models"
     xmlns:searchHandlers="clr-namespace:ZHomeLibraryShellApp.SearchHandlers"
     xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
-    Title="Your bookshelf"
+    Title="{Binding Language.YourBookShelf}"
     x:DataType="vm:BookShelfViewModel">
     <Shell.SearchHandler>
         <searchHandlers:BookSearchHandler
             DisplayMemberName="Name"
-            Placeholder="Search for a title"
+            Placeholder="{Binding Language.SearchTitlePlaceHolder}"
             ShowsResults="true">
 
             <searchHandlers:BookSearchHandler.ItemTemplate>
@@ -26,28 +26,28 @@
         <VerticalStackLayout Padding="10" Spacing="5">
             <Frame>
                 <VerticalStackLayout Spacing="5">
-                    <Entry Placeholder="Title" Text="{Binding BookTitle, Mode=TwoWay}" />
-                    <Entry Placeholder="Author(s) (separate authors by commas)" Text="{Binding Book.AuthorName, Mode=TwoWay}" />
+                    <Entry Placeholder="{Binding Language.Title}" Text="{Binding BookTitle, Mode=TwoWay}" />
+                    <Entry Placeholder="{Binding Language.Author}" Text="{Binding Book.AuthorName, Mode=TwoWay}" />
                     <Button
                         BackgroundColor="Black"
                         Command="{Binding AddBookCommand}"
                         CornerRadius="2"
                         FontAttributes="Bold"
-                        Text="Add new book"
+                        Text="{Binding Language.AddNewBook}"
                         TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
             <Picker
-                Title="Sort by:"
+                Title="{Binding Language.SortBy}"
                 FontAttributes="Bold"
                 ItemsSource="{Binding SortByPrompts}"
-                SelectedItem="{Binding SortByPrompt}"
+                SelectedIndex="{Binding SortByPrompt}"
                 TextColor="Black" />
             <Picker
-                Title="Filter:"
+                Title="{Binding Language.Filter}"
                 FontAttributes="Bold"
                 ItemsSource="{Binding FilterPrompts}"
-                SelectedItem="{Binding FilterPrompt}"
+                SelectedIndex="{Binding FilterPrompt}"
                 TextColor="Black" />
             <CollectionView
                 ItemsSource="{Binding Books, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
@@ -59,7 +59,7 @@
                         <Label
                             FontAttributes="Bold"
                             HorizontalTextAlignment="Center"
-                            Text="Your books"
+                            Text="{Binding Language.YourBooks}"
                             TextColor="White" />
                     </VerticalStackLayout>
                 </CollectionView.Header>
@@ -69,7 +69,7 @@
                             <Label FontAttributes="Bold" Text="{Binding Title}" />
                             <Label FontAttributes="Italic" Text="{Binding AuthorName}" />
                             <HorizontalStackLayout>
-                                <Label Text="Borrowed by: " />
+                                <Label Text="{Binding Source={RelativeSource AncestorType={x:Type vm:BookShelfViewModel}}, Path=Language.BorrowedBy}" />
                                 <Label Text="{Binding Borrower.Name}" />
                             </HorizontalStackLayout>
 

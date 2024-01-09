@@ -26,8 +26,8 @@ public partial class LendOutBooksViewModel : ObservableObject
 
     [ObservableProperty] private DateTime returnByDate;
 
-    private string _sortByPrompt;
-    public string SortByPrompt
+    private int _sortByPrompt;
+    public int SortByPrompt
     {
         get => _sortByPrompt;
         set

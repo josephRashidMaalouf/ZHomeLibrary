@@ -5,11 +5,15 @@ public class Swedish : ILanguage
 {
     public string YourBooks { get; set; } = "Dina böcker";
     public string SearchTitlePlaceHolder { get; set; } = "Sök efter titel";
+    public string BookDeleted { get; set; } = "Bok borttagen";
+    public string YourBookShelf { get; set; } = "Din bokhylla";
     public string SearchBorrowerPlaceHolder { get; set; } = "Sök efter låntagare";
     public string AddNewBook { get; set; } = "Lägg till ny bok";
     public string SortBy { get; set; } = "Sortera efter";
+    public string Title { get; set; } = "Titel";
     public string TitleAsc { get; set; } = "Titel stigande \u2191";
     public string TitleDesc { get; set; } = "Titel fallande \u2193";
+    public string Author { get; set; } = "Författare";
     public string AuthorAsc { get; set; } = "Författarnamn stigande \u2191";
     public string AuthorDesc { get; set; } = "Författarnamn fallande \u2193";
     public string NameAsc { get; set; } = "Namn stigande \u2191";

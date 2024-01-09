@@ -43,8 +43,8 @@ public partial class BorrowersViewModel : ObservableObject
         }
     }
 
-    private string _sortByPrompt;
-    public string SortByPrompt
+    private int _sortByPrompt;
+    public int SortByPrompt
     {
         get => _sortByPrompt;
         set

@@ -5,11 +5,15 @@ public class English : ILanguage
 {
     public string YourBooks { get; set; } = "Your books";
     public string SearchTitlePlaceHolder { get; set; } = "Search for a title";
+    public string BookDeleted { get; set; } = "Book deleted";
+    public string YourBookShelf { get; set; } = "Your bookshelf";
     public string SearchBorrowerPlaceHolder { get; set; } = "Search for a borrower";
     public string AddNewBook { get; set; } = "Add new book";
     public string SortBy { get; set; } = "Sort by";
+    public string Title { get; set; } = "Title";
     public string TitleAsc { get; set; } = "Title ascending \u2191";
     public string TitleDesc { get; set; } = "Title descending \u2193";
+    public string Author { get; set; } = "Author(s)";
     public string AuthorAsc { get; set; } = "Author name ascending \u2191";
     public string AuthorDesc { get; set; } = "Author name descending \u2193";
     public string NameAsc { get; set; } = "Name ascending \u2191";

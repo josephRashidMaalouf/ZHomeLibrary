@@ -7,17 +7,17 @@ public class BorrowerSorter
     private static List<BorrowerModel> Borrowers { get; set; } = new();
 
 
-    public static List<BorrowerModel> Sort(string prompt, List<BorrowerModel> borrowers)
+    public static List<BorrowerModel> Sort(int promptIndex, List<BorrowerModel> borrowers)
     {
-        switch (prompt)
+        switch (promptIndex)
         {
-            case "Name ascending \u2191":
+            case 0:
                 return borrowers.OrderBy(b => b.Name).ToList();
-            case "Name descending \u2193":
+            case 1:
                 return borrowers.OrderByDescending(b => b.Name).ToList();
-            case "Active loans ascending \u2191":
+            case 2:
                 return borrowers.OrderBy(b => b.Books.Count).ToList();
-            case "Active loans descending \u2193":
+            case 3:
                 return borrowers.OrderByDescending(b => b.Books.Count).ToList();
             default:
                 return new List<BorrowerModel>();

@@ -6,46 +6,40 @@ namespace ZHomeLibraryShellApp.ListSorting;
 
 public static class BookSorter
 {
-    private static List<BookModel> Books { get; set; } = new();
-
-
-    public static List<BookModel> Sort(string prompt, List<BookModel> books)
+    
+    public static List<BookModel> Sort(int promptIndex, List<BookModel> books)
     {
-        switch (prompt)
+        switch (promptIndex)
         {
-            case "Title ascending \u2191":
+            case 0:
                 return books.OrderBy(b => b.Title).ToList();
-            case "Title descending \u2193": 
+            case 1: 
                 return books.OrderByDescending(b => b.Title).ToList();
-            case "Author name ascending \u2191":
+            case 2:
                 return books.OrderBy(b => b.AuthorName).ToList();
-            case "Author name descending \u2193":
+            case 3:
                 return books.OrderByDescending(b => b.AuthorName).ToList();
             default:
-                return new List<BookModel>();
+                return books;
         }
     }
-    public static List<BookModel> Filter(string prompt)
+    public static List<BookModel> Filter(int promptIndex, List<BookModel> books)
     {
-        LoadBooksAsync();
-        switch (prompt)
+        
+        switch (promptIndex)
         {
-            case "Borrowed":
-                return Books.Where(b => b.BorrowerId > 0).ToList();
-            case "Not borrowed":
-                return Books.Where(b => b.BorrowerId == 0).ToList();
-            case "Show all":
-                return Books;
+            case 0:
+                return books.Where(b => b.BorrowerId > 0).ToList();
+            case 1:
+                return books.Where(b => b.BorrowerId == 0).ToList();
+            case 2:
+                return books;
             default:
-                return Books;
+                return books;
         }
     }
 
-    private static async Task LoadBooksAsync()
-    {
-        var booksList = await DbAccess.BookRepo.GetAllBooks();
-        Books = new List<BookModel>(booksList);
-    }
+    
 
 }
 
