@@ -24,6 +24,7 @@ public interface ILanguage
     public string BookShelf { get; set; }
     public string Borrowers { get; set; }
     public string BorrowedBy { get; set; }
+    public string PickABorrower { get; set; }
     public string LendOut { get; set; }
     public string YourHomeLibrary { get; set; }
     public string SwedishLanguage { get; set; }
@@ -54,7 +55,9 @@ public interface ILanguage
     public string Yes { get; set; }
     public string No { get; set; }
     public string Ok { get; set; }
-
+    public string CouldNotChangeName { get; set; }
+    public string ChooseAnotherName { get; set; }
+    
     public string GetLoanSuccessFullMessage(string bookTitle, string borrowerName);
     public string GetLoanSuccessFullMessage(int noOfBooks, string borrowerName);
     public string GetDeleteBorrowerFailMessage(int noOfBooks, string borrowerName);

@@ -24,6 +24,7 @@ public class English : ILanguage
     public string BookShelf { get; set; } = "Bookshelf";
     public string Borrowers { get; set; } = "Borrowers";
     public string BorrowedBy { get; set; } = "Borrowed by: ";
+    public string PickABorrower { get; set; } = "Pick a borrower";
     public string LendOut { get; set; } = "Lend out";
     public string YourHomeLibrary { get; set; } = "Your home library";
     public string SwedishLanguage { get; set; } = "Swedish";
@@ -54,6 +55,8 @@ public class English : ILanguage
     public string Yes { get; set; } = "Yes";
     public string No { get; set; } = "No";
     public string Ok { get; set; } = "OK";
+    public string CouldNotChangeName { get; set; } = "Could not change name";
+    public string ChooseAnotherName { get; set; } = "That name is occupied by another borrower. Choose another name.";
 
     public string GetLoanSuccessFullMessage(string bookTitle, string borrowerName) =>
         $"You lended out {bookTitle} to {borrowerName}";

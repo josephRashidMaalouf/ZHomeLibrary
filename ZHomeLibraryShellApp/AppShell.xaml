@@ -5,21 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ZHomeLibraryShellApp"
     xmlns:pages="using:ZHomeLibraryShellApp.Pages"
+    xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
     Title="Z Home Library"
-    FlyoutHeaderBehavior="Scroll"
+    x:DataType="vm:AppShellViewModel"
     BackgroundColor="Black"
+    FlyoutHeaderBehavior="Scroll"
     TitleColor="White">
     <Shell.FlyoutHeader>
-        <Image Source="logo.png"/>
+        <Image Source="logo.png" />
     </Shell.FlyoutHeader>
 
     <FlyoutItem Title="Your home library">
-        
 
-        <ShellContent
-            Title="Home"
+
+        <!--<ShellContent
             ContentTemplate="{DataTemplate local:MainPage}"
-            Icon="home.png" />
+            Title="Home"
+            Icon="home.png" />-->
         <ShellContent
             Title="Bookshelf"
             ContentTemplate="{DataTemplate pages:BookShelfPage}"
@@ -36,12 +38,18 @@
             Icon="lend.png" />
 
     </FlyoutItem>
-    <MenuItem Text="Swedish" IconImageSource="sweden.png"/>
-    <MenuItem Text="English" IconImageSource="brittain.png"></MenuItem>
+    <MenuItem
+        Command="{Binding ChangeToSwedishCommand}"
+        IconImageSource="sweden.png"
+        Text="Swedish" />
+    <MenuItem
+        Command="{Binding ChangeToEnglishCommand}"
+        IconImageSource="brittain.png"
+        Text="English" />
 
     <Shell.FlyoutFooter>
         <VerticalStackLayout Padding="5" HorizontalOptions="Center">
-            <Label Text="JoeApps 2024"/>
+            <Label Text="JoeApps 2024" />
         </VerticalStackLayout>
     </Shell.FlyoutFooter>
 </Shell>

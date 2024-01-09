@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Language;
 using ZHomeLibraryShellApp.Managers;
 using static System.Reflection.Metadata.BlobBuilder;
 
@@ -11,6 +12,9 @@ namespace ZHomeLibraryShellApp.Models.ViewModels;
 public partial class BookDetailViewModel : ObservableObject
 {
     private int _selectedBookId;
+
+    [ObservableProperty]
+    private ILanguage language = new English();
 
     [ObservableProperty]
     private BookModel book;
@@ -43,6 +47,15 @@ public partial class BookDetailViewModel : ObservableObject
         }
     }
 
+    public BookDetailViewModel()
+    {
+        LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
+    }
+    
+    private void LanguageManager_LanguageChanged(ILanguage obj)
+    {
+        Language = obj;
+    }
     [RelayCommand]
     private async Task DeleteBook()
     {

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Language;
 using ZHomeLibraryShellApp.Managers;
 using ZHomeLibraryShellApp.Pages;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -12,6 +13,9 @@ namespace ZHomeLibraryShellApp.Models.ViewModels;
 [QueryProperty("BorrowerToDeleteId", "BorrowerToDeleteId")]
 public partial class BorrowersViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private ILanguage language = new English();
+
     [ObservableProperty]
     private BorrowerModel borrower = new();
 
@@ -64,10 +68,14 @@ public partial class BorrowersViewModel : ObservableObject
             "Active loans ascending \u2191",
             "Active loans descending \u2193"
         };
-
+        LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
         BorrowerManager.BorrowerUpdated += BorrowerManager_UpdateBorrower;
     }
 
+    private void LanguageManager_LanguageChanged(ILanguage obj)
+    {
+        Language = obj;
+    }
     private void BorrowerManager_UpdateBorrower(BorrowerModel obj)
     {
         var borrowerToUpdate = Borrowers.FirstOrDefault(b => obj.Id == b.Id);
@@ -104,7 +112,7 @@ public partial class BorrowersViewModel : ObservableObject
     [RelayCommand]
     private async Task OpenBorrowerDetailPage()
     {
-        if(SelectedBorrower == null)
+        if (SelectedBorrower == null)
             return;
 
         await Shell.Current.GoToAsync($"{nameof(BorrowerDetailPage)}?BorrowerId={SelectedBorrower.Id}");

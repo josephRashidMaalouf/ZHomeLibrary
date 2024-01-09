@@ -30,8 +30,7 @@ public static class LoanManager
             await DbAccess.BookRepo.UpdateBook(bookModel);
         }
 
-        await Shell.Current.DisplayAlert("Loan successful", $"You lended out {books.Length} books to {borrower.Name}",
-            "Ok");
+        
     }
     public static async Task MakeLoan(BookModel book, BorrowerModel borrower)
     {

@@ -24,6 +24,7 @@ public class Swedish : ILanguage
     public string BookShelf { get; set; } = "Bokhylla";
     public string Borrowers { get; set; } = "Låntagare";
     public string BorrowedBy { get; set; } = "Lånad av: ";
+    public string PickABorrower { get; set; } = "Välj låntagare";
     public string LendOut { get; set; } = "Låna ut";
     public string YourHomeLibrary { get; set; } = "Ditt hembibliotek";
     public string SwedishLanguage { get; set; } = "Svenska";
@@ -47,13 +48,15 @@ public class Swedish : ILanguage
     public string BorrowerDetails { get; set; } = "Låntagarinformation";
     public string PickBooksToLendOut { get; set; } = "Välj böcker att låna ut";
     public string ReturnBy { get; set; } = "Återlämna senast";
-    public string LoanSuccessful { get; set; } = "Lånet lyckades";
+    public string LoanSuccessful { get; set; } = "Utlåning";
     public string DeleteBorrower { get; set; } = "Radera låntagare";
     public string BookReturned { get; set; } = "Bok återlämnad";
     public string DeleteBook { get; set; } = " Bok raderad";
     public string Yes { get; set; } = "Ja";
     public string No { get; set; } = "Nej";
     public string Ok { get; set; } = "OK";
+    public string CouldNotChangeName { get; set; } = "Namnbyte ej genomfört"; 
+    public string ChooseAnotherName { get; set; } = "Namnet du valde är upptaget av en annan låntagare. Välj ett annat namn.";
 
     public string GetLoanSuccessFullMessage(string bookTitle, string borrowerName) =>
         $"Du har lånat ut {bookTitle} till {borrowerName}";

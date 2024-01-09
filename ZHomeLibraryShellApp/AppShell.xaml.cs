@@ -1,4 +1,6 @@
-﻿using ZHomeLibraryShellApp.Pages;
+﻿using ZHomeLibraryShellApp.Language;
+using ZHomeLibraryShellApp.Models.ViewModels;
+using ZHomeLibraryShellApp.Pages;
 
 namespace ZHomeLibraryShellApp
 {
@@ -10,6 +12,10 @@ namespace ZHomeLibraryShellApp
 
             Routing.RegisterRoute(nameof(BorrowerDetailPage), typeof(BorrowerDetailPage));
             Routing.RegisterRoute(nameof(BookDetailPage), typeof(BookDetailPage));
+
+            BindingContext = new AppShellViewModel();
         }
+
+        
     }
 }

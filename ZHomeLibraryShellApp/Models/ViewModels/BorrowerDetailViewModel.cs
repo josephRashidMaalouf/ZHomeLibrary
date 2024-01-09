@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Language;
 using ZHomeLibraryShellApp.Managers;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
@@ -23,6 +24,9 @@ public partial class BorrowerDetailViewModel : ObservableObject
     }
 
     [ObservableProperty]
+    private ILanguage language = new English();
+
+    [ObservableProperty]
     private BorrowerModel borrower;
 
     [ObservableProperty]
@@ -39,6 +43,16 @@ public partial class BorrowerDetailViewModel : ObservableObject
 
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBorrowerInfoCommand))]
     private string editMail;
+
+    public BorrowerDetailViewModel()
+    {
+        LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
+    }
+    
+    private void LanguageManager_LanguageChanged(ILanguage obj)
+    {
+        Language = obj;
+    }
 
     [RelayCommand]
     private async Task DeleteBorrower()
@@ -91,8 +105,8 @@ public partial class BorrowerDetailViewModel : ObservableObject
             EditMail = string.Empty;
         }
         await DbAccess.BorrowerRepo.UpdateBorrower(Borrower);
-        //await BorrowerManager.OnBorrowerUpdated(Borrower);
     }
+
 
     private bool UpdateBorrowerInfoCanExecute()
     {

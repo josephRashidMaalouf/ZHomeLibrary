@@ -2,12 +2,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Language;
 using ZHomeLibraryShellApp.Managers;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
 public partial class LendOutBooksViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private ILanguage language;
+
     [ObservableProperty]
     private ObservableCollection<BorrowerModel> borrowers = new();
 
@@ -20,7 +24,7 @@ public partial class LendOutBooksViewModel : ObservableObject
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(LendOutBooksCommand))]
     private ObservableCollection<Object> selectedBooks = new();
 
-    [ObservableProperty] private DateTime returnByDate; 
+    [ObservableProperty] private DateTime returnByDate;
 
     private string _sortByPrompt;
     public string SortByPrompt
@@ -36,8 +40,7 @@ public partial class LendOutBooksViewModel : ObservableObject
         }
     }
 
-    public List<string> SortByPrompts{ get; set; }
-
+    public ObservableCollection<string> SortByPrompts { get; set; }
 
     public LendOutBooksViewModel()
     {
@@ -54,13 +57,26 @@ public partial class LendOutBooksViewModel : ObservableObject
 
         LoanManager.BookReturned += LoanManager_BookReturned;
 
-        SortByPrompts = new List<string>()
+        Language = LanguageManager.CurrentLanguage;
+        LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
+
+        SortByPrompts = new ObservableCollection<string>()
         {
-            "Title ascending \u2191",
-            "Title descending \u2193",
-            "Author name ascending \u2191",
-            "Author name descending \u2193"
+            Language.TitleAsc,
+            Language.TitleDesc,
+            Language.AuthorAsc,
+            Language.AuthorDesc
         };
+    }
+    private void LanguageManager_LanguageChanged(ILanguage obj)
+    {
+        Language = obj;
+        SortByPrompts.Clear();
+        SortByPrompts.Add(Language.TitleAsc);
+        SortByPrompts.Add(Language.TitleDesc);
+        SortByPrompts.Add(Language.AuthorAsc);
+        SortByPrompts.Add(Language.AuthorDesc);
+
     }
 
     private void LoanManager_BookReturned(BookModel obj)
@@ -69,7 +85,7 @@ public partial class LendOutBooksViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(LendOutBooksCanExecute))]
-    private async Task LendOutBooks() 
+    private async Task LendOutBooks()
     {
         List<BookModel> books = new();
         foreach (var selectedBook in SelectedBooks)
@@ -85,6 +101,11 @@ public partial class LendOutBooksViewModel : ObservableObject
         }
 
         await LoanManager.MakeLoan(books.ToArray(), SelectedBorrower);
+
+        var loanSuccessfulMessage = Language.GetLoanSuccessFullMessage(books.Count, SelectedBorrower.Name);
+
+        await Shell.Current.DisplayAlert(Language.LoanSuccessful, loanSuccessfulMessage,
+            Language.Ok);
 
         SelectedBorrower = new();
         SelectedBooks.Clear();

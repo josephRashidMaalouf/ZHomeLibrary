@@ -2,13 +2,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ZHomeLibraryShellApp.DataAccess.Services;
+using ZHomeLibraryShellApp.Language;
 using ZHomeLibraryShellApp.Managers;
 using ZHomeLibraryShellApp.Pages;
 
 namespace ZHomeLibraryShellApp.Models.ViewModels;
 
 [QueryProperty("SelectedBookToDeleteId", "SelectedBookToDeleteId")]
-public partial class BookShelfViewModel: ObservableObject
+public partial class BookShelfViewModel : ObservableObject
 {
 
     private int _selectedBookToDeleteId;
@@ -58,6 +59,9 @@ public partial class BookShelfViewModel: ObservableObject
     public List<string> SortByPrompts { get; set; }
 
     [ObservableProperty]
+    private ILanguage language = new English();
+
+    [ObservableProperty]
     private BookModel book = new();
 
     [ObservableProperty] private BookModel selectedBook = new();
@@ -66,7 +70,7 @@ public partial class BookShelfViewModel: ObservableObject
     private string bookTitle;
 
     [ObservableProperty] private ObservableCollection<BookModel> books = new();
-    
+
 
     public BookShelfViewModel()
     {
@@ -74,7 +78,7 @@ public partial class BookShelfViewModel: ObservableObject
 
         SortByPrompts = new List<string>()
         {
-            "Title ascending \u2191",
+            "Title ascending",
             "Title descending \u2193",
             "Author name ascending \u2191",
             "Author name descending \u2193"
@@ -86,8 +90,13 @@ public partial class BookShelfViewModel: ObservableObject
             "Not borrowed",
             "Show all"
         };
-
+        LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
         BookManager.BookUpdated += BookManager_UpdateBook;
+    }
+
+    private void LanguageManager_LanguageChanged(ILanguage obj)
+    {
+        Language = obj;
     }
 
     private void BookManager_UpdateBook(BookModel obj)
@@ -104,7 +113,7 @@ public partial class BookShelfViewModel: ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]
-    private async Task AddBook() 
+    private async Task AddBook()
     {
         Book.Title = BookTitle;
 
@@ -118,7 +127,7 @@ public partial class BookShelfViewModel: ObservableObject
 
     private bool AddCommandCanExecute()
     {
-        
+
         bool titleIsNotEmpty = !string.IsNullOrEmpty(BookTitle);
         bool titleIsUnique = Books.All(b => b.Title != BookTitle);
 
@@ -135,7 +144,7 @@ public partial class BookShelfViewModel: ObservableObject
     }
 
 
-    
+
     private async Task DeleteSelectedBookAsync()
     {
         await DbAccess.BookRepo.DeleteBook(SelectedBookToDeleteId);
@@ -147,7 +156,7 @@ public partial class BookShelfViewModel: ObservableObject
             bookTitle = bookToDelete.Title;
             Books.Remove(bookToDelete);
         }
-            
+
 
         await Shell.Current.DisplayAlert("Book deleted", $"{bookTitle} has been successfully deleted from your library", "Ok");
     }

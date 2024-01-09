@@ -7,7 +7,7 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Label Text="Info about how to use app here" />
+            <Label Text="{Binding Hello}" />
         </VerticalStackLayout>
     </ScrollView>
 
