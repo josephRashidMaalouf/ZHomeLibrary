@@ -24,7 +24,7 @@ public partial class LendOutBooksViewModel : ObservableObject
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(LendOutBooksCommand))]
     private ObservableCollection<Object> selectedBooks = new();
 
-    [ObservableProperty] private DateTime returnByDate;
+    [ObservableProperty] private DateTime returnByDate = DateTime.Now;
 
     private int _sortByPrompt;
     public int SortByPrompt
@@ -100,7 +100,7 @@ public partial class LendOutBooksViewModel : ObservableObject
             Books.Remove(book);
         }
 
-        await LoanManager.MakeLoan(books.ToArray(), SelectedBorrower);
+        await LoanManager.MakeLoan(books.ToArray(), SelectedBorrower, ReturnByDate);
 
         var loanSuccessfulMessage = Language.GetLoanSuccessFullMessage(books.Count, SelectedBorrower.Name);
 

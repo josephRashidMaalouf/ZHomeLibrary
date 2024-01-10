@@ -34,6 +34,8 @@ public partial class BookDetailViewModel : ObservableObject
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBookInfoCommand))]
     private string editBookAuthor;
 
+    [ObservableProperty] private DateTime returnByDate = DateTime.Now;
+
     public int SelectedBookId
     {
         get => _selectedBookId;
@@ -136,7 +138,7 @@ public partial class BookDetailViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(LendOutCanExecute))]
     private async Task LendOutBook()
     {
-        await LoanManager.MakeLoan(Book, SelectedBorrower);
+        await LoanManager.MakeLoan(Book, SelectedBorrower, ReturnByDate);
         Borrower = SelectedBorrower;
 
         var loanSuccessMsg = Language.GetLoanSuccessFullMessage(Book.Title, SelectedBorrower.Name);

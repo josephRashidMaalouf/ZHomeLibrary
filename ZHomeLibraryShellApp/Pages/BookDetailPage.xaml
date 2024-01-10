@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
+    xmlns:maui="clr-namespace:System;assembly=System.Runtime"
     Title="{Binding Language.BookDetails}"
     x:DataType="vm:BookDetailViewModel">
     <ScrollView>
@@ -55,6 +56,7 @@
                 <VerticalStackLayout Margin="10" Spacing="5">
                     <Label Text="{Binding Language.LendOutTo}" />
                     <Picker ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    <DatePicker Date="{Binding ReturnByDate, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" MinimumDate="{x:Static maui:DateTime.Now}" />
                     <Button
                         BackgroundColor="Black"
                         Command="{Binding LendOutBookCommand}"

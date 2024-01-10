@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Plugin.LocalNotification;
 using ZHomeLibraryShellApp.DataAccess.Services;
 using ZHomeLibraryShellApp.Language;
 using ZHomeLibraryShellApp.Managers;
@@ -95,6 +96,8 @@ public partial class BookShelfViewModel : ObservableObject
         };
         LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
         BookManager.BookUpdated += BookManager_UpdateBook;
+
+        
     }
 
     private void LanguageManager_LanguageChanged(ILanguage obj)

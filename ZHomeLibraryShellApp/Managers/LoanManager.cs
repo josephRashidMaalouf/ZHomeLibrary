@@ -1,4 +1,5 @@
-﻿using ZHomeLibraryShellApp.DataAccess.Services;
+﻿using Plugin.LocalNotification;
+using ZHomeLibraryShellApp.DataAccess.Services;
 using ZHomeLibraryShellApp.Models;
 
 namespace ZHomeLibraryShellApp.Managers;
@@ -18,7 +19,7 @@ public static class LoanManager
         BooksReturned?.Invoke(books);
     }
 
-    public static async Task MakeLoan(BookModel[] books, BorrowerModel borrower)
+    public static async Task MakeLoan(BookModel[] books, BorrowerModel borrower, DateTime returnDate)
     {
         borrower.Books.AddRange(books);
         await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
@@ -30,9 +31,21 @@ public static class LoanManager
             await DbAccess.BookRepo.UpdateBook(bookModel);
         }
 
-        
+        var request = new NotificationRequest
+        {
+            NotificationId = borrower.Id,
+            Title = $"Loan expired",
+            Description = $"{borrower.Name}'s loans expire today",
+            BadgeNumber = 42,
+            CategoryType = NotificationCategoryType.Reminder,
+            Schedule = new NotificationRequestSchedule
+            {
+                NotifyTime = returnDate
+            }
+        };
+        LocalNotificationCenter.Current.Show(request);
     }
-    public static async Task MakeLoan(BookModel book, BorrowerModel borrower)
+    public static async Task MakeLoan(BookModel book, BorrowerModel borrower, DateTime returnDate)
     {
         borrower.Books.Add(book);
         await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
@@ -40,6 +53,21 @@ public static class LoanManager
         book.Borrower = borrower;
         book.BorrowerId = borrower.Id;
         await DbAccess.BookRepo.UpdateBook(book);
+
+        var request = new NotificationRequest
+        {
+            NotificationId = 1000,
+            Title = $"Loan expired",
+            Description = $"{borrower.Name}'s loans expire today",
+            BadgeNumber = 42,
+            CategoryType = NotificationCategoryType.Reminder,
+            Schedule = new NotificationRequestSchedule
+            {
+                NotifyTime = returnDate.AddSeconds(10)
+            }
+        };
+
+        LocalNotificationCenter.Current.Show(request);
 
         
     }
@@ -74,6 +102,7 @@ public static class LoanManager
             await DbAccess.BookRepo.UpdateBook(book);
         }
 
+        LocalNotificationCenter.Current.Cancel(borrower.Id);
         await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
 
     }
