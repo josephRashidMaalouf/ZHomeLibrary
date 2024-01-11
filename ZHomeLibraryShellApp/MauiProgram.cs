@@ -7,21 +7,43 @@ namespace ZHomeLibraryShellApp
     {
         public static MauiApp CreateMauiApp()
         {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                //.UseLocalNotification()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+            if (DeviceInfo.Current.Idiom == DeviceIdiom.Desktop)
+            {
+                var builder = MauiApp.CreateBuilder();
+                builder
+                    .UseMauiApp<App>()
+                    //.UseLocalNotification()
+                    .ConfigureFonts(fonts =>
+                    {
+                        fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                        fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+                builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+                return builder.Build();
+            }
+            else
+            {
+                var builder = MauiApp.CreateBuilder();
+                builder
+                    .UseMauiApp<App>()
+                    .UseLocalNotification()
+                    .ConfigureFonts(fonts =>
+                    {
+                        fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                        fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    });
+
+#if DEBUG
+                builder.Logging.AddDebug();
+#endif
+
+                return builder.Build();
+            }
+            
         }
     }
 }
