@@ -3,8 +3,8 @@
     x:Class="ZHomeLibraryShellApp.Pages.BookDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
     xmlns:maui="clr-namespace:System;assembly=System.Runtime"
+    xmlns:vm="using:ZHomeLibraryShellApp.Models.ViewModels"
     Title="{Binding Language.BookDetails}"
     x:DataType="vm:BookDetailViewModel">
     <ScrollView>
@@ -41,6 +41,10 @@
             <Frame>
                 <VerticalStackLayout Margin="10" Spacing="5">
                     <Label Text="{Binding Language.BorrowedBy}" />
+                    <HorizontalStackLayout>
+                        <Label Text="{Binding Language.LoanExpires}" />
+                        <Label Text="{Binding LoanExpiryDate, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
+                    </HorizontalStackLayout>
                     <Label Text="{Binding Borrower.Name, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                     <Button
                         BackgroundColor="Black"
@@ -49,7 +53,6 @@
                         FontAttributes="Bold"
                         Text="{Binding Language.Return}"
                         TextColor="White" />
-
                 </VerticalStackLayout>
             </Frame>
             <Frame>

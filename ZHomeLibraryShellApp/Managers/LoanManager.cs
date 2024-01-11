@@ -26,11 +26,14 @@ public static class LoanManager
 
         foreach (var bookModel in books)
         {
+            bookModel.ReturnByDate = returnDate;
             bookModel.Borrower = borrower;
             bookModel.BorrowerId = borrower.Id;
             await DbAccess.BookRepo.UpdateBook(bookModel);
         }
 
+        if (DeviceInfo.Current.Idiom == DeviceIdiom.Desktop)
+            return;
         var request = new NotificationRequest
         {
             NotificationId = borrower.Id,
@@ -50,10 +53,13 @@ public static class LoanManager
         borrower.Books.Add(book);
         await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
 
+        book.ReturnByDate = returnDate;
         book.Borrower = borrower;
         book.BorrowerId = borrower.Id;
         await DbAccess.BookRepo.UpdateBook(book);
 
+        if (DeviceInfo.Current.Idiom == DeviceIdiom.Desktop)
+            return;
         var request = new NotificationRequest
         {
             NotificationId = 1000,
@@ -66,10 +72,8 @@ public static class LoanManager
                 NotifyTime = returnDate.AddSeconds(10)
             }
         };
-
-        LocalNotificationCenter.Current.Show(request);
-
         
+        LocalNotificationCenter.Current.Show(request);
     }
 
     public static async Task ReturnLoan(BookModel book, BorrowerModel borrower)
@@ -79,11 +83,16 @@ public static class LoanManager
 
         await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
 
+        book.ReturnByDate = new DateTime(1993, 05, 30);
         book.Borrower = new BorrowerModel();
         book.BorrowerId = 0;
 
         await DbAccess.BookRepo.UpdateBook(book);
 
+        await OnBookReturned(book);
+        if (DeviceInfo.Current.Idiom == DeviceIdiom.Desktop)
+            return;
+        LocalNotificationCenter.Current.Cancel(borrower.Id);
         
     }
 
@@ -96,14 +105,20 @@ public static class LoanManager
             var bookToReturn = borrower.Books.FirstOrDefault(b => b.Id == book.Id);
             borrower.Books.Remove(bookToReturn);
 
+            book.ReturnByDate = new DateTime(1993, 05, 30);
             book.Borrower = new BorrowerModel();
             book.BorrowerId = 0;
 
             await DbAccess.BookRepo.UpdateBook(book);
         }
 
-        LocalNotificationCenter.Current.Cancel(borrower.Id);
         await DbAccess.BorrowerRepo.UpdateBorrower(borrower);
 
+        await OnBooksReturned(books);
+
+        if (DeviceInfo.Current.Idiom == DeviceIdiom.Desktop)
+            return;
+        LocalNotificationCenter.Current.Cancel(borrower.Id);
+        
     }
 }

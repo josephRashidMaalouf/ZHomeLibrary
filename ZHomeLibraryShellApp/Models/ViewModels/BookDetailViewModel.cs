@@ -34,7 +34,12 @@ public partial class BookDetailViewModel : ObservableObject
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(UpdateBookInfoCommand))]
     private string editBookAuthor;
 
-    [ObservableProperty] private DateTime returnByDate = DateTime.Now;
+    [ObservableProperty]
+    private DateTime returnByDate = DateTime.Now;
+
+    [ObservableProperty]
+    private string loanExpiryDate = string.Empty;
+    
 
     public int SelectedBookId
     {
@@ -119,13 +124,15 @@ public partial class BookDetailViewModel : ObservableObject
     private async Task ReturnBook()
     {
         await LoanManager.ReturnLoan(Book, Borrower);
-        await LoanManager.OnBookReturned(Book);
+        //flytta till loanmanager
+        //await LoanManager.OnBookReturned(Book);
 
         var bookReturnedMsg = Language.GetBookReturnedMessage(Book.Title, Borrower.Name);
         await Shell.Current.DisplayAlert(Language.BookReturned, bookReturnedMsg,
             Language.Ok);
 
         Borrower = new BorrowerModel();
+        LoanExpiryDate = string.Empty;
         ReturnBookCommand.NotifyCanExecuteChanged();
         LendOutBookCommand.NotifyCanExecuteChanged();
     }
@@ -140,13 +147,13 @@ public partial class BookDetailViewModel : ObservableObject
     {
         await LoanManager.MakeLoan(Book, SelectedBorrower, ReturnByDate);
         Borrower = SelectedBorrower;
+        LoanExpiryDate = ReturnByDate.ToShortDateString();
 
         var loanSuccessMsg = Language.GetLoanSuccessFullMessage(Book.Title, SelectedBorrower.Name);
         await Shell.Current.DisplayAlert(Language.LoanSuccessful, loanSuccessMsg,
             Language.Ok);
 
         SelectedBorrower = new();
-
         LendOutBookCommand.NotifyCanExecuteChanged();
         ReturnBookCommand.NotifyCanExecuteChanged();
     }
@@ -158,6 +165,18 @@ public partial class BookDetailViewModel : ObservableObject
         return isNotBorrowed && borrowerSelected;
     }
 
+    private void SetLoanExpiryByDate()
+    {
+        if (Book.ReturnByDate.Date == new DateTime(1993, 05, 30).Date)
+        {
+            LoanExpiryDate = string.Empty;
+        }
+        else
+        {
+            LoanExpiryDate = Book.ReturnByDate.ToShortDateString();
+        }
+    }
+
     private async Task LoadBookAsync()
     {
         Book = await DbAccess.BookRepo.GetBookById(_selectedBookId);
@@ -166,7 +185,8 @@ public partial class BookDetailViewModel : ObservableObject
             Borrower = await DbAccess.BorrowerRepo.GetBorrowerById(Book.BorrowerId);
             ReturnBookCommand.NotifyCanExecuteChanged();
         }
-        
+        SetLoanExpiryByDate();
+
     }
 
     public async Task LoadBorrowersAsync()

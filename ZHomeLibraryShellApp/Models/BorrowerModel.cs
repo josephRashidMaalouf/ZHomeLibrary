@@ -7,7 +7,7 @@ namespace ZHomeLibraryShellApp.Models;
 [Table("borrowers")]
 public class BorrowerModel : ObservableObject
 {
-    private string _name = "no one";
+    private string _name = string.Empty;
     private string _phoneNo;
     private string _email;
     private List<BookModel> _books = new();

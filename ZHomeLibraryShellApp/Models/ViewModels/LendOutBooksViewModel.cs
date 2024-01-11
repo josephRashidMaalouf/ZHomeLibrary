@@ -56,6 +56,7 @@ public partial class LendOutBooksViewModel : ObservableObject
         BorrowerManager.BorrowerDeleted += BorrowerManager_DeleteBorrower;
 
         LoanManager.BookReturned += LoanManager_BookReturned;
+        LoanManager.BooksReturned += LoanManager_BooksReturned;
 
         Language = LanguageManager.CurrentLanguage;
         LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
@@ -68,6 +69,9 @@ public partial class LendOutBooksViewModel : ObservableObject
             Language.AuthorDesc
         };
     }
+
+
+
     private void LanguageManager_LanguageChanged(ILanguage obj)
     {
         Language = obj;
@@ -77,6 +81,13 @@ public partial class LendOutBooksViewModel : ObservableObject
         SortByPrompts.Add(Language.AuthorAsc);
         SortByPrompts.Add(Language.AuthorDesc);
 
+    }
+    private void LoanManager_BooksReturned(BookModel[] obj)
+    {
+        foreach (var book in obj)
+        {
+            Books.Add(book);
+        }
     }
 
     private void LoanManager_BookReturned(BookModel obj)

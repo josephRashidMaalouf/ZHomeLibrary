@@ -3,6 +3,7 @@
 
 public class English : ILanguage
 {
+    public string LoanExpires { get; set; } = "Loan expires: ";
     public string YourBooks { get; set; } = "Your books";
     public string SearchTitlePlaceHolder { get; set; } = "Search for a title";
     public string BookDeleted { get; set; } = "Book deleted";

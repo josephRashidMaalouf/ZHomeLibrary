@@ -3,6 +3,7 @@ namespace ZHomeLibraryShellApp.Language;
 
 public interface ILanguage
 {
+    public string LoanExpires { get; set; }
     public string YourBooks { get; set; }
     public string SearchTitlePlaceHolder { get; set; }
     public string BookDeleted { get; set; }

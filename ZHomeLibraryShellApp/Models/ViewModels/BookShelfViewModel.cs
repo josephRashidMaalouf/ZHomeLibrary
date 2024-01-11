@@ -29,13 +29,13 @@ public partial class BookShelfViewModel : ObservableObject
         }
     }
 
-    private int _filterPrompt;
+    private int _filterPrompt = 2;
     public int FilterPrompt
     {
         get => _filterPrompt;
         set
         {
-            if (value == _filterPrompt) return;
+            //if (value == _filterPrompt) return;
             _filterPrompt = value;
             var filteredBooks = ListSorting.BookSorter.Filter(value, Books.ToList());
             FilteredBooks = new ObservableCollection<BookModel>(filteredBooks);
@@ -45,13 +45,13 @@ public partial class BookShelfViewModel : ObservableObject
 
     public ObservableCollection<string> FilterPrompts { get; set; }
 
-    private int _sortByPrompt;
+    private int _sortByPrompt = 0;
     public int SortByPrompt
     {
         get => _sortByPrompt;
         set
         {
-            if (value == _sortByPrompt) return;
+            //if (value == _sortByPrompt) return;
             _sortByPrompt = value;
             FilteredBooks = new ObservableCollection<BookModel>(ListSorting.BookSorter.Sort(value, FilteredBooks.ToList()));
             OnPropertyChanged();
@@ -97,7 +97,7 @@ public partial class BookShelfViewModel : ObservableObject
         LanguageManager.LanguageChanged += LanguageManager_LanguageChanged;
         BookManager.BookUpdated += BookManager_UpdateBook;
 
-        
+
     }
 
     private void LanguageManager_LanguageChanged(ILanguage obj)
@@ -125,7 +125,20 @@ public partial class BookShelfViewModel : ObservableObject
             bookToUpdate.Title = obj.Title;
             bookToUpdate.AuthorName = obj.AuthorName;
             bookToUpdate.Borrower = obj.Borrower;
+            bookToUpdate.BorrowerId = obj.BorrowerId;
         }
+
+        FilterPrompt = _filterPrompt;
+        SortByPrompt = _sortByPrompt;
+
+        //var filteredBookToUpdate = FilteredBooks.FirstOrDefault(b => obj.Id == b.Id);
+
+        //if (filteredBookToUpdate != null)
+        //{
+        //    filteredBookToUpdate.Title = obj.Title;
+        //    filteredBookToUpdate.AuthorName = obj.AuthorName;
+        //    filteredBookToUpdate.Borrower = obj.Borrower;
+        //}
 
     }
 
@@ -138,8 +151,14 @@ public partial class BookShelfViewModel : ObservableObject
 
         Books.Add(addedBook);
 
+        FilterPrompt = _filterPrompt;
+        SortByPrompt = _sortByPrompt;
+
+
         BookTitle = string.Empty;
         Book = new();
+
+
     }
 
     private bool AddCommandCanExecute()
@@ -171,6 +190,15 @@ public partial class BookShelfViewModel : ObservableObject
             bookTitle = bookToDelete.Title;
             Books.Remove(bookToDelete);
         }
+        FilterPrompt = _filterPrompt;
+        SortByPrompt = _sortByPrompt;
+        //var filteredBookToDelete = FilteredBooks.FirstOrDefault(b => b.Id == SelectedBookToDeleteId);
+        //var filteredBookTitle = string.Empty;
+        //if (filteredBookToDelete != null)
+        //{
+        //    filteredBookTitle = bookToDelete.Title;
+        //    Books.Remove(bookToDelete);
+        //}
 
         var bookDeleteMsg = Language.GetDeleteBookSuccessMessage(bookTitle);
         await Shell.Current.DisplayAlert(Language.BookDeleted, bookDeleteMsg, Language.Ok);

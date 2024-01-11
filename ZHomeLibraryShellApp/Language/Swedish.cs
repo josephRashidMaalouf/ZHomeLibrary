@@ -3,6 +3,7 @@
 
 public class Swedish : ILanguage
 {
+    public string LoanExpires { get; set; } = "Lånetiden går ut: ";
     public string YourBooks { get; set; } = "Dina böcker";
     public string SearchTitlePlaceHolder { get; set; } = "Sök efter titel";
     public string BookDeleted { get; set; } = "Bok borttagen";

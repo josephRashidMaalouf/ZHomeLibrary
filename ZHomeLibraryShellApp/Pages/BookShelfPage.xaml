@@ -70,7 +70,7 @@
                             <Label FontAttributes="Italic" Text="{Binding AuthorName}" />
                             <HorizontalStackLayout>
                                 <Label Text="{Binding Source={RelativeSource AncestorType={x:Type vm:BookShelfViewModel}}, Path=Language.BorrowedBy}" />
-                                <Label Text="{Binding Borrower.Name}" />
+                                <Label Text="{Binding Borrower.Name, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}" />
                             </HorizontalStackLayout>
 
                             <VisualStateManager.VisualStateGroups>

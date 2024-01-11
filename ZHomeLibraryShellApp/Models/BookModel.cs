@@ -10,6 +10,7 @@ public class BookModel : ObservableObject
     private string _title;
     private string _authorName;
     private BorrowerModel _borrower = new();
+    private DateTime _returnByDate = new DateTime(1993, 05, 30);
 
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
@@ -33,6 +34,17 @@ public class BookModel : ObservableObject
         {
             if (value == _authorName) return;
             _authorName = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public DateTime ReturnByDate
+    {
+        get => _returnByDate;
+        set
+        {
+            if (value.Equals(_returnByDate)) return;
+            _returnByDate = value;
             OnPropertyChanged();
         }
     }
