@@ -124,8 +124,6 @@ public partial class BookDetailViewModel : ObservableObject
     private async Task ReturnBook()
     {
         await LoanManager.ReturnLoan(Book, Borrower);
-        //flytta till loanmanager
-        //await LoanManager.OnBookReturned(Book);
 
         var bookReturnedMsg = Language.GetBookReturnedMessage(Book.Title, Borrower.Name);
         await Shell.Current.DisplayAlert(Language.BookReturned, bookReturnedMsg,

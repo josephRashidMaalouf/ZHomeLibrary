@@ -131,15 +131,6 @@ public partial class BookShelfViewModel : ObservableObject
         FilterPrompt = _filterPrompt;
         SortByPrompt = _sortByPrompt;
 
-        //var filteredBookToUpdate = FilteredBooks.FirstOrDefault(b => obj.Id == b.Id);
-
-        //if (filteredBookToUpdate != null)
-        //{
-        //    filteredBookToUpdate.Title = obj.Title;
-        //    filteredBookToUpdate.AuthorName = obj.AuthorName;
-        //    filteredBookToUpdate.Borrower = obj.Borrower;
-        //}
-
     }
 
     [RelayCommand(CanExecute = nameof(AddCommandCanExecute))]
@@ -192,13 +183,6 @@ public partial class BookShelfViewModel : ObservableObject
         }
         FilterPrompt = _filterPrompt;
         SortByPrompt = _sortByPrompt;
-        //var filteredBookToDelete = FilteredBooks.FirstOrDefault(b => b.Id == SelectedBookToDeleteId);
-        //var filteredBookTitle = string.Empty;
-        //if (filteredBookToDelete != null)
-        //{
-        //    filteredBookTitle = bookToDelete.Title;
-        //    Books.Remove(bookToDelete);
-        //}
 
         var bookDeleteMsg = Language.GetDeleteBookSuccessMessage(bookTitle);
         await Shell.Current.DisplayAlert(Language.BookDeleted, bookDeleteMsg, Language.Ok);
